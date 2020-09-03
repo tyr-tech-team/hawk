@@ -3,11 +3,12 @@ package config
 import (
 	"fmt"
 	"hawk/config/encoder/json"
-	"hawk/config/encoder/yaml"
 	"hawk/config/source"
+	"hawk/config/source/etcd"
 	"hawk/config/source/file"
 	"testing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,24 +16,13 @@ type C struct {
 	Hosts string `json:"hosts" yaml:"hosts"`
 }
 
-// TestReadFromYaml -
-func TestReadYaml(t *testing.T) {
-	enc := yaml.NewEncoder()
+// Config -
+type CC struct {
+	Hosts Hosts `json:"hosts"`
+}
 
-	opts := file.WithPath("../config.yaml")
-
-	fileSource := file.NewSource(opts, source.WithEncoder(enc))
-
-	changeSet, err := fileSource.Read()
-
-	assert.NoError(t, err)
-
-	conf := C{}
-	enc.Decode(changeSet.Data, &conf)
-
-	assert.NoError(t, err)
-
-	fmt.Println(conf.Hosts)
+type Hosts struct {
+	Database string `json:"database"`
 }
 
 // TestReadJson -
@@ -42,8 +32,9 @@ func TestReadJson(t *testing.T) {
 	opts := file.WithPath("../config.json")
 
 	fileSource := file.NewSource(opts, source.WithEncoder(enc))
+	cc := NewConfig(fileSource)
 
-	changeSet, err := fileSource.Read()
+	changeSet, err := cc.Read()
 
 	assert.NoError(t, err)
 
@@ -53,4 +44,26 @@ func TestReadJson(t *testing.T) {
 	assert.NoError(t, err)
 
 	fmt.Println(conf.Hosts)
+}
+
+// TestReadEtcd -
+func TestReadEtcd(t *testing.T) {
+	etcdSource := etcd.NewSource(
+		etcd.WithAddress("127.0.0.1:2379"),
+		etcd.WithPrefix("user"),
+		etcd.StripPrefix(true),
+	)
+
+	config := NewConfig(etcdSource)
+	changeSet, err := config.Read()
+	if err != nil {
+		panic(err)
+	}
+
+	enc := json.NewEncoder()
+
+	conf := CC{}
+	enc.Decode(changeSet.Data, &conf)
+
+	spew.Dump(conf.Hosts.Database)
 }

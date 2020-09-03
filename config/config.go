@@ -1,25 +1,14 @@
 package config
 
-import (
-	"hawk/config/source"
+import "hawk/config/source"
 
-	"hawk/config/source/file"
-)
-
-// Config is an interface abstraction for dynamic configuration
+// Config -
 type Config interface {
+	source.Source
 }
 
-// Load config sources
-func Load(source ...source.Source) error {
-	return nil
-	//return DefaultConfig.Load(source...)
-}
-
-// LoadFile is short hand for creating a file source and loading it
-func LoadFile(path string) error {
-	return Load(file.NewSource(
-		file.WithPath(path),
-	))
+// newConfig -
+func NewConfig(source source.Source) Config {
+	return source
 }
 

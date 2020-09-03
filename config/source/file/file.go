@@ -48,10 +48,12 @@ func (f *file) String() string {
 func NewSource(opts ...source.Option) source.Source {
 	options := source.NewOptions(opts...)
 	path := DefaultPath
+
 	f, ok := options.Context.Value(filePathKey{}).(string)
 	if ok {
 		path = f
 	}
+
 	return &file{opts: options, path: path}
 }
 
