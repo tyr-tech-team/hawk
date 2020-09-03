@@ -14,6 +14,7 @@ require (
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/google/go-cmp v0.5.0 // indirect
 	github.com/google/uuid v1.1.2 // indirect
+	github.com/micro/go-micro v1.18.0
 	github.com/stretchr/testify v1.6.1
 	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
