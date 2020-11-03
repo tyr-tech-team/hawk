@@ -25,6 +25,10 @@ type Hosts struct {
 	Database string `json:"database"`
 }
 
+type Service struct {
+	Website string `yaml:"website"`
+}
+
 // TestReadJson -
 func TestReadJson(t *testing.T) {
 	enc := json.NewEncoder()
@@ -67,3 +71,15 @@ func TestReadEtcd(t *testing.T) {
 
 	spew.Dump(conf.Hosts.Database)
 }
+
+// TestReadConsul
+// func TestReadConsul(t *testing.T) {
+// 	consulSource := consul.NewSource(
+// 		consul.SetAddrs("127.0.0.1:8500"),
+// 		consul.SetName("gateway"),
+// 	)
+
+// 	config := NewConfig(consulSource)
+// 	conf := Service{}
+
+// }

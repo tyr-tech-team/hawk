@@ -23,6 +23,7 @@ func WithAddress(a ...string) source.Option {
 		if o.Context == nil {
 			o.Context = context.Background()
 		}
+		// context 儲存k-v鍵值
 		o.Context = context.WithValue(o.Context, addressKey{}, a)
 	}
 }

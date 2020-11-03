@@ -35,4 +35,3 @@ func WithEncoder(e encoder.Encoder) Option {
 		o.Encoder = e
 	}
 }
-
