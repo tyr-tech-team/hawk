@@ -29,7 +29,7 @@ func SetAddrs(addrs ...string) source.Option {
 
 }
 
-// SetName -
+// SetKey -
 func SetKey(k string) source.Option {
 	return func(o *source.Options) {
 		o.Context = context.WithValue(o.Context, key{}, k)
