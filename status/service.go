@@ -12,6 +12,7 @@ func (s ServiceCode) String() string {
 //
 const (
 	ServiceNONE ServiceCode = iota
+	ServiceNormal
 	ServiceAuth
 	ServiceCard
 	ServiceEventLog
