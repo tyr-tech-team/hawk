@@ -23,6 +23,7 @@ type CC struct {
 
 type Hosts struct {
 	Database string `json:"database"`
+	Test     string `json:"test"`
 }
 
 // TestReadJson -
@@ -60,10 +61,12 @@ func TestReadEtcd(t *testing.T) {
 		panic(err)
 	}
 
+	spew.Dump(changeSet)
+
 	enc := json.NewEncoder()
 
 	conf := CC{}
 	enc.Decode(changeSet.Data, &conf)
 
-	spew.Dump(conf.Hosts.Database)
+	spew.Dump(conf.Hosts)
 }

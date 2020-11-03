@@ -6,6 +6,7 @@ import (
 	"hawk/config/encoder/json"
 )
 
+// Options -
 type Options struct {
 	// Encoder
 	Encoder encoder.Encoder
@@ -14,8 +15,10 @@ type Options struct {
 	Context context.Context
 }
 
+// Option -
 type Option func(o *Options)
 
+// NewOptions -
 func NewOptions(opts ...Option) Options {
 	options := Options{
 		Encoder: json.NewEncoder(),
@@ -29,10 +32,9 @@ func NewOptions(opts ...Option) Options {
 	return options
 }
 
-// WithEncoder sets the source encoder
+// WithEncoder - sets the source encoder
 func WithEncoder(e encoder.Encoder) Option {
 	return func(o *Options) {
 		o.Encoder = e
 	}
 }
-
