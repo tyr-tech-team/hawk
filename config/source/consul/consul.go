@@ -46,7 +46,7 @@ func (c *consul) Read() (*source.ChangeSet, error) {
 	v.ReadConfig(bytes.NewReader(pair.Value))
 
 	// d, err := c.options.Encoder.Encode(v.Unmarshal())
-
+	fmt.Print("v ", v)
 	ans, err := json.Marshal(v)
 	if err != nil {
 		fmt.Println(err.Error())

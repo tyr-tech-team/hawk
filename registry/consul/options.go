@@ -3,24 +3,36 @@ package consul
 import (
 	"context"
 	"hawk/config/source"
+
+	"github.com/hashicorp/consul/api"
 )
 
-type addressKey struct{}
-type name struct{}
+type address struct{}
+type key struct{}
 type dialTimeoutKey struct{}
 type configType struct{}
+type client struct{}
 
-// SetAddrs - Addrs is the registry addresses to use
-func SetAddrs(addrs ...string) source.Option {
+// SetClient - Client is the
+func SetClient(c *api.Client) source.Option {
 	return func(o *source.Options) {
-		o.Context = context.WithValue(o.Context, addressKey{}, addrs)
+		o.Context = context.WithValue(o.Context, client{}, c)
 	}
 }
 
-// SetName -
-func SetName(n string) source.Option {
+// SetAddrs - Addrs is the registry addresses to use
+func SetAddrs(addrs string) source.Option {
 	return func(o *source.Options) {
-		o.Context = context.WithValue(o.Context, name{}, n)
+		// o.Context = context.Background()
+		o.Context = context.WithValue(o.Context, address{}, addrs)
+	}
+
+}
+
+// SetKey -
+func SetKey(k string) source.Option {
+	return func(o *source.Options) {
+		o.Context = context.WithValue(o.Context, key{}, k)
 	}
 }
 

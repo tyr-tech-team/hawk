@@ -1,8 +1,9 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
-	"hawk/config/encoder/json"
+	j "hawk/config/encoder/json"
 	"hawk/config/source"
 	"hawk/config/source/consul"
 	"hawk/config/source/etcd"
@@ -43,7 +44,7 @@ type Services struct {
 
 // TestReadJson -
 func TestReadJson(t *testing.T) {
-	enc := json.NewEncoder()
+	enc := j.NewEncoder()
 
 	opts := file.WithPath("../config.json")
 
@@ -76,7 +77,7 @@ func TestReadEtcd(t *testing.T) {
 		panic(err)
 	}
 
-	enc := json.NewEncoder()
+	enc := j.NewEncoder()
 
 	conf := CC{}
 	enc.Decode(changeSet.Data, &conf)
@@ -99,9 +100,12 @@ func TestReadConsul(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 
-	enct := json.NewEncoder()
+	//enct := json.NewEncoder()
 
 	conft := Conf{}
-	enct.Decode(chSet.Data, &conft)
+	fmt.Println(chSet.Data)
+	// enct.Decode(chSet.Data, &conft)
+	json.Unmarshal(chSet.Data, &conft)
+	fmt.Println("conft", conft)
 
 }
