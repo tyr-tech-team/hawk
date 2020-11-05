@@ -25,6 +25,7 @@ type CC struct {
 
 type Hosts struct {
 	Database string `json:"database"`
+	Test     string `json:"test"`
 }
 
 type Service struct {
@@ -82,7 +83,7 @@ func TestReadEtcd(t *testing.T) {
 	conf := CC{}
 	enc.Decode(changeSet.Data, &conf)
 
-	spew.Dump(conf.Hosts.Database)
+	spew.Dump(conf.Hosts)
 }
 
 // TestReadConsul

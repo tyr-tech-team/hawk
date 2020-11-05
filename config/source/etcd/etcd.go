@@ -129,5 +129,4 @@ func NewSource(opts ...source.Option) *etcd {
 		client:      client,
 		cerr:        err,
 	}
-
 }

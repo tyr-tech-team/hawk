@@ -1,5 +1,6 @@
 package registry
 
 // Registry -
-type Registry interface{}
-
+type Registry interface {
+	Registry() error
+}

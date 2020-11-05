@@ -7,7 +7,7 @@ type Config interface {
 	source.Source
 }
 
-// newConfig -
+// NewConfig -
 func NewConfig(source source.Source) Config {
 	return source
 }

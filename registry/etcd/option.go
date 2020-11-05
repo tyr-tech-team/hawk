@@ -41,3 +41,4 @@ func SetAddrs(addrs ...string) registry.Option {
 		o.Addrs = addrs
 	}
 }
+
