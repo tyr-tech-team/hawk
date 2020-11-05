@@ -1,9 +1,9 @@
 package config
 
 import (
-	"encoding/json"
 	"fmt"
 	j "hawk/config/encoder/json"
+	y "hawk/config/encoder/yaml"
 	"hawk/config/source"
 	"hawk/config/source/consul"
 	"hawk/config/source/etcd"
@@ -100,12 +100,10 @@ func TestReadConsul(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 
-	//enct := json.NewEncoder()
+	enct := y.NewEncoder()
 
 	conft := Conf{}
-	fmt.Println(chSet.Data)
-	// enct.Decode(chSet.Data, &conft)
-	json.Unmarshal(chSet.Data, &conft)
-	fmt.Println("conft", conft)
+
+	enct.Decode(chSet.Data, &conft)
 
 }
