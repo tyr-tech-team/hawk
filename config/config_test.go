@@ -9,7 +9,6 @@ import (
 	"hawk/config/source/file"
 	"testing"
 
-	"github.com/axolotlteam/thunder/config"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/assert"
 )
@@ -31,17 +30,13 @@ type Service struct {
 	Website string `yaml:"website"`
 }
 
-type Config struct {
-	Mongo   config.Database   `json:"mongo" yaml:"mongo"`
-	Redis   config.Database   `json:"redis" yaml:"redis"`
-	Nats    config.Nats       `json:"nats" yaml:"nats"`
+type Conf struct {
 	Channel map[string]string `json:"channel" yaml:"channel"`
-	Log     config.Logger     `json:"log" yaml:"log"`
-	Service Service           `json:"service" yaml:"service"`
+	Service Services          `json:"service" yaml:"service"`
 }
 
 // Service -
-type Service struct {
+type Services struct {
 	Card   string `json:"card" yaml:"card"`
 	Member string `json:"member" yaml:"member"`
 }
@@ -93,16 +88,20 @@ func TestReadEtcd(t *testing.T) {
 func TestReadConsul(t *testing.T) {
 	consulSource := consul.NewSource(
 		consul.SetKey("gateway"),
-		consul.SetClient(),
-		consul.SetConfigType(),
+		consul.SetAddrs("127.0.0.1:8500"),
+		consul.SetConfigType("yaml"),
 	)
-
 	c := NewConfig(consulSource)
+
 	chSet, err := c.Read()
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	enct := json.NewEncoder()
 
-	conft := config{}
+	conft := Conf{}
 	enct.Decode(chSet.Data, &conft)
 
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/consul/api"
 )
 
-type addressKey struct{}
+type address struct{}
 type key struct{}
 type dialTimeoutKey struct{}
 type configType struct{}
@@ -21,10 +21,10 @@ func SetClient(c *api.Client) source.Option {
 }
 
 // SetAddrs - Addrs is the registry addresses to use
-func SetAddrs(addrs ...string) source.Option {
+func SetAddrs(addrs string) source.Option {
 	return func(o *source.Options) {
 		// o.Context = context.Background()
-		o.Context = context.WithValue(o.Context, addressKey{}, addrs)
+		o.Context = context.WithValue(o.Context, address{}, addrs)
 	}
 
 }

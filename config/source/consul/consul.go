@@ -2,9 +2,10 @@ package consul
 
 import (
 	"bytes"
+	"encoding/json"
+	"fmt"
 	"hawk/config/source"
 
-	"github.com/axolotlteam/thunder/st"
 	"github.com/hashicorp/consul/api"
 	"github.com/spf13/viper"
 )
@@ -17,6 +18,7 @@ type consul struct {
 	options    source.Options
 	key        string
 	configType string
+	address    string
 	client     *api.Client
 }
 
@@ -28,21 +30,30 @@ func (c *consul) Read() (*source.ChangeSet, error) {
 	pair, _, err := kv.Get(c.key, nil)
 
 	if err != nil || pair == nil {
-		return nil, st.ErrorDataNotFound
+		fmt.Println("kv error")
+		return nil, fmt.Errorf("not get any key/value")
 	}
+	fmt.Println("kv", kv)
 	switch c.configType {
 	case "yaml":
 		v.SetConfigType("yaml")
 	case "json":
 		v.SetConfigType("json")
 	default:
-		return nil, st.ErrorInvalidParameter
+		return nil, fmt.Errorf("Can't found configType")
 	}
 
 	v.ReadConfig(bytes.NewReader(pair.Value))
-	d, err := c.options.Encoder.Encode(v)
+
+	// d, err := c.options.Encoder.Encode(v.Unmarshal())
+
+	ans, err := json.Marshal(v)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
 	cs := &source.ChangeSet{
-		Data: d,
+		Data: ans,
 	}
 	return cs, nil
 }
@@ -50,11 +61,21 @@ func (c *consul) Read() (*source.ChangeSet, error) {
 // NewSource
 func NewSource(opts ...source.Option) *consul {
 	options := source.NewOptions(opts...)
-	client := options.Context.Value(client{}).(*api.Client)
 	key := options.Context.Value(key{}).(string)
-
+	address := options.Context.Value(address{}).(string)
 	configtype := options.Context.Value(configType{}).(string)
+
+	c := &api.Config{
+		Address: address,
+	}
+
+	client, err := api.NewClient(c)
+
+	if err != nil {
+		fmt.Errorf(err.Error())
+	}
 	return &consul{
+		address:    address,
 		client:     client,
 		key:        key,
 		configType: configtype,
