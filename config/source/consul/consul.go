@@ -5,7 +5,6 @@ import (
 	"hawk/config/source"
 
 	"github.com/hashicorp/consul/api"
-	"github.com/spf13/viper"
 )
 
 var (
@@ -22,7 +21,6 @@ type consul struct {
 
 // Read -
 func (c *consul) Read() (*source.ChangeSet, error) {
-	v := viper.New()
 	kv := c.client.KV()
 
 	pair, _, err := kv.Get(c.key, nil)
@@ -30,15 +28,6 @@ func (c *consul) Read() (*source.ChangeSet, error) {
 	if err != nil || pair == nil {
 		fmt.Println("kv error")
 		return nil, fmt.Errorf("not get any key/value")
-	}
-
-	switch c.configType {
-	case "yaml":
-		v.SetConfigType("yaml")
-	case "json":
-		v.SetConfigType("json")
-	default:
-		return nil, fmt.Errorf("Can't found configType")
 	}
 
 	cs := &source.ChangeSet{
