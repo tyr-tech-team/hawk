@@ -6,7 +6,6 @@ import (
 	y "hawk/config/encoder/yaml"
 	"hawk/config/source"
 	"hawk/config/source/consul"
-	"hawk/config/source/etcd"
 	"hawk/config/source/file"
 	"testing"
 
@@ -66,26 +65,6 @@ func TestReadJson(t *testing.T) {
 }
 
 // TestReadEtcd -
-func TestReadEtcd(t *testing.T) {
-	etcdSource := etcd.NewSource(
-		etcd.WithAddress("127.0.0.1:2379"),
-		etcd.WithPrefix("user"),
-		etcd.StripPrefix(true),
-	)
-
-	config := NewConfig(etcdSource)
-	changeSet, err := config.Read()
-	if err != nil {
-		panic(err)
-	}
-
-	enc := j.NewEncoder()
-
-	conf := CC{}
-	enc.Decode(changeSet.Data, &conf)
-
-	spew.Dump(conf.Hosts)
-}
 
 // TestReadConsul
 func TestReadConsul(t *testing.T) {
