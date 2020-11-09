@@ -1,8 +1,9 @@
 package file
 
 import (
-	"hawk/config/encoder"
 	"strings"
+
+	"github.com/tyr-tech-team/hawk/config/encoder"
 )
 
 func format(p string, e encoder.Encoder) string {
@@ -12,4 +13,3 @@ func format(p string, e encoder.Encoder) string {
 	}
 	return e.String()
 }
-

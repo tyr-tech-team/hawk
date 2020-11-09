@@ -2,7 +2,13 @@ package json
 
 import (
 	"encoding/json"
-	"hawk/config/encoder"
+
+	"github.com/tyr-tech-team/hawk/config/encoder"
+)
+
+//
+const (
+	JSON = "json"
 )
 
 type jsonEncoder struct{}
@@ -16,10 +22,10 @@ func (j jsonEncoder) Decode(d []byte, v interface{}) error {
 }
 
 func (j jsonEncoder) String() string {
-	return "json"
+	return JSON
 }
 
+// NewEncoder -
 func NewEncoder() encoder.Encoder {
 	return jsonEncoder{}
 }
-

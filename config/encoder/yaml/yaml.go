@@ -1,9 +1,14 @@
 package yaml
 
 import (
-	"hawk/config/encoder"
+	"github.com/tyr-tech-team/hawk/config/encoder"
 
 	"github.com/ghodss/yaml"
+)
+
+//
+const (
+	YAML = "yaml"
 )
 
 type yamlEncoder struct{}
@@ -17,10 +22,10 @@ func (y yamlEncoder) Decode(d []byte, v interface{}) error {
 }
 
 func (y yamlEncoder) String() string {
-	return "yaml"
+	return YAML
 }
 
+// NewEncoder -
 func NewEncoder() encoder.Encoder {
 	return yamlEncoder{}
 }
-

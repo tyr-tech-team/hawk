@@ -1,14 +1,20 @@
 package file
 
 import (
-	"fmt"
-	"hawk/config/source"
 	"io/ioutil"
 	"os"
+
+	"github.com/tyr-tech-team/hawk/config/source"
 )
 
+// -
 var (
 	DefaultPath = "config.json"
+)
+
+// -
+const (
+	FILE = "file"
 )
 
 type file struct {
@@ -43,15 +49,15 @@ func (f *file) Read() (*source.ChangeSet, error) {
 }
 
 func (f *file) String() string {
-	return "file"
+	return FILE
 }
 
+// NewSource -
 func NewSource(opts ...source.Option) source.Source {
 	options := source.NewOptions(opts...)
 	path := DefaultPath
 
 	f, ok := options.Context.Value(filePathKey{}).(string)
-	fmt.Println(options.Context.Value(filePathKey{}))
 	if ok {
 		path = f
 	}

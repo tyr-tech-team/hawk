@@ -1,6 +1,6 @@
 package config
 
-import "hawk/config/source"
+import "github.com/tyr-tech-team/hawk/config/source"
 
 // Config -
 type Config interface {

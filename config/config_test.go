@@ -2,16 +2,16 @@ package config
 
 import (
 	"fmt"
-	j "hawk/config/encoder/json"
-	y "hawk/config/encoder/yaml"
-	"hawk/config/source"
-	"hawk/config/source/consul"
-	"hawk/config/source/file"
 	"testing"
+
+	j "github.com/tyr-tech-team/hawk/config/encoder/json"
+	y "github.com/tyr-tech-team/hawk/config/encoder/yaml"
+	"github.com/tyr-tech-team/hawk/config/source"
+	"github.com/tyr-tech-team/hawk/config/source/consul"
+	"github.com/tyr-tech-team/hawk/config/source/file"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/assert"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type C struct {
@@ -73,6 +73,7 @@ func TestReadConsul(t *testing.T) {
 		consul.SetAddrs("127.0.0.1:8500"),
 		consul.SetConfigType("yaml"),
 	)
+
 	c := NewConfig(consulSource)
 
 	chSet, err := c.Read()
@@ -83,8 +84,7 @@ func TestReadConsul(t *testing.T) {
 
 	enct := y.NewEncoder()
 
-	conft := bson.M{}
-
+	conft := map[string]interface{}{}
 	enct.Decode(chSet.Data, &conft)
 
 	spew.Dump(conft)

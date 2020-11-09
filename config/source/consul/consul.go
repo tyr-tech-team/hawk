@@ -2,13 +2,15 @@ package consul
 
 import (
 	"fmt"
-	"hawk/config/source"
+
+	"github.com/tyr-tech-team/hawk/config/source"
 
 	"github.com/hashicorp/consul/api"
 )
 
+// -
 var (
-	Clinet *api.Client
+	client *consul
 )
 
 type consul struct {
@@ -26,7 +28,6 @@ func (c *consul) Read() (*source.ChangeSet, error) {
 	pair, _, err := kv.Get(c.key, nil)
 
 	if err != nil || pair == nil {
-		fmt.Println("kv error")
 		return nil, fmt.Errorf("not get any key/value")
 	}
 
@@ -36,7 +37,7 @@ func (c *consul) Read() (*source.ChangeSet, error) {
 	return cs, nil
 }
 
-// NewSource
+// NewSource -
 func NewSource(opts ...source.Option) *consul {
 	options := source.NewOptions(opts...)
 	key := options.Context.Value(key{}).(string)
@@ -52,6 +53,7 @@ func NewSource(opts ...source.Option) *consul {
 	if err != nil {
 		fmt.Errorf(err.Error())
 	}
+
 	return &consul{
 		address:    address,
 		client:     client,
@@ -60,7 +62,7 @@ func NewSource(opts ...source.Option) *consul {
 	}
 }
 
-// GetClient -
-func GetClient() *api.Client {
-	return Clinet
+// Client -
+func Client() *api.Client {
+	return client.client
 }
