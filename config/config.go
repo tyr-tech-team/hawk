@@ -11,4 +11,3 @@ type Config interface {
 func NewConfig(source source.Source) Config {
 	return source
 }
-

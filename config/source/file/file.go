@@ -1,6 +1,7 @@
 package file
 
 import (
+	"fmt"
 	"hawk/config/source"
 	"io/ioutil"
 	"os"
@@ -50,10 +51,10 @@ func NewSource(opts ...source.Option) source.Source {
 	path := DefaultPath
 
 	f, ok := options.Context.Value(filePathKey{}).(string)
+	fmt.Println(options.Context.Value(filePathKey{}))
 	if ok {
 		path = f
 	}
 
 	return &file{opts: options, path: path}
 }
-
