@@ -30,5 +30,10 @@ var (
 	// User -
 	// Website -
 	// InitService -
+	// SellOrder
+	// BuyOrder
+	CreateBuyOrderFailed = NewStatus(LevelERROR, ServiceBuyOrder, GRPCAborted, ActionCreate, "create buyOrder failed")
+	// SMS
+	// IDCard
 
 )
