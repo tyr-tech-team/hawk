@@ -26,4 +26,8 @@ const (
 	ServiceWebSite
 	ServiceInitService
 	ServiceBrand
+	ServiceSellOrder
+	ServiceBuyOrder
+	ServiceSMS
+	ServiceIDCard
 )
