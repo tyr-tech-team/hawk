@@ -12,6 +12,7 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/assert"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type C struct {
@@ -103,8 +104,10 @@ func TestReadConsul(t *testing.T) {
 
 	enct := y.NewEncoder()
 
-	conft := Conf{}
+	conft := bson.M{}
 
 	enct.Decode(chSet.Data, &conft)
+
+	spew.Dump(conft)
 
 }
