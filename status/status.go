@@ -14,13 +14,17 @@ type status struct {
 }
 
 // NewStatus - 新增狀態碼
-func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, actionCode ActionCode, msg string) Status {
+func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, actionCode ActionCode, msg string, emsg ...string) Status {
 	b := &body{
 		lCode:   levelCode,
 		sCode:   serviceCode,
 		gCode:   grpcCode,
 		aCode:   actionCode,
 		Message: msg,
+	}
+
+	if len(emsg) > 0 {
+		b.EMessage = emsg[0]
 	}
 
 	s := new(status)
