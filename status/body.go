@@ -10,13 +10,14 @@ import (
 )
 
 type body struct {
-	lCode   LevelCode
-	sCode   ServiceCode
-	gCode   GRPCCode
-	aCode   ActionCode
-	Code    string   `json:"code"`
-	Message string   `json:"message,omitempty"`
-	Details []string `json:"details,omitempty"`
+	lCode    LevelCode
+	sCode    ServiceCode
+	gCode    GRPCCode
+	aCode    ActionCode
+	Code     string   `json:"code"`
+	Message  string   `json:"message,omitempty"`
+	EMessage string   `json:"emessage,omitempty"`
+	Details  []string `json:"details,omitempty"`
 }
 
 func (b *body) fromatCode() {

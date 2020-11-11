@@ -27,4 +27,24 @@ const (
 	ActionCallAPI
 	// ActionConnect - 建立鏈結
 	ActionConnect
+	// 解析
+	ActionDecode
+	// 加密
+	ActionEncode
+	// 執行
+	ActionExecute
+	// 登入
+	ActionSignIn
+	// 登出
+	ActionSignOut
+	// 開啟
+	ActionOpen
+	// 上傳
+	ActionUpload
+	// 下載
+	ActionDownload
+	// 支付
+	ActionPay
+	// 退款
+	ActionRefund
 )
