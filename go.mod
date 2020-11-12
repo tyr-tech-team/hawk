@@ -10,5 +10,5 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/hashicorp/consul/api v1.7.0
 	github.com/stretchr/testify v1.6.1
-	google.golang.org/grpc v1.33.2
+	google.golang.org/grpc v1.29.1
 )
