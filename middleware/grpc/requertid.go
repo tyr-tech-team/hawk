@@ -27,6 +27,7 @@ func RequestID(ctx context.Context) context.Context {
 	}
 	// 將 RequestID 丟入 Conetext 之中
 	nctx := trace.SetRequestID(ctx, rid)
+	//
 	// 將 RequestID 附加到 OutgoingContext
 	return AppendRequestID(nctx, rid)
 }
