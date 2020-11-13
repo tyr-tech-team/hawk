@@ -16,7 +16,7 @@ var (
 	ExecutedFailed      = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionExecute, "執行失敗", "executed failed")
 	OpenedFailed        = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionOpen, "開啟失敗", "opened failed")
 	DataLoss            = NewStatus(LevelERROR, ServiceNormal, GRPCDataLoss, ActionCheck, "資料已遺失", "data loss")
-	ParameterOutOfRange = NewStatus(LevelERROR, ServiceNormal, GRPCInvalidArgument, ActionCheck, "參數超過範圍", "parameter out of range")
+	ParameterOutOfRange = NewStatus(LevelERROR, ServiceNormal, GRPCOutOfRange, ActionCheck, "參數超過範圍", "parameter out of range")
 	PermissionDenied    = NewStatus(LevelFATAL, ServiceNormal, GRPCPermissionDenied, ActionExecute, "權限被拒絕", "permission denied")
 	ConnectFailed       = NewStatus(LevelFATAL, ServiceNormal, GRPCUnavailable, ActionConnect, "連線失敗", "connect failed")
 	TooManayConnect     = NewStatus(LevelERROR, ServiceNormal, GRPCResourceExhausted, ActionConnect, "太多連線", "too manay connect")
