@@ -54,5 +54,9 @@ var (
 	// BuyOrder
 	CreateBuyOrderFailed = NewStatus(LevelERROR, ServiceBuyOrder, GRPCAborted, ActionCreate, "建立收購訂單失敗", "create buyOrder failed")
 	// SMS
+	InvalidMobileNumber       = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "無效的手機號碼", "invalid mobile number")
+	UndeliverableAfterTimeout = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "逾時無法送達", "undeliverable after timeout")
+	HasExpired                = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "簡訊已過期", "has expired")
+	SuspensionOfService       = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "系統暫停服務", "suspend of service")
 	// IDCard
 )
