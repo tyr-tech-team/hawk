@@ -51,7 +51,7 @@ func NewSource(opts ...source.Option) *consul {
 	client, err := api.NewClient(c)
 
 	if err != nil {
-		fmt.Errorf(err.Error())
+		fmt.Println(err.Error())
 	}
 
 	return &consul{

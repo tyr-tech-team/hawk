@@ -1,6 +1,8 @@
 package source
 
-import "time"
+import (
+	"time"
+)
 
 // Source is the source from which config is loaded
 type Source interface {
