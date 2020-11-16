@@ -13,7 +13,7 @@ func TraceID(c *gin.Context) {
 	rid := "g:" + trace.NewTraceID()
 	nctx := trace.SetTraceID(ctx, rid)
 
-	nctx = grpc.AppendRequestID(nctx, rid)
+	nctx = grpc.AppendTraceID(nctx, rid)
 	// GrpcRequestID -
 
 	c.Request = c.Request.WithContext(nctx)

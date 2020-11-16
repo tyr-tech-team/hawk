@@ -28,8 +28,8 @@ func (c traceID) GenerateID() string {
 	return r.node.Generate().String()
 }
 
-// GetRequestID -
-func GetRequestID(ctx context.Context) string {
+// GetTraceID -
+func GetTraceID(ctx context.Context) string {
 	data := ctx.Value(env.TraceID)
 	if data != nil {
 		if id, ok := data.(string); ok {
