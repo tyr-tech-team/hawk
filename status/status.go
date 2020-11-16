@@ -76,6 +76,10 @@ func (s status) Detail() []string {
 	return s.body.Details
 }
 
+func (s status) Code() string {
+	return s.body.Code
+}
+
 func (s status) marshal() Status {
 	s.gst = gs.New(s.gst.Code(), s.body.Marshal())
 	return s

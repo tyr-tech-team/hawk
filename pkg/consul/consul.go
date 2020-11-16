@@ -1,28 +1,25 @@
 package consul
 
 import (
+	"context"
 	"log"
 
 	"github.com/hashicorp/consul/api"
 )
 
-// Config -
-type Config struct {
-	Address   string `json:"url"`
-	ACL       string `json:"acl"`
-	Namespace string `json:"namespace"`
-}
-
 // Client -
 type Client interface {
-}
-
-type client struct {
-	consul *api.Client
+	Client() *api.Client
+	Get(key string) ([]byte, error)
+	Set(key string, value []byte) error
+	SetRegisterConfig(r *ServiceRegisterConfig)
+	Register() error
+	Deregister() error
+	Close()
 }
 
 // NewClient -
-func NewClient(c Config) Client {
+func NewClient(ctx context.Context, c Config) Client {
 	cc := api.Config{
 		Address: c.Address,
 		Token:   c.ACL,
@@ -33,8 +30,17 @@ func NewClient(c Config) Client {
 		log.Panic(err)
 	}
 
-	return &client{
-		consul: conn,
+	if c.TTL == 0 {
+		c.TTL = TTL
 	}
 
+	nctx, cancel := context.WithCancel(ctx)
+
+	return &client{
+		ctx:    nctx,
+		cancel: cancel,
+		config: c,
+		consul: conn,
+		kv:     conn.KV(),
+	}
 }

@@ -20,6 +20,7 @@ var (
 	PermissionDenied    = NewStatus(LevelFATAL, ServiceNormal, GRPCPermissionDenied, ActionExecute, "權限被拒絕", "permission denied")
 	ConnectFailed       = NewStatus(LevelFATAL, ServiceNormal, GRPCUnavailable, ActionConnect, "連線失敗", "connect failed")
 	TooManayConnect     = NewStatus(LevelERROR, ServiceNormal, GRPCResourceExhausted, ActionConnect, "太多連線", "too manay connect")
+	HealthCheckFailed   = NewStatus(LevelFATAL, ServiceNormal, GRPCAborted, ActionHealthCheck, "健康檢查失敗", "health check failed")
 
 	// Auth - 002
 	TokenGenerationFailed = NewStatus(LevelERROR, ServiceAuth, GRPCAborted, ActionCreate, "權杖產生失敗", "token generation failed")

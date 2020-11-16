@@ -2,7 +2,6 @@ package kv
 
 // KV -
 type KV interface {
-	Get(key string) []byte
-	Set(key string, value interface{}) error
-	Keys() []string
+	Get(key string) ([]byte, error)
+	Set(key string, value []byte) error
 }
