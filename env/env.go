@@ -5,14 +5,14 @@ type ContextKey int
 
 //
 const (
-	RequestID ContextKey = iota
+	TraceID ContextKey = iota
 	Logger
 )
 
 func (c ContextKey) String() string {
 	switch c {
-	case RequestID:
-		return "requestid"
+	case TraceID:
+		return "traceID"
 	case Logger:
 		return "logger"
 	default:

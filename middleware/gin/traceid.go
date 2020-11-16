@@ -6,14 +6,14 @@ import (
 	"github.com/tyr-tech-team/hawk/trace"
 )
 
-// RequestID -
-func RequestID(c *gin.Context) {
+// TraceID -
+func TraceID(c *gin.Context) {
 
 	ctx := c.Request.Context()
-	rid := "g:" + trace.NewRequestID()
-	nctx := trace.SetRequestID(ctx, rid)
+	rid := "g:" + trace.NewTraceID()
+	nctx := trace.SetTraceID(ctx, rid)
 
-	nctx = grpc.AppendRequestID(nctx, rid)
+	nctx = grpc.AppendTraceID(nctx, rid)
 	// GrpcRequestID -
 
 	c.Request = c.Request.WithContext(nctx)

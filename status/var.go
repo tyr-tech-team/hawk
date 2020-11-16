@@ -2,23 +2,24 @@ package status
 
 //
 var (
-	NoError          = NewStatus(LevelNONE, ServiceNONE, GRPCOK, ActionNono, "成功", "success")
-	UnKnownError     = NewStatus(LevelERROR, ServiceNONE, GRPCUnknown, ActionNono, "未知的錯誤", "unknown error")
-	InvalidParameter = NewStatus(LevelWARNING, ServiceNormal, GRPCInvalidArgument, ActionCheck, "錯誤的參數", "invalid parameter")
-	ConnectTimeOut   = NewStatus(LevelWARNING, ServiceNormal, GRPCDeadlineExceeded, ActionConnect, "連線超時", "connect time out")
-	NotFound         = NewStatus(LevelWARNING, ServiceNormal, GRPCNotFound, ActionFind, "資料找不到", "not found")
-	DataWasExisted   = NewStatus(LevelERROR, ServiceNormal, GRPCAlreadyExists, ActionCheck, "資料已存在", "data was existed")
-	CreatedFailed    = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionCreate, "建立失敗", "created failed")
-	UpdatedFailed    = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionUpdate, "更新失敗", "updated failed")
-	DeletedFailed    = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionDelete, "刪除失敗", "deleted failed")
-	DecodedFailed    = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionDecode, "解碼失敗", "decoded failed")
-	EncodedFailed    = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionEncode, "編碼失敗", "encoded failed")
-	ExecutedFailed   = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionExecute, "執行失敗", "executed failed")
-	OpenedFailed     = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionOpen, "開啟失敗", "opened failed")
-	DataLoss         = NewStatus(LevelERROR, ServiceNormal, GRPCDataLoss, ActionCheck, "資料已遺失", "data loss")
-	PermissionDenied = NewStatus(LevelFATAL, ServiceNormal, GRPCPermissionDenied, ActionExecute, "權限被拒絕", "permission denied")
-	ConnectFailed    = NewStatus(LevelFATAL, ServiceNormal, GRPCUnavailable, ActionConnect, "連線失敗", "connect failed")
-	TooManayConnect  = NewStatus(LevelERROR, ServiceNormal, GRPCResourceExhausted, ActionConnect, "太多連線", "too manay connect")
+	NoError             = NewStatus(LevelNONE, ServiceNONE, GRPCOK, ActionNono, "成功", "success")
+	UnKnownError        = NewStatus(LevelERROR, ServiceNONE, GRPCUnknown, ActionNono, "未知的錯誤", "unknown error")
+	InvalidParameter    = NewStatus(LevelWARNING, ServiceNormal, GRPCInvalidArgument, ActionCheck, "錯誤的參數", "invalid parameter")
+	ConnectTimeOut      = NewStatus(LevelWARNING, ServiceNormal, GRPCDeadlineExceeded, ActionConnect, "連線超時", "connect time out")
+	NotFound            = NewStatus(LevelWARNING, ServiceNormal, GRPCNotFound, ActionFind, "資料找不到", "not found")
+	DataWasExisted      = NewStatus(LevelERROR, ServiceNormal, GRPCAlreadyExists, ActionCheck, "資料已存在", "data was existed")
+	CreatedFailed       = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionCreate, "建立失敗", "created failed")
+	UpdatedFailed       = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionUpdate, "更新失敗", "updated failed")
+	DeletedFailed       = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionDelete, "刪除失敗", "deleted failed")
+	DecodedFailed       = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionDecode, "解碼失敗", "decoded failed")
+	EncodedFailed       = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionEncode, "編碼失敗", "encoded failed")
+	ExecutedFailed      = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionExecute, "執行失敗", "executed failed")
+	OpenedFailed        = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, ActionOpen, "開啟失敗", "opened failed")
+	DataLoss            = NewStatus(LevelERROR, ServiceNormal, GRPCDataLoss, ActionCheck, "資料已遺失", "data loss")
+	ParameterOutOfRange = NewStatus(LevelERROR, ServiceNormal, GRPCOutOfRange, ActionCheck, "參數超過範圍", "parameter out of range")
+	PermissionDenied    = NewStatus(LevelFATAL, ServiceNormal, GRPCPermissionDenied, ActionExecute, "權限被拒絕", "permission denied")
+	ConnectFailed       = NewStatus(LevelFATAL, ServiceNormal, GRPCUnavailable, ActionConnect, "連線失敗", "connect failed")
+	TooManayConnect     = NewStatus(LevelERROR, ServiceNormal, GRPCResourceExhausted, ActionConnect, "太多連線", "too manay connect")
 
 	// Auth - 002
 	TokenGenerationFailed = NewStatus(LevelERROR, ServiceAuth, GRPCAborted, ActionCreate, "權杖產生失敗", "token generation failed")
@@ -54,5 +55,6 @@ var (
 	// BuyOrder
 	CreateBuyOrderFailed = NewStatus(LevelERROR, ServiceBuyOrder, GRPCAborted, ActionCreate, "建立收購訂單失敗", "create buyOrder failed")
 	// SMS
+	SmsFailedToSend = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "簡訊傳送失敗", "sms failed to send")
 	// IDCard
 )

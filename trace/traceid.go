@@ -7,10 +7,10 @@ import (
 	"github.com/tyr-tech-team/hawk/env"
 )
 
-var r requestID
+var r traceID
 
 func init() {
-	r := new(requestID)
+	r := new(traceID)
 	node, err := snowflake.NewNode(1)
 	if err != nil {
 		panic("init requestid generator failed")
@@ -19,18 +19,18 @@ func init() {
 	r.node = node
 }
 
-type requestID struct {
+type traceID struct {
 	node *snowflake.Node
 }
 
 // ID -
-func (c requestID) GenerateID() string {
+func (c traceID) GenerateID() string {
 	return r.node.Generate().String()
 }
 
-// GetRequestID -
-func GetRequestID(ctx context.Context) string {
-	data := ctx.Value(env.RequestID)
+// GetTraceID -
+func GetTraceID(ctx context.Context) string {
+	data := ctx.Value(env.TraceID)
 	if data != nil {
 		if id, ok := data.(string); ok {
 			return id
@@ -39,18 +39,18 @@ func GetRequestID(ctx context.Context) string {
 	return ""
 }
 
-// SetRequestID -
-func SetRequestID(ctx context.Context, id ...string) context.Context {
+// SetTraceID -
+func SetTraceID(ctx context.Context, id ...string) context.Context {
 	rid := ""
 	if len(id) > 0 && id[0] != "" {
 		rid = id[0]
 	} else {
 		rid = r.GenerateID()
 	}
-	return context.WithValue(ctx, env.RequestID, rid)
+	return context.WithValue(ctx, env.TraceID, rid)
 }
 
-// NewRequestID -
-func NewRequestID() string {
+// NewTraceID -
+func NewTraceID() string {
 	return r.GenerateID()
 }

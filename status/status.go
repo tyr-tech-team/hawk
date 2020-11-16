@@ -72,6 +72,10 @@ func (s status) SetServiceCode(serviceCode ServiceCode) Status {
 	return s
 }
 
+func (s status) Detail() []string {
+	return s.body.Details
+}
+
 func (s status) marshal() Status {
 	s.gst = gs.New(s.gst.Code(), s.body.Marshal())
 	return s
