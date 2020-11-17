@@ -60,18 +60,22 @@ func (c *client) Register() error {
 
 // HealthCheck -
 func (c *client) healthCheck() {
-	defer c.Deregister()
-	for {
-		select {
-		case <-c.ctx.Done():
-			log.Printf("error: %v", c.ctx.Err())
-			return
-		case <-time.After(c.config.TTL):
-			if err := c.healthcheck(); err != nil {
+	go func(c *client) {
+		log.Println("health checking")
+		defer c.Deregister()
+		for {
+			select {
+			case <-c.ctx.Done():
+				log.Printf("error: %v", c.ctx.Err())
 				return
+			case <-time.After(c.config.TTL):
+				if err := c.healthcheck(); err != nil {
+					log.Println(err)
+					return
+				}
 			}
 		}
-	}
+	}(c)
 }
 
 func (c *client) healthcheck() error {

@@ -35,17 +35,17 @@ func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, 
 }
 
 // ConvertStatus -
-func ConvertStatus(err error) (Status, error) {
+func ConvertStatus(err error) Status {
 	if err == nil {
-		return NoError, nil
+		return NoError
 	}
 	if se, ok := err.(interface {
 		Status() Status
 	}); ok {
-		return se.Status(), nil
+		return se.Status()
 	}
 
-	return UnKnownError, nil
+	return UnKnownError
 }
 
 func (s status) Error() string {
@@ -78,6 +78,14 @@ func (s status) Detail() []string {
 
 func (s status) Code() string {
 	return s.body.Code
+}
+
+func (s status) Message() string {
+	return s.body.Message
+}
+
+func (s status) EMessage() string {
+	return s.body.EMessage
 }
 
 func (s status) marshal() Status {

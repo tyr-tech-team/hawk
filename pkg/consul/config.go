@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
-	"github.com/tyr-tech-team/hawk/env"
 )
 
 // Config -
@@ -37,18 +36,27 @@ func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRe
 		Port:    s.Port,
 		Tags:    append(s.Tags, s.Name, s.ID),
 		Check: &api.AgentServiceCheck{
-			CheckID:                        s.ID,
-			TTL:                            TTL.String(),
-			Timeout:                        time.Minute.String(),
-			SuccessBeforePassing:           3,
+			CheckID: s.ID,
+			TTL:     TTL.String(),
+			Timeout: time.Minute.String(),
+			// 成功幾次才叫成功
+			SuccessBeforePassing: 1,
+			// 錯誤幾次就失敗
 			FailuresBeforeCritical:         3,
-			DeregisterCriticalServiceAfter: env.Fail,
+			DeregisterCriticalServiceAfter: time.Minute.String(),
 		},
 	}
 }
 
 func (s *ServiceRegisterConfig) md5() string {
-	var h [16]byte
+	var h [8]byte
 	rand.Read(h[:])
 	return hex.EncodeToString(md5.New().Sum(h[:]))
+}
+
+// DefaultConsulConfig -
+func DefaultConsulConfig() Config {
+	return Config{
+		Address: "localhost:8500",
+	}
 }
