@@ -47,4 +47,6 @@ const (
 	ActionPay
 	// 退款
 	ActionRefund
+	//
+	ActionHealthCheck
 )
