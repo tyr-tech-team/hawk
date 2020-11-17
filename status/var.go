@@ -46,10 +46,11 @@ var (
 	UploadFileOutOfRange = NewStatus(LevelERROR, ServiceStorage, GRPCOutOfRange, ActionCheck, "上傳檔案超出範圍", "upload file out of range")
 	// Transaction -
 	// User -
-	UserNotFound      = NewStatus(LevelWARNING, ServiceUser, GRPCNotFound, ActionFind, "找不到使用者", "user not found")
-	UserWasDisabled   = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, ActionCheck, "使用者已被禁止", "user was disabled")
-	UserSignInFailed  = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, ActionSignIn, "使用者登入失敗", "user signin failed")
-	UserSignOutFailed = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, ActionSignOut, "使用者登出失敗", "user signout failed")
+	UserNotFound           = NewStatus(LevelWARNING, ServiceUser, GRPCNotFound, ActionFind, "找不到使用者", "user not found")
+	UserWasDisabled        = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, ActionCheck, "使用者已被禁止", "user was disabled")
+	UserSignInFailed       = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, ActionSignIn, "使用者登入失敗", "user signin failed")
+	UserSignOutFailed      = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, ActionSignOut, "使用者登出失敗", "user signout failed")
+	UserDuplicateParameter = NewStatus(LevelWARNING, ServiceUser, GRPCAlreadyExists, ActionCheck, "使用者參數已重複", "user have duplicate parameter")
 	// Website -
 	// InitService -
 	// SellOrder
