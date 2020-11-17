@@ -10,12 +10,11 @@ import (
 var r traceID
 
 func init() {
-	r := new(traceID)
+	r = traceID{}
 	node, err := snowflake.NewNode(1)
 	if err != nil {
 		panic("init requestid generator failed")
 	}
-
 	r.node = node
 }
 
