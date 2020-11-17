@@ -4,11 +4,10 @@ import "github.com/tyr-tech-team/hawk/config/source"
 
 // Config -
 type Config interface {
-	Decode(value interface{}) error
-	Raw() ([]byte, error)
+	source.Source
 }
 
-// New -
-func New(s source.Source) Config {
-	return nil
+// NewConfig -
+func NewConfig(source source.Source) Config {
+	return source
 }
