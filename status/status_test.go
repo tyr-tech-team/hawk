@@ -48,3 +48,21 @@ func Test_WithServiceCode(t *testing.T) {
 
 	fmt.Println("x:", x)
 }
+
+func Test_Equal(t *testing.T) {
+	x1 := UserNotFound
+	x2 := UserNotFound
+	assert.Equal(t, Equal(x1, x2), true)
+
+	x1 = x1.WithDetail("123")
+	assert.Equal(t, Equal(x1, x2), true)
+
+	t.Log("x1", x1)
+	t.Log("x2", x2)
+
+	x2 = x2.SetServiceCode(ServiceOrder)
+	assert.Equal(t, Equal(x1, x2), false)
+	t.Log("x1", x1)
+	t.Log("x2", x2)
+
+}

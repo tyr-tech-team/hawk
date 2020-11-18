@@ -51,6 +51,10 @@ func (b *body) ParseCode() error {
 	return nil
 }
 
+func (b *body) SetSCode(serviceCode ServiceCode) {
+	b.sCode = serviceCode
+}
+
 func convertToInt64(s string) int64 {
 	tmp, err := strconv.ParseInt(s, 32, 10)
 	if err != nil {
@@ -59,4 +63,18 @@ func convertToInt64(s string) int64 {
 	}
 
 	return tmp
+}
+
+func copyBody(b *body) *body {
+	x := &body{
+		lCode:    b.lCode,
+		sCode:    b.sCode,
+		gCode:    b.gCode,
+		aCode:    b.aCode,
+		Code:     b.Code,
+		Message:  b.Message,
+		EMessage: b.EMessage,
+		Details:  b.Details,
+	}
+	return x
 }
