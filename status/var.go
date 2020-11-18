@@ -58,6 +58,13 @@ var (
 	DownloadFileFailed   = NewStatus(LevelERROR, ServiceStorage, GRPCAborted, ActionDownload, "下載檔案失敗", "download file failed")
 	UploadFileOutOfRange = NewStatus(LevelERROR, ServiceStorage, GRPCOutOfRange, ActionCheck, "上傳檔案超出範圍", "upload file out of range")
 	// Transaction -
+	TransactionInvalidParameter = NewStatus(LevelWARNING, ServiceTransaction, GRPCInvalidArgument, ActionCheck, "交易參數錯誤", "invalid transaction parameter")
+	TransactionNotFound         = NewStatus(LevelWARNING, ServiceTransaction, GRPCNotFound, ActionFind, "找不到此交易", "transaction not found")
+	TransactionCreatedFailed    = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, ActionCreate, "交易建立失敗", "create transaction failed")
+	TransactionUpdatedFailed    = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, ActionUpdate, "交易更新失敗", "update transaction failed")
+	TransactionDeleteFailed     = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, ActionDelete, "交易刪除失敗", "delete transaction failed")
+	RefunedFailed               = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, ActionRefund, "退款失敗", "refund failed")
+	PayFailed                   = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, ActionPay, "支付失敗", "pay failed")
 	// User -
 	UserNotFound           = NewStatus(LevelWARNING, ServiceUser, GRPCNotFound, ActionFind, "找不到使用者", "user not found")
 	UserWasDisabled        = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, ActionCheck, "使用者已被禁止", "user was disabled")
