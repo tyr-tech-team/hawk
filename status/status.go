@@ -21,6 +21,7 @@ func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, 
 		gCode:   grpcCode,
 		aCode:   actionCode,
 		Message: msg,
+		Details: []string{},
 	}
 
 	if len(emsg) > 0 {
@@ -39,13 +40,23 @@ func ConvertStatus(err error) Status {
 	if err == nil {
 		return NoError
 	}
-	if se, ok := err.(interface {
-		Status() Status
-	}); ok {
-		return se.Status()
+
+	gsError, ok := gs.FromError(err)
+	if !ok {
+		fmt.Println(gsError.Err(), ok)
+		return UnKnownError
 	}
 
-	return UnKnownError
+	s := new(status)
+
+	s.gst = gsError
+	b := new(body)
+	json.Unmarshal([]byte(gsError.Message()), b)
+	b.ParseCode()
+
+	s.body = b
+
+	return s
 }
 
 // Equal -

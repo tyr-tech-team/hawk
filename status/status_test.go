@@ -23,7 +23,7 @@ func Test_NewStatus(t *testing.T) {
 func Test_WithDetail(t *testing.T) {
 	x := NewStatus(LevelWARNING, ServiceNONE, GRPCAlreadyExists, ActionCreate, "123888")
 
-	s := ConvertStatus(x)
+	s := ConvertStatus(x.Err())
 	assert.NotEqual(t, s, UnKnownError)
 	fmt.Println(s)
 
@@ -37,7 +37,7 @@ func Test_WithDetail(t *testing.T) {
 func Test_WithServiceCode(t *testing.T) {
 	x := NewStatus(LevelWARNING, ServiceNONE, GRPCAlreadyExists, ActionCreate, "123888")
 	fmt.Println(x)
-	s := ConvertStatus(x)
+	s := ConvertStatus(x.Err())
 	assert.NotEqual(t, s, UnKnownError)
 	fmt.Println(s)
 
@@ -45,7 +45,6 @@ func Test_WithServiceCode(t *testing.T) {
 	fmt.Println(s)
 	s = s.WithDetail([]string{"4", "5"}...)
 	fmt.Println("s:", s)
-
 	fmt.Println("x:", x)
 }
 
