@@ -60,7 +60,7 @@ func Test_Equal(t *testing.T) {
 	t.Log("x1", x1)
 	t.Log("x2", x2)
 
-	x2 = x2.SetServiceCode(ServiceOrder)
+	x2 = x2.SetServiceCode(ServiceItem)
 	assert.Equal(t, Equal(x1, x2), false)
 	t.Log("x1", x1)
 	t.Log("x2", x2)

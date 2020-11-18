@@ -21,20 +21,33 @@ var (
 	ConnectFailed       = NewStatus(LevelFATAL, ServiceNormal, GRPCUnavailable, ActionConnect, "連線失敗", "connect failed")
 	TooManayConnect     = NewStatus(LevelERROR, ServiceNormal, GRPCResourceExhausted, ActionConnect, "太多連線", "too manay connect")
 	HealthCheckFailed   = NewStatus(LevelFATAL, ServiceNormal, GRPCAborted, ActionHealthCheck, "健康檢查失敗", "health check failed")
+	RemoteHostNotFound  = NewStatus(LevelERROR, ServiceNormal, GRPCNotFound, ActionConnect, "找不到遠端呼叫地址", "remote host not found")
 
-	// Auth - 002
+	// Auth -
 	TokenGenerationFailed = NewStatus(LevelERROR, ServiceAuth, GRPCAborted, ActionCreate, "權杖產生失敗", "token generation failed")
 	TokenWasExpired       = NewStatus(LevelFATAL, ServiceAuth, GRPCDeadlineExceeded, ActionCheck, "權杖已失效", "token was expired")
+	TokenRevokedFailed    = NewStatus(LevelERROR, ServiceAuth, GRPCAborted, ActionDelete, "取消權杖失敗", "revoke token failed")
 	InvalidToken          = NewStatus(LevelFATAL, ServiceAuth, GRPCUnauthenticated, ActionCheck, "錯誤的權杖", "invalid token")
 	// Card
 	CardWasNotEmpty = NewStatus(LevelERROR, ServiceCard, GRPCAlreadyExists, ActionCheck, "卡片不是空的", "card was not empty")
 	// EventLog
 	// Item -
 	ItemParameterInvalid = NewStatus(LevelWARNING, ServiceItem, GRPCInvalidArgument, ActionCheck, "商品參數錯誤", "item parmeter invalid")
+	ItemNotFound         = NewStatus(LevelWARNING, ServiceItem, GRPCNotFound, ActionFind, "找不到商品", "item not found")
+	ItemCreatedFailed    = NewStatus(LevelERROR, ServiceItem, GRPCAborted, ActionCreate, "商品入庫失敗", "create item failed")
+	ItemUpdatedFailed    = NewStatus(LevelERROR, ServiceItem, GRPCAborted, ActionUpdate, "商品更新資訊失敗", "update item failed")
+	ItemDeletedFailed    = NewStatus(LevelERROR, ServiceItem, GRPCAborted, ActionDelete, "商品刪除失敗", "delete item failed")
 	// Brand -
-	BrandNotFound  = NewStatus(LevelWARNING, ServiceBrand, GRPCNotFound, ActionFind, "找不到品牌", "brand not found")
-	BrandWasExists = NewStatus(LevelERROR, ServiceBrand, GRPCAlreadyExists, ActionCheck, "品牌已存在", "brand is exists")
+	BrandNotFound      = NewStatus(LevelWARNING, ServiceBrand, GRPCNotFound, ActionFind, "找不到品牌", "brand not found")
+	BrandWasExists     = NewStatus(LevelERROR, ServiceBrand, GRPCAlreadyExists, ActionCheck, "品牌已存在", "brand is exists")
+	BrandCreatedFailed = NewStatus(LevelERROR, ServiceBrand, GRPCAborted, ActionCreate, "品牌建立失敗", "create brand failed")
+	BrandDeletedFailed = NewStatus(LevelERROR, ServiceBrand, GRPCAborted, ActionDelete, "刪除品牌失敗", "delete brand failed")
 	// Member -
+	MemberInvalidParameter = NewStatus(LevelWARNING, ServiceMember, GRPCInvalidArgument, ActionCheck, "錯誤的會員參數", "invalid member parameter ")
+	MemberNotFound         = NewStatus(LevelWARNING, ServiceMember, GRPCNotFound, ActionFind, "找不到會員", "member not found")
+	MemberCreateFailed     = NewStatus(LevelERROR, ServiceMember, GRPCAborted, ActionCreate, "建立會員失敗", "create member failed")
+	MemberUpdatedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, ActionUpdate, "更新會員資訊失敗", "update member failed")
+	MemberDeletedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, ActionDelete, "刪除會員失敗", "delete member failed")
 	// NfcReader -
 	NotFoundTheNFCCard       = NewStatus(LevelERROR, ServiceNFCReader, GRPCNotFound, ActionFind, "讀卡機讀取不到卡片", "nfc reader not find the card")
 	NotFoundTheNFCCardReader = NewStatus(LevelFATAL, ServiceNFCReader, GRPCFailedPrecondition, ActionCheck, "找不到讀卡機", "not found the card reader")
@@ -55,7 +68,7 @@ var (
 	// InitService -
 	// SellOrder
 	// BuyOrder
-	CreateBuyOrderFailed = NewStatus(LevelERROR, ServiceBuyOrder, GRPCAborted, ActionCreate, "建立收購訂單失敗", "create buyOrder failed")
+	CreatedBuyOrderFailed = NewStatus(LevelERROR, ServiceBuyOrder, GRPCAborted, ActionCreate, "建立收購訂單失敗", "create buyOrder failed")
 	// SMS
 	SmsFailedToSend = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "簡訊傳送失敗", "sms failed to send")
 	// IDCard
