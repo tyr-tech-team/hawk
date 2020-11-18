@@ -44,8 +44,8 @@ func Test_WithServiceCode(t *testing.T) {
 	s = s.SetServiceCode(ServiceBrand)
 	fmt.Println(s)
 	s = s.WithDetail([]string{"4", "5"}...)
-	fmt.Println("s:", s)
-	fmt.Println("x:", x)
+	fmt.Printf("s: %+v \n", s)
+	fmt.Printf("x: %+v \n", x)
 }
 
 func Test_Equal(t *testing.T) {

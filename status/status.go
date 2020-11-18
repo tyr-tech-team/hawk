@@ -53,7 +53,6 @@ func ConvertStatus(err error) Status {
 	b := new(body)
 	json.Unmarshal([]byte(gsError.Message()), b)
 	b.ParseCode()
-
 	s.body = b
 
 	return s
