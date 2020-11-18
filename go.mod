@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/davecgh/go-spew v1.1.1
 	github.com/ghodss/yaml v1.0.0
 	github.com/gin-gonic/gin v1.6.3
 	github.com/gogo/protobuf v1.2.1 // indirect
