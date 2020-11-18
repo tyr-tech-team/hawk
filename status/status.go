@@ -43,17 +43,25 @@ func ConvertStatus(err error) Status {
 
 	gsError, ok := gs.FromError(err)
 	if !ok {
-		fmt.Println(gsError.Err(), ok)
 		return UnKnownError
 	}
 
 	s := new(status)
-
 	s.gst = gsError
 	b := new(body)
 	json.Unmarshal([]byte(gsError.Message()), b)
+
 	b.ParseCode()
 	s.body = b
+
+	if s.body.Code == "" {
+		switch GRPCCode(s.gst.Code()) {
+		case GRPCUnavailable:
+			return RemoteHostNotFound
+		default:
+			return UnKnownError
+		}
+	}
 
 	return s
 }

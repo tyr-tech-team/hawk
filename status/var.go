@@ -2,8 +2,9 @@ package status
 
 //
 var (
-	NoError             = NewStatus(LevelNONE, ServiceNONE, GRPCOK, ActionNono, "成功", "success")
-	UnKnownError        = NewStatus(LevelERROR, ServiceNONE, GRPCUnknown, ActionNono, "未知的錯誤", "unknown error")
+	NoError             = NewStatus(LevelNONE, ServiceNONE, GRPCOK, ActionNone, "成功", "success")
+	UnKnownError        = NewStatus(LevelERROR, ServiceNONE, GRPCUnknown, ActionNone, "未知的錯誤", "unknown error")
+	InternalError       = NewStatus(LevelFATAL, ServiceNONE, GRPCInternal, ActionNone, "內部錯誤")
 	InvalidParameter    = NewStatus(LevelWARNING, ServiceNormal, GRPCInvalidArgument, ActionCheck, "錯誤的參數", "invalid parameter")
 	ConnectTimeOut      = NewStatus(LevelWARNING, ServiceNormal, GRPCDeadlineExceeded, ActionConnect, "連線超時", "connect time out")
 	NotFound            = NewStatus(LevelWARNING, ServiceNormal, GRPCNotFound, ActionFind, "資料找不到", "not found")
