@@ -59,12 +59,7 @@ func ConvertStatus(err error) Status {
 	s.body = b
 
 	if s.body.Code == "" {
-		switch GRPCCode(s.gst.Code()) {
-		case GRPCUnavailable:
-			return RemoteHostNotFound
-		default:
-			return UnKnownError
-		}
+		return checkGRPCError(GRPCCode(s.gst.Code()))
 	}
 
 	return s

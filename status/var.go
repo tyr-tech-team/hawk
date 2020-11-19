@@ -30,7 +30,13 @@ var (
 	TokenRevokedFailed    = NewStatus(LevelERROR, ServiceAuth, GRPCAborted, ActionDelete, "取消權杖失敗", "revoke token failed")
 	InvalidToken          = NewStatus(LevelFATAL, ServiceAuth, GRPCUnauthenticated, ActionCheck, "錯誤的權杖", "invalid token")
 	// Card
-	CardWasNotEmpty = NewStatus(LevelERROR, ServiceCard, GRPCAlreadyExists, ActionCheck, "卡片不是空的", "card was not empty")
+	CardInvalidParemeter = NewStatus(LevelWARNING, ServiceCard, GRPCInvalidArgument, ActionCheck, "卡片參數錯誤", "invalid card parameter")
+	CardWasNotEmpty      = NewStatus(LevelERROR, ServiceCard, GRPCAlreadyExists, ActionCheck, "卡片不是空的", "card was not empty")
+	CardNotFound         = NewStatus(LevelWARNING, ServiceCard, GRPCNotFound, ActionCheck, "找不到卡片紀錄", "card not found")
+	CardCreateFailed     = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionCreate, "建立卡片失敗", "create card failed")
+	CardUpdateFailed     = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionUpdate, "更新卡片失敗", "update card failed")
+	CardRevokeFailed     = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionDelete, "卡片註銷失敗", "Revoke card failed")
+	CardCheckFailed      = NewStatus(LevelWARNING, ServiceCard, GRPCFailedPrecondition, ActionCheck, "卡片檢查失敗", "check card failed")
 	// EventLog
 	// Item -
 	ItemParameterInvalid = NewStatus(LevelWARNING, ServiceItem, GRPCInvalidArgument, ActionCheck, "商品參數錯誤", "item parmeter invalid")
@@ -75,6 +81,9 @@ var (
 	// Website -
 	// InitService -
 	// SellOrder
+	SellOrderCreatedFailed = NewStatus(LevelERROR, ServiceSellOrder, GRPCAborted, ActionCreate, "銷售訂單建立失敗", "create sellorder failed")
+	SellOrderCheckedFailed = NewStatus(LevelERROR, ServiceSellOrder, GRPCFailedPrecondition, ActionCheck, "銷售訂單檢查錯誤", "check sellorder failed")
+
 	// BuyOrder
 	CreatedBuyOrderFailed = NewStatus(LevelERROR, ServiceBuyOrder, GRPCAborted, ActionCreate, "建立收購訂單失敗", "create buyOrder failed")
 	// SMS
