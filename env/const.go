@@ -1,8 +1,11 @@
 package env
 
-//
+// Mode -
+type Mode string
+
 const (
-	Pass = "pass"
-	Wran = "wran"
-	Fail = "fail"
+	// DEV -
+	DEV Mode = "dev"
+	// PRD -
+	PRD Mode = "prd"
 )

@@ -1,7 +1,6 @@
 package logger
 
-import "fmt"
-
-func main() {
-	fmt.Println("vim-go")
+// Logger -
+type Logger interface {
+	Log(kv ...interface{}) error
 }
