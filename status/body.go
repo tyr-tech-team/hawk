@@ -46,7 +46,7 @@ func (b *body) ParseCode() error {
 	b.lCode = LevelCode(convertToInt64(codeList[0]))
 	b.sCode = ServiceCode(convertToInt64(codeList[1]))
 	b.gCode = GRPCCode(convertToInt64(codeList[2]))
-	b.aCode = ActionCode(convertToInt64(codeList[2]))
+	b.aCode = ActionCode(convertToInt64(codeList[3]))
 
 	return nil
 }

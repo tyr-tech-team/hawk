@@ -21,7 +21,7 @@ func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, 
 		gCode:   grpcCode,
 		aCode:   actionCode,
 		Message: msg,
-		Details: []string{},
+		Details: make([]string, 0),
 	}
 
 	if len(emsg) > 0 {
@@ -52,6 +52,10 @@ func ConvertStatus(err error) Status {
 	json.Unmarshal([]byte(gsError.Message()), b)
 
 	b.ParseCode()
+	if len(b.Details) < 1 {
+		b.Details = make([]string, 0)
+	}
+
 	s.body = b
 
 	if s.body.Code == "" {
