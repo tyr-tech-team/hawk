@@ -11,23 +11,25 @@ func (s ServiceCode) String() string {
 
 //
 const (
-	ServiceNONE ServiceCode = iota
-	ServiceNormal
-	ServiceAuth
-	ServiceCard
-	ServiceEventLog
-	ServiceItem
-	ServiceMember
-	ServiceNFCReader
-	ServiceOrder
-	ServiceStorage
-	ServiceTransaction
-	ServiceUser
-	ServiceWebSite
-	ServiceInitService
-	ServiceBrand
-	ServiceSellOrder
-	ServiceBuyOrder
-	ServiceSMS
-	ServiceIDCard
+	ServiceNONE          ServiceCode = iota // 0
+	ServiceNormal                           //1
+	ServiceAuth                             // 2
+	ServiceCard                             // 3
+	ServiceEventLog                         // 4
+	ServiceItem                             // 5
+	ServiceBrand                            // 6
+	ServiceMember                           // 7
+	ServiceNFCReader                        // 8
+	ServiceStorage                          // 9
+	ServiceTransaction                      // 10
+	ServiceUser                             // 11
+	ServiceWebSite                          // 12
+	ServiceInitService                      // 13
+	ServiceSellOrder                        // 14
+	ServiceBuyOrder                         // 15
+	ServiceSMS                              // 16
+	ServiceIDCard                           // 17
+	ServiceRBAC                             // 18
+	ServiceBgmGateway                       // 19
+	ServiceOfficeGateway                    // 20
 )

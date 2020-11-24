@@ -12,7 +12,7 @@ func (a ActionCode) String() string {
 //
 const (
 	//
-	ActionNono ActionCode = iota
+	ActionNone ActionCode = iota
 	// ActionCreate - 建立動作
 	ActionCreate
 	// ActionFind - 查詢動作

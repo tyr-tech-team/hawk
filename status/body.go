@@ -46,9 +46,13 @@ func (b *body) ParseCode() error {
 	b.lCode = LevelCode(convertToInt64(codeList[0]))
 	b.sCode = ServiceCode(convertToInt64(codeList[1]))
 	b.gCode = GRPCCode(convertToInt64(codeList[2]))
-	b.aCode = ActionCode(convertToInt64(codeList[2]))
+	b.aCode = ActionCode(convertToInt64(codeList[3]))
 
 	return nil
+}
+
+func (b *body) SetSCode(serviceCode ServiceCode) {
+	b.sCode = serviceCode
 }
 
 func convertToInt64(s string) int64 {
@@ -59,4 +63,18 @@ func convertToInt64(s string) int64 {
 	}
 
 	return tmp
+}
+
+func copyBody(b *body) *body {
+	x := &body{
+		lCode:    b.lCode,
+		sCode:    b.sCode,
+		gCode:    b.gCode,
+		aCode:    b.aCode,
+		Code:     b.Code,
+		Message:  b.Message,
+		EMessage: b.EMessage,
+		Details:  b.Details,
+	}
+	return x
 }

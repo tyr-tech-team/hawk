@@ -12,7 +12,7 @@ import (
 // Response -
 type Response struct {
 	Data   interface{} `json:"data"`
-	Status *Status     `json:"status"`
+	Status Status      `json:"status"`
 }
 
 // Status -
@@ -23,7 +23,7 @@ type Status struct {
 	Code     string   `json:"code"`
 	Message  string   `json:"message"`
 	EMessage string   `json:"emessage"`
-	Detail   []string `json:"detail"`
+	Details  []string `json:"details"`
 	// RFC3339 時間
 	Time string `json:"time"`
 	// Timestamp
@@ -37,20 +37,21 @@ func (r Response) JSON() []byte {
 }
 
 //
-func newStatus(ctx context.Context, s status.Status) *Status {
+func newStatus(ctx context.Context, s status.Status) Status {
 	t := time.Now().In(time.Local)
 	tid := trace.GetTraceID(ctx)
-	ss := &Status{
+	ss := Status{
 		TraceID: tid,
 		Time:    t.Format(time.RFC3339),
 		Unix:    t.Unix(),
+		Details: make([]string, 0),
 	}
 
 	if s != nil {
 		ss.Code = s.Code()
 		ss.Message = s.Message()
 		ss.EMessage = s.EMessage()
-		ss.Detail = s.Detail()
+		ss.Details = s.Detail()
 	}
 
 	return ss

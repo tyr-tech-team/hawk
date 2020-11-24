@@ -10,7 +10,7 @@ import (
 
 // -
 var (
-	client *consul
+	c *consul
 )
 
 type consul struct {
@@ -38,31 +38,32 @@ func (c *consul) Read() (*source.ChangeSet, error) {
 }
 
 // NewSource -
-func NewSource(opts ...source.Option) *consul {
+func NewSource(opts ...source.Option) (*consul, error) {
 	options := source.NewOptions(opts...)
 	key := options.Context.Value(key{}).(string)
 	address := options.Context.Value(address{}).(string)
 	configtype := options.Context.Value(configType{}).(string)
 
-	c := &api.Config{
+	config := &api.Config{
 		Address: address,
 	}
 
-	client, err := api.NewClient(c)
-
+	cl, err := api.NewClient(config)
 	if err != nil {
-		fmt.Println(err.Error())
+		return nil, err
 	}
 
-	return &consul{
+	c = &consul{
 		address:    address,
-		client:     client,
+		client:     cl,
 		key:        key,
 		configType: configtype,
 	}
+
+	return c, nil
 }
 
 // Client -
 func Client() *api.Client {
-	return client.client
+	return c.client
 }

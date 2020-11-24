@@ -21,6 +21,7 @@ func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, 
 		gCode:   grpcCode,
 		aCode:   actionCode,
 		Message: msg,
+		Details: make([]string, 0),
 	}
 
 	if len(emsg) > 0 {
@@ -39,13 +40,40 @@ func ConvertStatus(err error) Status {
 	if err == nil {
 		return NoError
 	}
-	if se, ok := err.(interface {
-		Status() Status
-	}); ok {
-		return se.Status()
+
+	gsError, ok := gs.FromError(err)
+	if !ok {
+		return UnKnownError
 	}
 
-	return UnKnownError
+	s := new(status)
+	s.gst = gsError
+	b := new(body)
+	json.Unmarshal([]byte(gsError.Message()), b)
+
+	b.ParseCode()
+	if len(b.Details) < 1 {
+		b.Details = make([]string, 0)
+	}
+
+	s.body = b
+
+	if s.body.Code == "" {
+		return checkGRPCError(GRPCCode(s.gst.Code()))
+	}
+
+	return s
+}
+
+// Equal -
+func Equal(s1 Status, s2 Status) bool {
+	switch {
+	case s1.Code() != s2.Code():
+	case s1.Message() != s2.Message():
+	default:
+		return true
+	}
+	return false
 }
 
 func (s status) Error() string {
@@ -61,15 +89,17 @@ func (s status) String() string {
 }
 
 func (s status) WithDetail(detail ...string) Status {
-	news := s
-	news.body.Details = append(s.body.Details, detail...)
-	return news.marshal()
+	newbody := copyBody(s.body)
+	newbody.Details = append(newbody.Details, detail...)
+	s.body = newbody
+	return s.marshal()
 }
 
 func (s status) SetServiceCode(serviceCode ServiceCode) Status {
-	s.body.sCode = serviceCode
-	s.marshal()
-	return s
+	newbody := copyBody(s.body)
+	newbody.SetSCode(serviceCode)
+	s.body = newbody
+	return s.marshal()
 }
 
 func (s status) Detail() []string {
