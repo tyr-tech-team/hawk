@@ -6,13 +6,13 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
-	"github.com/tyr-tech-team/hawk/env"
 	"github.com/tyr-tech-team/hawk/status"
 )
 
 // -
 const (
-	TTL = time.Duration(10 * time.Second)
+	TTL          = time.Duration(15 * time.Second)
+	AvalivedTime = time.Duration(5 * time.Second)
 )
 
 type client struct {
@@ -61,25 +61,24 @@ func (c *client) Register() error {
 // HealthCheck -
 func (c *client) healthCheck() {
 	go func(c *client) {
-		log.Println("health checking")
 		defer c.Deregister()
 		for {
 			select {
 			case <-c.ctx.Done():
-				log.Printf("error: %v", c.ctx.Err())
 				return
-			case <-time.After(c.config.TTL):
+			default:
 				if err := c.healthcheck(); err != nil {
 					log.Println(err)
 					return
 				}
+				time.Sleep(AvalivedTime)
 			}
 		}
 	}(c)
 }
 
 func (c *client) healthcheck() error {
-	if err := c.consul.Agent().UpdateTTL(c.sRegistryConfig.ID, "", env.Pass); err != nil {
+	if err := c.consul.Agent().PassTTL(c.sRegistryConfig.ID, time.Now().Format(time.RFC3339)); err != nil {
 		return status.HealthCheckFailed.Err()
 	}
 	return nil
