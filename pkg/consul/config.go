@@ -40,9 +40,9 @@ type ServiceRegisterConfig struct {
 
 // ToAgentServiceRegistration -
 func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRegistration {
-
+	s.ID = fmt.Sprintf("%s-%s", s.Name, s.md5())
 	asr := &api.AgentServiceRegistration{
-		ID:      fmt.Sprintf("%s-%s", s.Name, s.md5()),
+		ID:      s.ID,
 		Name:    s.Name,
 		Address: s.Address,
 		Port:    s.Port,
@@ -54,7 +54,7 @@ func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRe
 			// 成功幾次才叫成功
 			SuccessBeforePassing: 1,
 			// 錯誤幾次就失敗
-			FailuresBeforeCritical:         3,
+			FailuresBeforeCritical:         1,
 			DeregisterCriticalServiceAfter: TTL.String(),
 		},
 	}

@@ -12,7 +12,7 @@ import (
 
 // -
 const (
-	TTL           = time.Duration(15 * time.Second)
+	TTL           = time.Duration(10 * time.Second)
 	AvailableTime = time.Duration(5 * time.Second)
 )
 
@@ -63,6 +63,7 @@ func (c *client) Register() error {
 func (c *client) healthCheck() {
 	go func(c *client) {
 		fmt.Println("in healthCheck")
+		defer c.Deregister()
 		for {
 			select {
 			case <-c.ctx.Done():
@@ -71,7 +72,7 @@ func (c *client) healthCheck() {
 			// 每五秒鐘更新一次狀態
 			default:
 				if err := c.updateHealth(); err != nil {
-					return
+					fmt.Println(err)
 				}
 				time.Sleep(AvailableTime)
 			}
@@ -80,7 +81,9 @@ func (c *client) healthCheck() {
 }
 
 func (c *client) updateHealth() error {
-	if err := c.consul.Agent().PassTTL(c.sRegistryConfig.ID, time.Now().Format(time.RFC3339)); err != nil {
+	fmt.Println("healtcheck")
+	if err := c.consul.Agent().PassTTL(c.sRegistryConfig.ID, ""); err != nil {
+		fmt.Println("pass failed", err)
 		return status.HealthCheckFailed.Err()
 	}
 	return nil
