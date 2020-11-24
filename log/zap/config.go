@@ -4,14 +4,18 @@ import (
 	"os"
 
 	"github.com/tyr-tech-team/hawk/env"
+	"github.com/tyr-tech-team/hawk/logger"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-// New -
-func New(mode env.Mode) {
-	logger := zap.New(newCore(mode), zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
+type zapSugaryLogger func(msg string, kv ...interface{})
 
+// New -
+func New(mode env.Mode) logger.Logger {
+	log := zap.New(newCore(mode), zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
+
+	return log
 }
 
 // newCore -

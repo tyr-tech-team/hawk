@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/andybalholm/brotli v1.0.1-0.20200619015827-c3da72aa01ed // indirect
+	github.com/axolotlteam/thunder v1.0.7
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/ghodss/yaml v1.0.0
@@ -30,6 +31,7 @@ require (
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.3 // indirect
+	github.com/parnurzeal/gorequest v0.2.16
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
