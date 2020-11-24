@@ -8,16 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
-)
-
-// Protocol -
-type Protocol string
-
-const (
-	// GRPC -
-	GRPC Protocol = "grpc"
-	// HTTP -
-	HTTP Protocol = "http"
+	"github.com/tyr-tech-team/hawk/env"
+	"github.com/tyr-tech-team/hawk/pkg/traefik"
 )
 
 // Config -
@@ -29,20 +21,20 @@ type Config struct {
 
 // ServiceRegisterConfig -
 type ServiceRegisterConfig struct {
-	ID       string   `json:"id"`
-	Name     string   `json:"name"`
-	Tags     []string `json:"tags"`
-	Port     int      `json:"port"`
-	Address  string   `json:"address"`
-	Traefik  bool     `json:"traefik"`
-	Protocol Protocol `json:"protocol"`
+	ID       string       `json:"id"`
+	Name     string       `json:"name"`
+	Tags     []string     `json:"tags"`
+	Port     int          `json:"port"`
+	Address  string       `json:"address"`
+	Traefik  bool         `json:"traefik"`
+	Protocol env.Protocol `json:"protocol"`
 }
 
 // ToAgentServiceRegistration -
 func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRegistration {
-
+	s.ID = fmt.Sprintf("%s-%s", s.Name, s.md5())
 	asr := &api.AgentServiceRegistration{
-		ID:      fmt.Sprintf("%s-%s", s.Name, s.md5()),
+		ID:      s.ID,
 		Name:    s.Name,
 		Address: s.Address,
 		Port:    s.Port,
@@ -54,13 +46,13 @@ func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRe
 			// 成功幾次才叫成功
 			SuccessBeforePassing: 1,
 			// 錯誤幾次就失敗
-			FailuresBeforeCritical:         3,
-			DeregisterCriticalServiceAfter: TTL.String(),
+			FailuresBeforeCritical:         2,
+			DeregisterCriticalServiceAfter: time.Duration(3 * time.Second).String(),
 		},
 	}
 
 	if s.Traefik {
-		asr.Tags = append(asr.Tags, createTraefikTags(asr.Name, s.Protocol)...)
+		asr.Tags = append(asr.Tags, traefik.NewTags(asr.Name, s.Protocol)...)
 	}
 
 	return asr
@@ -77,23 +69,4 @@ func DefaultConsulConfig() Config {
 	return Config{
 		Address: "localhost:8500",
 	}
-}
-
-func createTraefikTags(name string, protocal Protocol) []string {
-	s := []string{
-		"traefik.enable=true",
-		fmt.Sprintf("traefik.http.routers.%s.service=%s-service", name, name),
-		"traefik.http.middlewares.latency-check.circuitbreaker.expression=NetworkErrorRatio() > 0.50",
-		fmt.Sprintf("traefik.http.routers.%s.middlewares=latency-check", name),
-		func(protocol Protocol) string {
-			scheme := "http"
-			switch protocol {
-			case GRPC:
-				scheme = "h2c"
-			}
-			return fmt.Sprintf("traefik.http.services.test-service.loadbalancer.server.scheme=%s", scheme)
-		}(protocal),
-		"traefik.http.services.test-service.loadbalancer.passhostheader=true",
-	}
-	return s
 }
