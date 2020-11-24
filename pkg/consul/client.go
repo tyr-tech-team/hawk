@@ -2,17 +2,18 @@ package consul
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
 	"github.com/hashicorp/consul/api"
-	"github.com/tyr-tech-team/hawk/env"
 	"github.com/tyr-tech-team/hawk/status"
 )
 
 // -
 const (
-	TTL = time.Duration(10 * time.Second)
+	TTL         = time.Duration(10 * time.Second)
+	AvalibeTime = time.Duration(5 * time.Second)
 )
 
 type client struct {
@@ -61,25 +62,26 @@ func (c *client) Register() error {
 // HealthCheck -
 func (c *client) healthCheck() {
 	go func(c *client) {
-		log.Println("health checking")
-		defer c.Deregister()
+		fmt.Println("in healthCheck")
 		for {
 			select {
 			case <-c.ctx.Done():
-				log.Printf("error: %v", c.ctx.Err())
+				fmt.Println("cancel healthcheck")
 				return
-			case <-time.After(c.config.TTL):
-				if err := c.healthcheck(); err != nil {
-					log.Println(err)
+			// 每五秒鐘更新一次狀態
+			default:
+				if err := c.updateHealth(); err != nil {
 					return
 				}
+				time.Sleep(AvalibeTime)
 			}
 		}
 	}(c)
 }
 
-func (c *client) healthcheck() error {
-	if err := c.consul.Agent().UpdateTTL(c.sRegistryConfig.ID, "", env.Pass); err != nil {
+func (c *client) updateHealth() error {
+	fmt.Println(time.Now().Format(time.RFC3339), " - healthcheck")
+	if err := c.consul.Agent().PassTTL(c.sRegistryConfig.ID, time.Now().Format(time.RFC3339)); err != nil {
 		return status.HealthCheckFailed.Err()
 	}
 	return nil
@@ -87,7 +89,12 @@ func (c *client) healthcheck() error {
 
 // Deregister -
 func (c *client) Deregister() error {
-	return c.consul.Agent().ServiceDeregister(c.sRegistryConfig.ID)
+	fmt.Println("deregister")
+	err := c.consul.Agent().ServiceDeregister(c.sRegistryConfig.ID)
+	if err != nil {
+		log.Fatalf("deregister failed ,%v  ", err)
+	}
+	return err
 }
 
 func (c *client) Close() {
