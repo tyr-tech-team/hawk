@@ -87,6 +87,7 @@ var (
 	// BuyOrder
 	CreatedBuyOrderFailed = NewStatus(LevelERROR, ServiceBuyOrder, GRPCAborted, ActionCreate, "建立收購訂單失敗", "create buyOrder failed")
 	// SMS
-	SmsFailedToSend = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "簡訊傳送失敗", "sms failed to send")
+	SmsFailedToSend       = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "簡訊傳送失敗", "sms failed to send")
+	SmsVerificationFailed = NewStatus(LevelERROR, ServiceSMS, GRPCInvalidArgument, ActionCheck, "驗證碼錯誤", "wrong sms code")
 	// IDCard
 )
