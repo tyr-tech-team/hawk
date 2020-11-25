@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
+	"github.com/tyr-tech-team/hawk/env"
+	"github.com/tyr-tech-team/hawk/pkg/traefik"
 )
 
 // Config -
@@ -19,33 +21,41 @@ type Config struct {
 
 // ServiceRegisterConfig -
 type ServiceRegisterConfig struct {
-	ID      string   `json:"id"`
-	Name    string   `json:"name"`
-	Tags    []string `json:"tags"`
-	Port    int      `json:"port"`
-	Address string   `json:"address"`
+	ID       string       `json:"id"`
+	Name     string       `json:"name"`
+	Tags     []string     `json:"tags"`
+	Port     int          `json:"port"`
+	Address  string       `json:"address"`
+	Traefik  bool         `json:"traefik"`
+	Protocol env.Protocol `json:"protocol"`
 }
 
 // ToAgentServiceRegistration -
 func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRegistration {
 	s.ID = fmt.Sprintf("%s-%s", s.Name, s.md5())
-	return &api.AgentServiceRegistration{
+	asr := &api.AgentServiceRegistration{
 		ID:      s.ID,
 		Name:    s.Name,
 		Address: s.Address,
 		Port:    s.Port,
-		Tags:    append(s.Tags, s.Name, s.ID),
+		Tags:    append(s.Tags, s.Name),
 		Check: &api.AgentServiceCheck{
 			CheckID: s.ID,
-			TTL:     TTL.String(),
+			TTL:     (TTL + time.Second).String(),
 			Timeout: time.Minute.String(),
 			// 成功幾次才叫成功
 			SuccessBeforePassing: 1,
 			// 錯誤幾次就失敗
-			FailuresBeforeCritical:         3,
-			DeregisterCriticalServiceAfter: time.Minute.String(),
+			FailuresBeforeCritical:         2,
+			DeregisterCriticalServiceAfter: time.Duration(3 * time.Second).String(),
 		},
 	}
+
+	if s.Traefik {
+		asr.Tags = append(asr.Tags, traefik.NewTags(asr.Name, s.Protocol)...)
+	}
+
+	return asr
 }
 
 func (s *ServiceRegisterConfig) md5() string {

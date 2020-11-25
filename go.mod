@@ -32,6 +32,7 @@ require (
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.3 // indirect
 	github.com/parnurzeal/gorequest v0.2.16
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
@@ -44,6 +45,7 @@ require (
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.uber.org/zap v1.16.0
 	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de // indirect
+	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b // indirect
 	golang.org/x/sync v0.0.0-20200317015054-43a5402ce75a // indirect
 	google.golang.org/grpc v1.29.1
 	google.golang.org/protobuf v1.25.0 // indirect
