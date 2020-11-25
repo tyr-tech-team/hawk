@@ -11,10 +11,10 @@ import (
 type zapSugaryLogger func(msg string, kv ...interface{})
 
 // New -
-func New(mode env.Mode) *zap.Logger {
+func New(mode env.Mode) *zap.SugaredLogger {
 	logger := zap.New(newCore(mode), zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
 
-	return logger
+	return logger.Sugar()
 }
 
 // newCore -
