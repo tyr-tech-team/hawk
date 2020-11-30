@@ -14,9 +14,8 @@ func TraceID(c *gin.Context) {
 	nctx := trace.SetTraceID(ctx, rid)
 
 	nctx = grpc.AppendTraceID(nctx, rid)
-	// GrpcRequestID -
 
 	c.Request = c.Request.WithContext(nctx)
-	c.Header("X-Request-Id", rid)
+	c.Header("X-Trace-Id", rid)
 	c.Next()
 }
