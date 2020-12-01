@@ -3,7 +3,7 @@ package json
 import (
 	"encoding/json"
 
-	"github.com/tyr-tech-team/hawk/config/encoder"
+	"github.com/tyr-tech-team/hawk/encoder"
 )
 
 //

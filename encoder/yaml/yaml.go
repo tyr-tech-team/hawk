@@ -1,9 +1,8 @@
 package yaml
 
 import (
-	"github.com/tyr-tech-team/hawk/config/encoder"
-
 	"github.com/ghodss/yaml"
+	"github.com/tyr-tech-team/hawk/encoder"
 )
 
 //
