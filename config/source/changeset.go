@@ -6,9 +6,8 @@ import (
 )
 
 // Sum - returns the md5 checksum of the ChangeSet data
-func (c *ChangeSet) Sum() string {
+func Sum(data []byte) string {
 	h := md5.New()
-	h.Write(c.Data)
+	h.Write(data)
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
-

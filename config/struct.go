@@ -6,7 +6,7 @@ type MongoDB struct {
 	User     string `json:"user" yaml:"user"`
 	Password string `json:"password" yaml:"password"`
 	Database string `json:"database" yaml:"database"`
-	SSL      bool   `json:"ssl" yaml:"ssl"`
+	Option
 }
 
 // Redis -
@@ -15,14 +15,18 @@ type Redis struct {
 	Password string `json:"password" yaml:"password"`
 	Database int    `json:"database" yaml:"database"`
 	TTL      int64  `json:"ttl" yaml:"ttl"`
+	Option
 }
 
 // Option -
 type Option struct {
-	MaxIdel int64
-	MinIdel int64
-	MaxConn int64
-	MinConn int64
+	SSL          bool  `json:"ssl" yaml:"ssl"`
+	PoolSize     int64 `json:"poolSize" yaml:"poolSize"`
+	MaxRetries   int64 `json:"maxRetries" yaml:"maxReties"`
+	MaxIdelConns int64 `json:"maxIdelConns" yaml:"maxIdelConns"`
+	MinIdelConns int64 `json:"minIdelConns" yaml:"minIdelConns"`
+	MaxConns     int64 `json:"maxConns" yaml:"maxConns"`
+	MinConns     int64 `json:"minConns" yaml:"minConns"`
 }
 
 // Nats -
@@ -36,4 +40,9 @@ type Service struct {
 // Log -
 type Log struct {
 	Level string `json:"level"`
+}
+
+// Info -
+type Info struct {
+	AppName string
 }

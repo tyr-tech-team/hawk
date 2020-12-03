@@ -17,9 +17,10 @@ type reader struct {
 }
 
 // NewReader -
-func NewReader(s source.Source) Reader {
+func NewReader(s source.Source, en encoder.Encoder) Reader {
 	return &reader{
-		s: s,
+		s:  s,
+		en: en,
 	}
 }
 

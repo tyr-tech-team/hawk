@@ -13,7 +13,5 @@ type Source interface {
 type ChangeSet struct {
 	Data      []byte
 	Checksum  string
-	Format    string
-	Source    string
 	Timestamp time.Time
 }
