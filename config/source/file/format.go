@@ -3,7 +3,7 @@ package file
 import (
 	"strings"
 
-	"github.com/tyr-tech-team/hawk/config/encoder"
+	"github.com/tyr-tech-team/hawk/encoder"
 )
 
 func format(p string, e encoder.Encoder) string {

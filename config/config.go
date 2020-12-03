@@ -8,7 +8,7 @@ import (
 // Reader -
 type Reader interface {
 	Read() ([]byte, error)
-	ReadWithStruct(value interface{}) error
+	ReadWith(value interface{}) error
 }
 
 type reader struct {
@@ -25,11 +25,19 @@ func NewReader(s source.Source) Reader {
 
 // Read - 讀取配置檔
 func (r reader) Read() ([]byte, error) {
-
-	return nil, nil
+	data, err := r.s.Read()
+	if err != nil {
+		return []byte{}, err
+	}
+	return data.Data, nil
 }
 
 // ReadWithStruct - 讀取至結構
-func (r reader) ReadWithStruct(value interface{}) error {
-	return nil
+func (r reader) ReadWith(value interface{}) error {
+	data, err := r.s.Read()
+	if err != nil {
+		return err
+	}
+
+	return r.en.Decode(data.Data, value)
 }

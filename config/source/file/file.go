@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/tyr-tech-team/hawk/config/source"
+	"github.com/tyr-tech-team/hawk/encoder"
 )
 
 // -
@@ -18,8 +19,8 @@ const (
 )
 
 type file struct {
-	path string
-	opts source.Options
+	path    string
+	encoder encoder.Encoder
 }
 
 func (f *file) Read() (*source.ChangeSet, error) {
@@ -38,7 +39,7 @@ func (f *file) Read() (*source.ChangeSet, error) {
 	}
 
 	cs := &source.ChangeSet{
-		Format:    format(f.path, f.opts.Encoder),
+		Format:    format(f.path, f.encoder),
 		Source:    f.String(),
 		Timestamp: info.ModTime(),
 		Data:      b,
@@ -53,14 +54,10 @@ func (f *file) String() string {
 }
 
 // NewSource -
-func NewSource(opts ...source.Option) source.Source {
-	options := source.NewOptions(opts...)
-	path := DefaultPath
-
-	f, ok := options.Context.Value(filePathKey{}).(string)
-	if ok {
-		path = f
+func NewSource(path string, e encoder.Encoder) source.Source {
+	if path == "" {
+		path = DefaultPath
 	}
 
-	return &file{opts: options, path: path}
+	return &file{path: path}
 }
