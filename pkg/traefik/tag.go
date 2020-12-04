@@ -10,6 +10,7 @@ import (
 func NewTags(name string, protocol env.Protocol) []string {
 	tags := []string{
 		"traefik.enable=true",
+		fmt.Sprintf("traefik.http.routers.%s.rule=Host(`%s.traefik`)", name, name),
 		fmt.Sprintf("traefik.http.routers.%s.service=%s-service", name, name),
 		fmt.Sprintf("traefik.http.routers.%s.middlewares=latency-check,do-retry", name),
 		fmt.Sprintf("traefik.http.services.%s-service.loadbalancer.passhostheader=true", name),
