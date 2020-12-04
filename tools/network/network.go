@@ -1,18 +1,20 @@
-package tools
+package network
 
 import (
+	"io/ioutil"
 	"net"
+	"net/http"
 	"strconv"
 	"strings"
-
-	"github.com/parnurzeal/gorequest"
 )
 
+//
 const (
-	IPIFY = "https://api.ipify.org?format=json"
+	IPIFY        = "https://api.ipify.org?format=json"
+	IPIFCONFIGME = "https://ifconfig.me/ip"
 )
 
-// LocalIP -
+// LocalIP - 取得目前本地IP
 func LocalIP() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -28,7 +30,7 @@ func LocalIP() string {
 	return ""
 }
 
-// HostIP -
+// HostIP - 取得目前本機IP
 func HostIP() string {
 	con, _ := net.Dial("udp", "8.8.8.8:80")
 	defer con.Close()
@@ -37,20 +39,21 @@ func HostIP() string {
 	return xip[0]
 }
 
-// PublishIP -
+// PublishIP - 取的目前對外IP
 func PublishIP() string {
-	r := gorequest.New()
-	x := struct {
-		IP string `json:"ip"`
-	}{}
-
-	_, _, errs := r.Get(IPIFY).EndStruct(&x)
-	for _, err := range errs {
-		if err != nil {
-			return ""
-		}
+	resp, err := http.Get(IPIFCONFIGME)
+	if err != nil {
+		return ""
 	}
-	return x.IP
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return ""
+	}
+
+	return string(body)
 }
 
 // GetFreePort - 取得目前可以使用的 Port

@@ -6,7 +6,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/tyr-tech-team/hawk/config/source"
-	"github.com/tyr-tech-team/hawk/encoder"
 	"github.com/tyr-tech-team/hawk/pkg/consul"
 )
 
@@ -18,7 +17,7 @@ func Test_ConsulConfig(t *testing.T) {
 
 	s := source.NewConsul(cli, "auth")
 
-	r := NewReader(s, encoder.YAML)
+	r := NewReader(s, YAML)
 	d, err := r.Read()
 	assert.NoError(t, err)
 	assert.NotEmpty(t, d)
