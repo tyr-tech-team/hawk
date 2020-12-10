@@ -38,6 +38,5 @@ func (r reader) ReadWith(value interface{}) error {
 	if err != nil {
 		return err
 	}
-
 	return r.en.Decode(data.Data, value)
 }

@@ -85,5 +85,6 @@ func (z *zaplog) WithError(err error) *zaplog {
 }
 
 func (z *zaplog) WithContext(ctx context.Context) *zaplog {
+
 	return z
 }
