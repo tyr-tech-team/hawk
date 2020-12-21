@@ -18,3 +18,13 @@ type Logger interface {
 	WithError(err error) Logger
 	WithContext(ctx context.Context) Logger
 }
+
+// NewZapLogger --
+func NewZapLogger() {
+
+}
+
+// NewLogrusLogger -
+func NewLogrusLogger() {
+
+}

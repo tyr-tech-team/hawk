@@ -1,4 +1,4 @@
-package encoder
+package config
 
 import (
 	"gopkg.in/yaml.v2"

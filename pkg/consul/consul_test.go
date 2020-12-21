@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/tyr-tech-team/hawk/srv"
 )
 
 var testCli Client
@@ -17,7 +18,7 @@ func Test_NewClient(t *testing.T) {
 }
 
 func Test_Register(t *testing.T) {
-	testCli.SetRegisterConfig(&ServiceRegisterConfig{
+	testCli.SetRegisterConfig(srv.ServiceRegisterConfig{
 		Name:    "test",
 		Tags:    []string{"dev-test"},
 		Port:    10800,

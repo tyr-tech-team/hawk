@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/tyr-tech-team/hawk/config/source"
-	"github.com/tyr-tech-team/hawk/encoder"
 )
 
 // Reader -
@@ -13,11 +12,11 @@ type Reader interface {
 
 type reader struct {
 	s  source.Source
-	en encoder.Encoder
+	en Encoder
 }
 
 // NewReader -
-func NewReader(s source.Source, en encoder.Encoder) Reader {
+func NewReader(s source.Source, en Encoder) Reader {
 	return &reader{
 		s:  s,
 		en: en,
@@ -39,6 +38,5 @@ func (r reader) ReadWith(value interface{}) error {
 	if err != nil {
 		return err
 	}
-
 	return r.en.Decode(data.Data, value)
 }

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
+	"github.com/tyr-tech-team/hawk/srv"
 	"github.com/tyr-tech-team/hawk/status"
 )
 
@@ -49,14 +50,19 @@ func (c *client) Set(key string, value []byte) error {
 }
 
 // SetRegisterConfig -
-func (c *client) SetRegisterConfig(config *ServiceRegisterConfig) {
-	c.sRegistryConfig = config.ToAgentServiceRegistration()
+func (c *client) SetRegisterConfig(config srv.ServiceRegisterConfig) {
+	c.sRegistryConfig = ToAgentServiceRegistration(config)
 }
 
 // Register -
 func (c *client) Register() error {
 	defer c.healthCheck()
-	return c.consul.Agent().ServiceRegister(c.sRegistryConfig)
+	err := c.consul.Agent().ServiceRegister(c.sRegistryConfig)
+	if err != nil {
+		return status.ConnectFailed.WithDetail(err.Error()).Err()
+	}
+
+	return nil
 }
 
 // HealthCheck -
@@ -81,8 +87,7 @@ func (c *client) healthCheck() {
 
 func (c *client) updateHealth() error {
 	if err := c.consul.Agent().PassTTL(c.sRegistryConfig.ID, ""); err != nil {
-		fmt.Println("pass failed", err)
-		return status.HealthCheckFailed.Err()
+		return status.HealthCheckFailed.WithDetail(err.Error()).Err()
 	}
 	return nil
 }
@@ -93,7 +98,7 @@ func (c *client) Deregister() error {
 	if err != nil {
 		log.Fatalf("deregister failed ,%v  ", err)
 	}
-	return err
+	return nil
 }
 
 func (c *client) Close() {

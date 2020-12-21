@@ -1,4 +1,4 @@
-package encoder
+package config
 
 // Encoder -
 type Encoder interface {

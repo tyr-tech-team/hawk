@@ -1,15 +1,12 @@
 package consul
 
 import (
-	"crypto/md5"
-	"crypto/rand"
-	"encoding/hex"
 	"fmt"
 	"time"
 
 	"github.com/hashicorp/consul/api"
-	"github.com/tyr-tech-team/hawk/env"
 	"github.com/tyr-tech-team/hawk/pkg/traefik"
+	"github.com/tyr-tech-team/hawk/srv"
 )
 
 // Config -
@@ -19,20 +16,9 @@ type Config struct {
 	TTL     time.Duration
 }
 
-// ServiceRegisterConfig -
-type ServiceRegisterConfig struct {
-	ID       string       `json:"id"`
-	Name     string       `json:"name"`
-	Tags     []string     `json:"tags"`
-	Port     int          `json:"port"`
-	Address  string       `json:"address"`
-	Traefik  bool         `json:"traefik"`
-	Protocol env.Protocol `json:"protocol"`
-}
-
 // ToAgentServiceRegistration -
-func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRegistration {
-	s.ID = fmt.Sprintf("%s-%s", s.Name, s.md5())
+func ToAgentServiceRegistration(s srv.ServiceRegisterConfig) *api.AgentServiceRegistration {
+	s.ID = fmt.Sprintf("%s-%v", s.Name, time.Now().UnixNano())
 	asr := &api.AgentServiceRegistration{
 		ID:      s.ID,
 		Name:    s.Name,
@@ -56,12 +42,6 @@ func (s *ServiceRegisterConfig) ToAgentServiceRegistration() *api.AgentServiceRe
 	}
 
 	return asr
-}
-
-func (s *ServiceRegisterConfig) md5() string {
-	var h [8]byte
-	rand.Read(h[:])
-	return hex.EncodeToString(md5.New().Sum(h[:]))
 }
 
 // DefaultConsulConfig -
