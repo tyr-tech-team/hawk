@@ -12,7 +12,7 @@ func (s ServiceCode) String() string {
 //
 const (
 	ServiceNONE          ServiceCode = iota // 0
-	ServiceNormal                           //1
+	ServiceNormal                           // 1
 	ServiceAuth                             // 2
 	ServiceCard                             // 3
 	ServiceEventLog                         // 4
@@ -32,4 +32,5 @@ const (
 	ServiceRBAC                             // 18
 	ServiceBgmGateway                       // 19
 	ServiceOfficeGateway                    // 20
+	ServiceBlog                             // 21
 )
