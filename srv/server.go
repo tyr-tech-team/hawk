@@ -1,7 +1,6 @@
 package srv
 
 import (
-	"fmt"
 	"net"
 )
 
@@ -18,7 +17,7 @@ type server struct {
 // New -
 func New() Server {
 
-	listener, err := net.Listen("tcp", fmt.Sprintf(""))
+	//listener, err := net.Listen("tcp", fmt.Sprintf(""))
 
 	return nil
 }
