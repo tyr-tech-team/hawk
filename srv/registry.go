@@ -2,7 +2,7 @@ package srv
 
 // Register -
 type Register interface {
-	SetRegisterConfig(s ServiceRegisterConfig) error
+	SetRegisterConfig(s ServiceRegisterConfig)
 	Register() error
 	Deregister() error
 	Close()
