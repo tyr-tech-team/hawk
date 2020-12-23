@@ -3,6 +3,7 @@ package source
 import (
 	"time"
 
+	"github.com/tyr-tech-team/hawk/config"
 	"github.com/tyr-tech-team/hawk/pkg/consul"
 )
 
@@ -12,19 +13,19 @@ type consulClient struct {
 }
 
 // NewConsul -
-func NewConsul(client consul.Client, key string) Source {
+func NewConsul(client consul.Client, key string) config.Source {
 	return consulClient{
 		client: client,
 		key:    key,
 	}
 }
 
-func (c consulClient) Read() (*ChangeSet, error) {
+func (c consulClient) Read() (*config.ChangeSet, error) {
 	b, err := c.client.Get(c.key)
 	if err != nil {
 		return nil, err
 	}
-	return &ChangeSet{
+	return &config.ChangeSet{
 		Data:      b,
 		Checksum:  Sum(b),
 		Timestamp: time.Now(),
