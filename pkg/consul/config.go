@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
+	"github.com/tyr-tech-team/hawk/config"
 	"github.com/tyr-tech-team/hawk/pkg/traefik"
-	"github.com/tyr-tech-team/hawk/srv"
 )
 
 // Config -
@@ -17,7 +17,7 @@ type Config struct {
 }
 
 // ToAgentServiceRegistration -
-func ToAgentServiceRegistration(s srv.ServiceRegisterConfig) *api.AgentServiceRegistration {
+func ToAgentServiceRegistration(s config.ServiceRegister) *api.AgentServiceRegistration {
 	s.ID = fmt.Sprintf("%s-%v", s.Name, time.Now().UnixNano())
 	asr := &api.AgentServiceRegistration{
 		ID:      s.ID,
