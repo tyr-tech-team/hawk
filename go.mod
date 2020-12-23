@@ -10,6 +10,7 @@ require (
 	github.com/kataras/iris/v12 v12.1.8
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/stretchr/testify v1.6.1
+	go.mongodb.org/mongo-driver v1.4.4
 	go.uber.org/zap v1.16.0
 	google.golang.org/grpc v1.34.0
 	gopkg.in/yaml.v2 v2.4.0

@@ -2,27 +2,31 @@ package config
 
 import "time"
 
-// Config - 基礎配置檔
-type Config struct {
+// DefaultConfig - 基礎配置檔
+type DefaultConfig struct {
 	Info    Info    `json:"info" yaml:"info"`
 	Service Service `json:"service" yaml:"service"`
-	Mongo   MongoDB `json:"mongo" yaml:"mongo"`
+	Mongo   Mongo   `json:"mongo" yaml:"mongo"`
 	Redis   Redis   `json:"redis" yaml:"redis"`
 	Nats    Nats    `json:"nats" yaml:"nats"`
+	Log     Log     `json:"log" yaml:"log"`
 }
 
-// MongoDB - Mongo資料庫配置檔
-type MongoDB struct {
-	Hosts    string `json:"host" yaml:"host"`
-	User     string `json:"user" yaml:"user"`
-	Password string `json:"password" yaml:"password"`
-	Database string `json:"database" yaml:"database"`
+// Mongo - Mongo資料庫配置檔
+type Mongo struct {
+	Name       string `json:"name" yaml:"name"`
+	Host       string `json:"host" yaml:"host"`
+	Hosts      string `json:"hosts" yaml:"hosts"`
+	User       string `json:"user" yaml:"user"`
+	Password   string `json:"password" yaml:"password"`
+	Database   string `json:"database" yaml:"database"`
+	ReplicaSet string `json:"replicaSet" yaml:"replicaSet"`
 	DatabaseOption
 }
 
 // Redis - Redis 資料庫配置
 type Redis struct {
-	Hosts    string `json:"host" yaml:"host"`
+	Host     string `json:"host" yaml:"host"`
 	Password string `json:"password" yaml:"password"`
 	Database int    `json:"database" yaml:"database"`
 	TTL      int64  `json:"ttl" yaml:"ttl"`
@@ -31,13 +35,17 @@ type Redis struct {
 
 // DatabaseOption - 資料庫額外參數
 type DatabaseOption struct {
-	SSL          bool  `json:"ssl" yaml:"ssl"`
-	PoolSize     int64 `json:"poolSize" yaml:"poolSize"`
-	MaxRetries   int64 `json:"maxRetries" yaml:"maxReties"`
-	MaxIdelConns int64 `json:"maxIdelConns" yaml:"maxIdelConns"`
-	MinIdelConns int64 `json:"minIdelConns" yaml:"minIdelConns"`
-	MaxConns     int64 `json:"maxConns" yaml:"maxConns"`
-	MinConns     int64 `json:"minConns" yaml:"minConns"`
+	SSL               bool          `json:"ssl" yaml:"ssl"`
+	MaxPoolSize       uint64        `json:"maxPoolSize" yaml:"maxPoolSize"`
+	MinPoolSize       uint64        `json:"minPoolSize" yaml:"minPoolSize"`
+	MaxRetries        int64         `json:"maxRetries" yaml:"maxReties"`
+	MaxIdelConns      int64         `json:"maxIdelConns" yaml:"maxIdelConns"`
+	MinIdelConns      uint64        `json:"minIdelConns" yaml:"minIdelConns"`
+	MaxConns          int64         `json:"maxConns" yaml:"maxConns"`
+	MinConns          int64         `json:"minConns" yaml:"minConns"`
+	MaxConnIdleTime   time.Duration `json:"maxConnIdleTime" yaml:"maxConnIdleTime"`
+	HeartbeatInterval time.Duration `json:"heartbeatInterval" yaml:"heartbeatInterval"`
+	Direct            bool          `json:"direct" yaml:"direct"`
 }
 
 // Nats -
@@ -55,11 +63,22 @@ type Log struct {
 
 // Info - 服務基本資訊
 type Info struct {
-	Name   string `json:"Name" yaml:"Name"`
-	Host   string `json:"host" yaml:"host"`
-	Port   string `json:"port" yaml:"port"`
-	Consul string `json:"consul" yaml:"consul"`
-	Mode   string `json:"mode"`
+	// Name - 服務名稱
+	Name string `json:"Name" yaml:"Name"`
+	// RemoteHost -  遠端Config 位置
+	RemoteHost string `json:"remoteHost" yaml:"remoteHost"`
+	// Port - 監聽通訊埠
+	Port string `json:"port" yaml:"port"`
+	// Host -  監聽網路介面
+	Host string `json:"host" yaml:"host"`
+	// Mod - 啟動模式
+	Mode string `json:"mode"`
+	// Version -  版本號
+	Version string `json:"version" yaml:"version"`
+	// Git commit
+	Commit string `json:"commit" yaml:"commit"`
+	// Build - 建置時間
+	Build string `json:"build" yaml:"build"`
 }
 
 // ServiceRegister - 服務註冊使用配置檔

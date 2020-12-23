@@ -32,15 +32,15 @@ type server struct {
 
 // New -
 func New(opts ...Options) Server {
-	s := server{}
+	s := &server{}
 	for _, v := range opts {
-		v(&s)
+		v(s)
 	}
 
 	s.newTCPListener()
 	s.setServiceRegister()
 
-	return s
+	return *s
 }
 
 // Listener -
@@ -54,7 +54,6 @@ func (s server) GetHost() string {
 
 // Close -
 func (s server) Close() {
-	s.Deregister()
 	s.listener.Close()
 }
 
