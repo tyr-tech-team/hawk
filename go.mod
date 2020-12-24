@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gin-gonic/gin v1.6.3
+	github.com/go-redis/redis/v8 v8.4.4
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/hashicorp/consul/api v1.8.1
 	github.com/kataras/iris/v12 v12.1.8
