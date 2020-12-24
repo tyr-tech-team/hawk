@@ -28,4 +28,6 @@ const (
 	DefaultMaxPoolSize uint64 = 5
 	// DefaultMinPoolSize - 初始最小連接池數量
 	DefaultMinPoolSize uint64 = 3
+	// DefaultMaxRetries - 最大重試次數
+	DefaultMaxRetries int = 3
 )
