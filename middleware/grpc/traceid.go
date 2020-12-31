@@ -4,7 +4,6 @@ import (
 	"context"
 
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
-	"github.com/tyr-tech-team/hawk/env"
 	"github.com/tyr-tech-team/hawk/trace"
 	"google.golang.org/grpc/metadata"
 )
@@ -16,7 +15,7 @@ func TraceID(ctx context.Context) (context.Context, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if ok {
 		// 如果有 metadata 的話，檢查是否有 RequestID
-		value := md.Get(env.TraceID.String())
+		value := md.Get(string(trace.TraceID))
 		if len(value) > 0 && value[0] != "" {
 			// 如果有RequestID 則覆用
 			tid = value[0]
@@ -30,7 +29,7 @@ func TraceID(ctx context.Context) (context.Context, error) {
 	nctx := trace.SetTraceID(ctx, tid)
 
 	// TODO: 取代
-	grpc_ctxtags.Extract(ctx).Set(env.TraceID.String(), tid)
+	grpc_ctxtags.Extract(ctx).Set(string(trace.TraceID), tid)
 
 	// 將 TraceID 附加到 OutgoingContext
 	return AppendTraceID(nctx, tid), nil
@@ -38,5 +37,5 @@ func TraceID(ctx context.Context) (context.Context, error) {
 
 // AppendTraceID -
 func AppendTraceID(ctx context.Context, id string) context.Context {
-	return metadata.AppendToOutgoingContext(ctx, env.TraceID.String(), id)
+	return metadata.AppendToOutgoingContext(ctx, string(trace.TraceID), id)
 }

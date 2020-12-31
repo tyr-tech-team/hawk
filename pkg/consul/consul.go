@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/consul/api"
+	"github.com/tyr-tech-team/hawk/srv"
 )
 
 // Client -
@@ -12,7 +13,7 @@ type Client interface {
 	Client() *api.Client
 	Get(key string) ([]byte, error)
 	Set(key string, value []byte) error
-	SetRegisterConfig(r *ServiceRegisterConfig)
+	SetRegisterConfig(r srv.ServiceRegisterConfig)
 	Register() error
 	Deregister() error
 	Close()

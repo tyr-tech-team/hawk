@@ -4,7 +4,14 @@ import (
 	"context"
 
 	"github.com/bwmarrin/snowflake"
-	"github.com/tyr-tech-team/hawk/env"
+)
+
+// ContextKey -
+type ContextKey string
+
+//
+const (
+	TraceID ContextKey = "traceID"
 )
 
 var r traceID
@@ -29,7 +36,7 @@ func (c traceID) GenerateID() string {
 
 // GetTraceID -
 func GetTraceID(ctx context.Context) string {
-	data := ctx.Value(env.TraceID)
+	data := ctx.Value(TraceID)
 	if data != nil {
 		if id, ok := data.(string); ok {
 			return id
@@ -46,7 +53,7 @@ func SetTraceID(ctx context.Context, id ...string) context.Context {
 	} else {
 		rid = r.GenerateID()
 	}
-	return context.WithValue(ctx, env.TraceID, rid)
+	return context.WithValue(ctx, TraceID, rid)
 }
 
 // NewTraceID -

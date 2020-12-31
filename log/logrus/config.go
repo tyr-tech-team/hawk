@@ -1,0 +1,5 @@
+package logrus
+
+func NewLogger() {
+
+}

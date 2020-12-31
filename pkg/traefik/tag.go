@@ -3,13 +3,14 @@ package traefik
 import (
 	"fmt"
 
-	"github.com/tyr-tech-team/hawk/env"
+	"github.com/tyr-tech-team/hawk/srv"
 )
 
 // NewTags -
-func NewTags(name string, protocol env.Protocol) []string {
+func NewTags(name string, protocol srv.Protocol) []string {
 	tags := []string{
 		"traefik.enable=true",
+		fmt.Sprintf("traefik.http.routers.%s.rule=Host(`%s.traefik`)", name, name),
 		fmt.Sprintf("traefik.http.routers.%s.service=%s-service", name, name),
 		fmt.Sprintf("traefik.http.routers.%s.middlewares=latency-check,do-retry", name),
 		fmt.Sprintf("traefik.http.services.%s-service.loadbalancer.passhostheader=true", name),
@@ -29,10 +30,10 @@ func httpMiddlewareTags() []string {
 	}
 }
 
-func traefikScheme(p env.Protocol) string {
+func traefikScheme(p srv.Protocol) string {
 	scheme := "http"
 	switch p {
-	case env.GRPC:
+	case srv.GRPC:
 		scheme = "h2c"
 	}
 	return scheme
