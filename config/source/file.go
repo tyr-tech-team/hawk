@@ -3,6 +3,8 @@ package source
 import (
 	"io/ioutil"
 	"os"
+
+	"github.com/tyr-tech-team/hawk/config"
 )
 
 // -
@@ -10,16 +12,20 @@ var (
 	DefaultPath = "config.json"
 )
 
-// -
-const (
-	FILE = "file"
-)
-
 type file struct {
 	path string
 }
 
-func (f *file) Read() (*ChangeSet, error) {
+// NewFile -
+func NewFile(path string) config.Source {
+	if path == "" {
+		path = DefaultPath
+	}
+
+	return &file{path: path}
+}
+
+func (f *file) Read() (*config.ChangeSet, error) {
 	fh, err := os.Open(f.path)
 	if err != nil {
 		return nil, err
@@ -34,24 +40,11 @@ func (f *file) Read() (*ChangeSet, error) {
 		return nil, err
 	}
 
-	cs := &ChangeSet{
+	cs := &config.ChangeSet{
 		Timestamp: info.ModTime(),
 		Checksum:  Sum(b),
 		Data:      b,
 	}
 
 	return cs, nil
-}
-
-func (f *file) String() string {
-	return FILE
-}
-
-// NewFile -
-func NewFile(path string) Source {
-	if path == "" {
-		path = DefaultPath
-	}
-
-	return &file{path: path}
 }

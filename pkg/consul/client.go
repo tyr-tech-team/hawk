@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/consul/api"
-	"github.com/tyr-tech-team/hawk/srv"
+	"github.com/tyr-tech-team/hawk/config"
 	"github.com/tyr-tech-team/hawk/status"
 )
 
@@ -50,8 +50,8 @@ func (c *client) Set(key string, value []byte) error {
 }
 
 // SetRegisterConfig -
-func (c *client) SetRegisterConfig(config srv.ServiceRegisterConfig) {
-	c.sRegistryConfig = ToAgentServiceRegistration(config)
+func (c *client) SetRegisterConfig(cfg config.ServiceRegister) {
+	c.sRegistryConfig = ToAgentServiceRegistration(cfg)
 }
 
 // Register -

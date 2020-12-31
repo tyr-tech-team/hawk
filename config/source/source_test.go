@@ -10,9 +10,7 @@ import (
 )
 
 func createFile() {
-
 	data := []byte("{\"name\": \"jame\" , \"age\":10}")
-
 	f, err := os.Create("test.json")
 	if err != nil {
 		panic(err)
@@ -32,10 +30,6 @@ func deleteFile() {
 	if err != nil {
 		panic(err)
 	}
-
-}
-
-func setconsul() {
 
 }
 

@@ -1,22 +1,23 @@
 package config
 
-import (
-	"github.com/tyr-tech-team/hawk/config/source"
-)
-
 // Reader -
 type Reader interface {
 	Read() ([]byte, error)
 	ReadWith(value interface{}) error
 }
 
+// Source -
+type Source interface {
+	Read() (*ChangeSet, error)
+}
+
 type reader struct {
-	s  source.Source
+	s  Source
 	en Encoder
 }
 
 // NewReader -
-func NewReader(s source.Source, en Encoder) Reader {
+func NewReader(s Source, en Encoder) Reader {
 	return &reader{
 		s:  s,
 		en: en,
