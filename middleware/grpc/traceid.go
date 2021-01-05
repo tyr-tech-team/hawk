@@ -17,7 +17,7 @@ func TraceID(ctx context.Context) (context.Context, error) {
 		// 如果有 metadata 的話，檢查是否有 RequestID
 		value := md.Get(string(trace.TraceID))
 		if len(value) > 0 && value[0] != "" {
-			// 如果有RequestID 則覆用
+			// 如果有TraceID 則覆用
 			tid = value[0]
 		}
 	}

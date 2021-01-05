@@ -16,7 +16,6 @@ type DefaultConfig struct {
 type Mongo struct {
 	Name       string `json:"name" yaml:"name"`
 	Host       string `json:"host" yaml:"host"`
-	Hosts      string `json:"hosts" yaml:"hosts"`
 	User       string `json:"user" yaml:"user"`
 	Password   string `json:"password" yaml:"password"`
 	Database   string `json:"database" yaml:"database"`

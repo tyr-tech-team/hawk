@@ -1,5 +1,1 @@
 package logrus
-
-func NewLogger() {
-
-}
