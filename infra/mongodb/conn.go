@@ -3,6 +3,7 @@ package mongodb
 import (
 	"context"
 	"crypto/tls"
+	"log"
 	"strings"
 
 	"github.com/tyr-tech-team/hawk/config"
@@ -14,7 +15,7 @@ import (
 // NewDial -
 func NewDial(c config.Mongo) (*mongo.Client, error) {
 
-	ctx, cancel := context.WithTimeout(context.TODO(), config.DefaultTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), config.DefaultTimeout)
 	defer cancel()
 
 	opts := options.Client()
@@ -72,10 +73,12 @@ func NewDial(c config.Mongo) (*mongo.Client, error) {
 	}
 
 	if err := client.Connect(ctx); err != nil {
+		log.Fatal("connect failed in mongo", err)
 		return nil, err
 	}
 
-	if err := client.Ping(ctx, readpref.Nearest()); err != nil {
+	if err := client.Ping(ctx, readpref.Primary()); err != nil {
+		log.Fatal("ping failed in mongo", err)
 		return nil, err
 	}
 
