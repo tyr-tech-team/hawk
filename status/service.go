@@ -33,5 +33,5 @@ const (
 	ServiceBgmGateway                       // 19
 	ServiceOfficeGateway                    // 20
 	ServiceBlog                             // 21
-	ServiceCategory
+	ServiceCategory                         // 22
 )
