@@ -12,7 +12,7 @@ import (
 func TraceID() context.Handler {
 	return func(ctx context.Context) {
 		r := ctx.Request()
-		rid := fmt.Sprintf("web:%s", trace.NewTraceID())
+		rid := fmt.Sprintf("%s", trace.NewTraceID())
 
 		nctx := trace.SetTraceID(r.Context(), rid)
 		nctx = grpc.AppendTraceID(nctx, rid)
