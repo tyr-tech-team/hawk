@@ -45,7 +45,7 @@ func LoggerWithLogrus(log *logrus.Entry) iris.Handler {
 		l.HTTPCode = ctx.GetStatusCode()
 		l.Raw = ctx.Request().URL.RawFragment
 		l.Size = ctx.GetContentLength()
-		l.ErrorMessage = ctx.Values().Get("error").(error)
+		l.ErrorMessage = ctx.Values().Get("error")
 
 		log = log.WithFields(logrus.Fields{
 			"traceid":  l.TraceID,
