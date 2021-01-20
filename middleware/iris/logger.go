@@ -61,7 +61,7 @@ func LoggerWithLogrus(log *logrus.Entry) iris.Handler {
 			"raw":      l.Raw,
 		})
 
-		if l.ErrorMessage != "" {
+		if l.ErrorMessage != nil {
 			log.Errorln("failed request")
 		} else {
 			log.Infoln("success request")
