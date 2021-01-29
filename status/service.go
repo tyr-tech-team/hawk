@@ -35,4 +35,5 @@ const (
 	ServiceBlog                             // 21
 	ServiceCategory                         // 22
 	ServiceCatalog                          // 23
+	ServiceQuickFilter                      // 24
 )

@@ -33,8 +33,8 @@ var (
 	CardInvalidParemeter = NewStatus(LevelWARNING, ServiceCard, GRPCInvalidArgument, ActionCheck, "卡片參數錯誤", "invalid card parameter")
 	CardWasNotEmpty      = NewStatus(LevelERROR, ServiceCard, GRPCAlreadyExists, ActionCheck, "卡片不是空的", "card was not empty")
 	CardNotFound         = NewStatus(LevelWARNING, ServiceCard, GRPCNotFound, ActionCheck, "找不到卡片紀錄", "card not found")
-	CardCreateFailed     = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionCreate, "建立卡片失敗", "create card failed")
-	CardUpdateFailed     = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionUpdate, "更新卡片失敗", "update card failed")
+	CardCreatedFailed    = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionCreate, "建立卡片失敗", "create card failed")
+	CardUpdatedFailed    = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionUpdate, "更新卡片失敗", "update card failed")
 	CardRevokeFailed     = NewStatus(LevelERROR, ServiceCard, GRPCAborted, ActionDelete, "卡片註銷失敗", "Revoke card failed")
 	CardCheckFailed      = NewStatus(LevelWARNING, ServiceCard, GRPCFailedPrecondition, ActionCheck, "卡片檢查失敗", "check card failed")
 	// EventLog
@@ -52,7 +52,7 @@ var (
 	// Member -
 	MemberInvalidParameter = NewStatus(LevelWARNING, ServiceMember, GRPCInvalidArgument, ActionCheck, "錯誤的會員參數", "invalid member parameter ")
 	MemberNotFound         = NewStatus(LevelWARNING, ServiceMember, GRPCNotFound, ActionFind, "找不到會員", "member not found")
-	MemberCreateFailed     = NewStatus(LevelERROR, ServiceMember, GRPCAborted, ActionCreate, "建立會員失敗", "create member failed")
+	MemberCreatedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, ActionCreate, "建立會員失敗", "create member failed")
 	MemberUpdatedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, ActionUpdate, "更新會員資訊失敗", "update member failed")
 	MemberDeletedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, ActionDelete, "刪除會員失敗", "delete member failed")
 	// NfcReader -
@@ -89,5 +89,23 @@ var (
 	// SMS
 	SmsFailedToSend       = NewStatus(LevelERROR, ServiceSMS, GRPCUnknown, ActionCallAPI, "簡訊傳送失敗", "sms failed to send")
 	SmsVerificationFailed = NewStatus(LevelERROR, ServiceSMS, GRPCInvalidArgument, ActionCheck, "驗證碼錯誤", "wrong sms code")
-	// IDCard
+	// Category
+	CategorySortCheckFailed = NewStatus(LevelWARNING, ServiceCategory, GRPCInvalidArgument, ActionCheck, "分類更新排序檢查失敗", "category sort check failed")
+	CategoryWasUsed         = NewStatus(LevelWARNING, ServiceCategory, GRPCFailedPrecondition, ActionUse, "分類已被使用", "category was used ")
+	CategoryHasQuickFilter  = NewStatus(LevelWARNING, ServiceCategory, GRPCFailedPrecondition, ActionExist, "分類下已有快篩", "Category has quickfilter")
+	CategoryDeletedFailed   = NewStatus(LevelERROR, ServiceCategory, GRPCAborted, ActionDelete, "分類刪除失敗", "Category delete failed")
+	CategoryUpdatedFailed   = NewStatus(LevelERROR, ServiceCategory, GRPCAborted, ActionUpdate, "分類更新失敗", "Category update failed")
+	CategoryCreatedFailed   = NewStatus(LevelERROR, ServiceCategory, GRPCAborted, ActionCreate, "分類建立失敗", "Category create failed")
+	CategoryNotFound        = NewStatus(LevelWARNING, ServiceCategory, GRPCNotFound, ActionFind, "找不到此分類", "Category not found")
+	CategoryWasExisted      = NewStatus(LevelERROR, ServiceCategory, GRPCAlreadyExists, ActionExist, "分類已存在", "Category was existed")
+
+	// QuickFilterBeUsed -
+	QuickFilterBeUsed            = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCAlreadyExists, ActionUse, "快篩商品已被使用", "quickfilter be used")
+	QuickFilterDeletedFailed     = NewStatus(LevelERROR, ServiceQuickFilter, GRPCAborted, ActionDelete, "快篩刪除失敗", "quickfilter delete filed")
+	QuickFilterUpdatedFailed     = NewStatus(LevelERROR, ServiceQuickFilter, GRPCAborted, ActionUpdate, "快篩更新失敗", "quickfilter delete filed")
+	QuickFilterCreatedFailed     = NewStatus(LevelERROR, ServiceQuickFilter, GRPCAborted, ActionCreate, "快篩建立失敗", "quickfilter created filed")
+	QuickFilterNotFound          = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCNotFound, ActionCreate, "找不到此快篩", "quickfilter not found")
+	QuickFilterWasExisted        = NewStatus(LevelERROR, ServiceQuickFilter, GRPCAlreadyExists, ActionExist, "快篩已存在", "quickfilter was existed")
+	QuickFilterCreatedOutOfRange = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCOutOfRange, ActionCreate, "建立快篩數量超出範圍", "created quickfilter out of range")
+	QuickFilterInvalidParameter  = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCInvalidArgument, ActionCheck, "快篩參數錯誤", "quickfilter have invalid parameter")
 )
