@@ -47,6 +47,18 @@ const (
 	ActionPay
 	// 退款
 	ActionRefund
-	//
+	// 健康檢查
 	ActionHealthCheck
+	// 取消
+	ActionCancel
+	// 使用
+	ActionUse
+	// 啟用
+	ActionEnable
+	// 禁用
+	ActionDisable
+	// 返回
+	ActionReturn
+	// 已存在
+	ActionExist
 )
