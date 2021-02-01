@@ -4,5 +4,6 @@ package ctxtags
 type ContextKey string
 
 const (
+	// TraceID -
 	TraceID ContextKey = "traceID"
 )

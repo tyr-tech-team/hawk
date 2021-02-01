@@ -1,6 +1,6 @@
 package ctxtags
 
 // CtxTags -
-type ctxTags struct {
+type CtxTags struct {
 	tags map[string]interface{}
 }
