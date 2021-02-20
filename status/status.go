@@ -14,12 +14,12 @@ type status struct {
 }
 
 // NewStatus - 新增狀態碼
-func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, actionCode ActionCode, msg string, emsg ...string) Status {
+func NewStatus(levelCode LevelCode, serviceCode ServiceCode, grpcCode GRPCCode, descCode DescCode, msg string, emsg ...string) Status {
 	b := &body{
 		lCode:   levelCode,
 		sCode:   serviceCode,
 		gCode:   grpcCode,
-		aCode:   actionCode,
+		dCode:   descCode,
 		Message: msg,
 		Details: make([]string, 0),
 	}

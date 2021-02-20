@@ -13,7 +13,7 @@ type body struct {
 	lCode    LevelCode
 	sCode    ServiceCode
 	gCode    GRPCCode
-	aCode    ActionCode
+	dCode    DescCode
 	Code     string   `json:"code"`
 	Message  string   `json:"message,omitempty"`
 	EMessage string   `json:"emessage,omitempty"`
@@ -21,7 +21,7 @@ type body struct {
 }
 
 func (b *body) fromatCode() {
-	b.Code = fmt.Sprintf("%s-%s-%s-%s", b.lCode.String(), b.sCode.String(), b.gCode.String(), b.aCode.String())
+	b.Code = fmt.Sprintf("%s-%s-%s-%s", b.lCode.String(), b.sCode.String(), b.gCode.String(), b.dCode.String())
 }
 
 // Marshal -
@@ -46,7 +46,7 @@ func (b *body) ParseCode() error {
 	b.lCode = LevelCode(convertToInt64(codeList[0]))
 	b.sCode = ServiceCode(convertToInt64(codeList[1]))
 	b.gCode = GRPCCode(convertToInt64(codeList[2]))
-	b.aCode = ActionCode(convertToInt64(codeList[3]))
+	b.dCode = DescCode(convertToInt64(codeList[3]))
 
 	return nil
 }
@@ -70,7 +70,7 @@ func copyBody(b *body) *body {
 		lCode:    b.lCode,
 		sCode:    b.sCode,
 		gCode:    b.gCode,
-		aCode:    b.aCode,
+		dCode:    b.dCode,
 		Code:     b.Code,
 		Message:  b.Message,
 		EMessage: b.EMessage,

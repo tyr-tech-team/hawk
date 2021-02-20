@@ -1,5 +1,7 @@
 package status
 
+import "fmt"
+
 // CheckGRPCError -
 func checkGRPCError(g GRPCCode) Status {
 	switch g {
@@ -8,6 +10,7 @@ func checkGRPCError(g GRPCCode) Status {
 	case GRPCUnimplemented:
 		return RemoteHostNotFound
 	default:
+		fmt.Println(g.String())
 		return UnKnownError
 	}
 }
