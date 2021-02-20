@@ -13,7 +13,7 @@ func Test_ServiceCode(t *testing.T) {
 }
 
 func Test_NewStatus(t *testing.T) {
-	x := NewStatus(LevelERROR, ServiceNONE, GRPCAlreadyExists, ActionCreate, "123888")
+	x := NewStatus(LevelERROR, ServiceNONE, GRPCAlreadyExists, NewDescCode(1), "123888")
 
 	s := ConvertStatus(x.Err())
 	fmt.Println(s)
@@ -21,7 +21,7 @@ func Test_NewStatus(t *testing.T) {
 }
 
 func Test_WithDetail(t *testing.T) {
-	x := NewStatus(LevelWARNING, ServiceNONE, GRPCAlreadyExists, ActionCreate, "123888")
+	x := NewStatus(LevelWARNING, ServiceNONE, GRPCAlreadyExists, NewDescCode(1), "123888")
 
 	s := ConvertStatus(x.Err())
 	assert.NotEqual(t, s, UnKnownError)
@@ -35,7 +35,7 @@ func Test_WithDetail(t *testing.T) {
 }
 
 func Test_WithServiceCode(t *testing.T) {
-	x := NewStatus(LevelWARNING, ServiceNONE, GRPCAlreadyExists, ActionCreate, "123888")
+	x := NewStatus(LevelWARNING, ServiceNONE, GRPCAlreadyExists, NewDescCode(1), "123888")
 	fmt.Println(x)
 	s := ConvertStatus(x.Err())
 	assert.NotEqual(t, s, UnKnownError)
