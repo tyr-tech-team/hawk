@@ -36,4 +36,7 @@ const (
 	ServiceCategory                         // 22
 	ServiceCatalog                          // 23
 	ServiceQuickFilter                      // 24
+	ServiceECPay                            // 25
+	ServiceZeroCard                         // 26
+	ServiceCart                             // 27
 )
