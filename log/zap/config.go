@@ -7,6 +7,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+//TODO: lookup go-mirco logger
 type zapSugaryLogger func(msg string, kv ...interface{})
 
 func (z *zapSugaryLogger) Log(msg string, kv ...interface{}) {
