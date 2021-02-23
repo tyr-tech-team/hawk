@@ -25,11 +25,11 @@ type Logger interface {
 }
 
 // NewZapLogger --
-func NewZapLogger(level string) *zap.SugaredLogger {
+func NewZapLogger(level string) *zap.Logger {
 	if strings.ToLower(level) != "prd" {
-		return zaplog.NewSuggerLogger(zaplog.DevCore())
+		return zaplog.NewLogger(zaplog.DevCore())
 	}
-	return zaplog.NewSuggerLogger(zaplog.PRDCore())
+	return zaplog.NewLogger(zaplog.PRDCore())
 }
 
 // NewLogrusLogger -
