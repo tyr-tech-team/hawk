@@ -1,6 +1,5 @@
 package status
 
-//
 var (
 	NoError             = NewStatus(LevelNONE, ServiceNONE, GRPCOK, NewDescCode(0), "成功", "success")
 	UnKnownError        = NewStatus(LevelERROR, ServiceNONE, GRPCUnknown, NewDescCode(0), "未知的錯誤", "unknown error")
@@ -55,6 +54,8 @@ var (
 	MemberCreatedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, NewDescCode(1), "建立會員失敗", "create member failed")
 	MemberUpdatedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, NewDescCode(3), "更新會員資訊失敗", "update member failed")
 	MemberDeletedFailed    = NewStatus(LevelERROR, ServiceMember, GRPCAborted, NewDescCode(4), "刪除會員失敗", "delete member failed")
+	MemberPhoneUsed        = NewStatus(LevelWARNING, ServiceMember, GRPCAborted, NewDescCode(1), "手機號碼已被使用", "phone has been used")
+	MemberSiginFailed      = NewStatus(LevelWARNING, ServiceMember, GRPCPermissionDenied, NewDescCode(1), "會員登入失敗", "member singIn failed")
 	// NfcReader -
 	NotFoundTheNFCCard       = NewStatus(LevelERROR, ServiceNFCReader, GRPCNotFound, NewDescCode(2), "讀卡機讀取不到卡片", "nfc reader not find the card")
 	NotFoundTheNFCCardReader = NewStatus(LevelFATAL, ServiceNFCReader, GRPCFailedPrecondition, NewDescCode(5), "找不到讀卡機", "not found the card reader")
