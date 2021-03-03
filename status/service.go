@@ -39,4 +39,5 @@ const (
 	ServiceECPay                            // 25
 	ServiceZeroCard                         // 26
 	ServiceCart                             // 27
+	ServicePromo                            // 28
 )
