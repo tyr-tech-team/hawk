@@ -1,5 +1,6 @@
 package status
 
+//
 var (
 	NoError             = NewStatus(LevelNONE, ServiceNONE, GRPCOK, NewDescCode(0), "成功", "success")
 	UnKnownError        = NewStatus(LevelERROR, ServiceNONE, GRPCUnknown, NewDescCode(0), "未知的錯誤", "unknown error")
@@ -115,4 +116,11 @@ var (
 	QuickFilterWasExisted        = NewStatus(LevelERROR, ServiceQuickFilter, GRPCAlreadyExists, NewDescCode(24), "快篩已存在", "quickfilter was existed")
 	QuickFilterCreatedOutOfRange = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCOutOfRange, NewDescCode(1), "建立快篩數量超出範圍", "created quickfilter out of range")
 	QuickFilterInvalidParameter  = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCInvalidArgument, NewDescCode(5), "快篩參數錯誤", "quickfilter have invalid parameter")
+
+	// Receipt
+	ReceiptIssuedFailed    = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(1), "核發發票失敗", "issue receipt failed")
+	ReceiptInvalidedFailed = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(2), "作廢發票失敗", "invalid receipt failed")
+	ReceiptNotFound        = NewStatus(LevelWARNING, ServiceReceipt, GRPCNotFound, NewDescCode(0), "找不到此付款單發票", "this receipt not found")
+	ReceiptInvalidBarcode  = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(1), "無效的手機條碼", "invalid barcode")
+	ReceiptInvalidLovecode = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(2), "無效的捐獻碼", "invalid lovecode")
 )
