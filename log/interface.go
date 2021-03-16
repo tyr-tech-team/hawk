@@ -2,8 +2,13 @@ package log
 
 import (
 	"context"
+	"strings"
 
+	"github.com/sirupsen/logrus"
+	logruslog "github.com/tyr-tech-team/hawk/log/logrus"
+	zaplog "github.com/tyr-tech-team/hawk/log/zap"
 	"github.com/tyr-tech-team/hawk/status"
+	"go.uber.org/zap"
 )
 
 // Logger -
@@ -20,11 +25,14 @@ type Logger interface {
 }
 
 // NewZapLogger --
-func NewZapLogger() {
-
+func NewZapLogger(level string) *zap.Logger {
+	if strings.ToLower(level) != "prd" {
+		return zaplog.NewLogger(zaplog.DevCore())
+	}
+	return zaplog.NewLogger(zaplog.PRDCore())
 }
 
 // NewLogrusLogger -
-func NewLogrusLogger() {
-
+func NewLogrusLogger(level string) *logrus.Logger {
+	return logruslog.NewLogrus(level)
 }
