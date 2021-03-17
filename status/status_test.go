@@ -63,5 +63,4 @@ func Test_Equal(t *testing.T) {
 	assert.Equal(t, Equal(x1, x2), false)
 	t.Log("x1", x1)
 	t.Log("x2", x2)
-
 }
