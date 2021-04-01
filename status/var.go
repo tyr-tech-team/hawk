@@ -1,5 +1,6 @@
 package status
 
+//
 var (
 	NoError             = NewStatus(LevelNONE, ServiceNONE, GRPCOK, NewDescCode(0), "成功", "success")
 	UnKnownError        = NewStatus(LevelERROR, ServiceNONE, GRPCUnknown, NewDescCode(0), "未知的錯誤", "unknown error")
@@ -66,14 +67,19 @@ var (
 	DownloadFileFailed   = NewStatus(LevelERROR, ServiceStorage, GRPCAborted, NewDescCode(15), "下載檔案失敗", "download file failed")
 	UploadFileOutOfRange = NewStatus(LevelERROR, ServiceStorage, GRPCOutOfRange, NewDescCode(5), "上傳檔案超出範圍", "upload file out of range")
 	// Transaction -
-	PaymentMethodCreateCheckFailed = NewStatus(LevelERROR, ServiceTransaction, GRPCInvalidArgument, NewDescCode(1), "建立付款方式檢查失敗", "create payment method check failed")
-	TransactionInvalidParameter    = NewStatus(LevelWARNING, ServiceTransaction, GRPCInvalidArgument, NewDescCode(5), "交易參數錯誤", "invalid transaction parameter")
-	TransactionNotFound            = NewStatus(LevelWARNING, ServiceTransaction, GRPCNotFound, NewDescCode(2), "找不到此交易", "transaction not found")
-	TransactionCreatedFailed       = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(1), "交易建立失敗", "create transaction failed")
-	TransactionUpdatedFailed       = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(3), "交易更新失敗", "update transaction failed")
-	TransactionDeleteFailed        = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(4), "交易刪除失敗", "delete transaction failed")
-	RefunedFailed                  = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(17), "退款失敗", "refund failed")
-	PayFailed                      = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(16), "支付失敗", "pay failed")
+	PaymentMethodCreatedCheckFailed = NewStatus(LevelERROR, ServiceTransaction, GRPCInvalidArgument, NewDescCode(1), "建立付款方式檢查失敗", "create payment method check failed")
+	PaymentMethodCreatedFailed      = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(2), "付款方式建立失敗", "create payment method failed")
+	PaymentMethodNotFound           = NewStatus(LevelWARNING, ServiceTransaction, GRPCNotFound, NewDescCode(1), "找不到此付款方式", "can't found this payment method")
+	PaymentMethodWasExists          = NewStatus(LevelWARNING, ServiceTransaction, GRPCAlreadyExists, NewDescCode(1), "付款方式已存在", "payment method was exists")
+	PaymentSlipUnMatchRules         = NewStatus(LevelWARNING, ServiceTransaction, GRPCInvalidArgument, NewDescCode(6), "此付款單不符合付款方式規則", "payment slip unmatch payment method")
+	PaymentSlipCheckFailed          = NewStatus(LevelWARNING, ServiceTransaction, GRPCInvalidArgument, NewDescCode(2), "付款單參數錯誤", "invalid payment slip parameter")
+	PaymentSlipNotFound             = NewStatus(LevelWARNING, ServiceTransaction, GRPCNotFound, NewDescCode(2), "找不到此交易單", "payment slip not found")
+	PaymentSlipCreatedFailed        = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(1), "交易建立失敗", "create payment slip failed")
+	PaymentSlipUpdatedFailed        = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(3), "交易更新失敗", "update payment slip failed")
+	PaymentSlipDeleteFailed         = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(4), "交易刪除失敗", "delete payment slip failed")
+	PaymentSlipCancelFailed         = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(15), "付款單取消失敗", "payment slip cancel failed")
+	PaymentSlipPayFailed            = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(16), "付款單支付失敗", "payment slip pay failed")
+	PaymentSlipRefunedFailed        = NewStatus(LevelERROR, ServiceTransaction, GRPCAborted, NewDescCode(17), "付款單退款失敗", "payment slip refund failed")
 	// User -
 	UserNotFound           = NewStatus(LevelWARNING, ServiceUser, GRPCNotFound, NewDescCode(2), "找不到使用者", "user not found")
 	UserWasDisabled        = NewStatus(LevelWARNING, ServiceUser, GRPCPermissionDenied, NewDescCode(5), "使用者已被禁止", "user was disabled")
@@ -110,4 +116,11 @@ var (
 	QuickFilterWasExisted        = NewStatus(LevelERROR, ServiceQuickFilter, GRPCAlreadyExists, NewDescCode(24), "快篩已存在", "quickfilter was existed")
 	QuickFilterCreatedOutOfRange = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCOutOfRange, NewDescCode(1), "建立快篩數量超出範圍", "created quickfilter out of range")
 	QuickFilterInvalidParameter  = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCInvalidArgument, NewDescCode(5), "快篩參數錯誤", "quickfilter have invalid parameter")
+
+	// Receipt
+	ReceiptIssuedFailed    = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(1), "核發發票失敗", "issue receipt failed")
+	ReceiptInvalidedFailed = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(2), "作廢發票失敗", "invalid receipt failed")
+	ReceiptNotFound        = NewStatus(LevelWARNING, ServiceReceipt, GRPCNotFound, NewDescCode(0), "找不到此付款單發票", "this receipt not found")
+	ReceiptInvalidBarcode  = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(1), "無效的手機條碼", "invalid barcode")
+	ReceiptInvalidLovecode = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(2), "無效的捐獻碼", "invalid lovecode")
 )
