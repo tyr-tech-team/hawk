@@ -118,9 +118,10 @@ var (
 	QuickFilterInvalidParameter  = NewStatus(LevelWARNING, ServiceQuickFilter, GRPCInvalidArgument, NewDescCode(5), "快篩參數錯誤", "quickfilter have invalid parameter")
 
 	// Receipt
-	ReceiptIssuedFailed    = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(1), "核發發票失敗", "issue receipt failed")
-	ReceiptInvalidedFailed = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(2), "作廢發票失敗", "invalid receipt failed")
-	ReceiptNotFound        = NewStatus(LevelWARNING, ServiceReceipt, GRPCNotFound, NewDescCode(0), "找不到此付款單發票", "this receipt not found")
-	ReceiptInvalidBarcode  = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(1), "無效的手機條碼", "invalid barcode")
-	ReceiptInvalidLovecode = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(2), "無效的捐獻碼", "invalid lovecode")
+	ReceiptIssuedFailed     = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(1), "核發發票失敗", "issue receipt failed")
+	ReceiptInvalidedFailed  = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(2), "作廢發票失敗", "invalid receipt failed")
+	ReceiptAllowancedFailed = NewStatus(LevelERROR, ServiceReceipt, GRPCAborted, NewDescCode(3), "折讓發票失敗", "allowanced receipt failed")
+	ReceiptNotFound         = NewStatus(LevelWARNING, ServiceReceipt, GRPCNotFound, NewDescCode(0), "找不到此付款單發票", "this receipt not found")
+	ReceiptInvalidBarcode   = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(1), "無效的手機條碼", "invalid barcode")
+	ReceiptInvalidLovecode  = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(2), "無效的捐獻碼", "invalid lovecode")
 )
