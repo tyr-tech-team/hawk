@@ -41,4 +41,5 @@ const (
 	ServiceCart                             // 27
 	ServicePromo                            // 28
 	ServiceReceipt                          // 29
+	ServiceWebKit                           // 30
 )
