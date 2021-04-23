@@ -56,12 +56,12 @@ func (c *client) SetRegisterConfig(cfg config.ServiceRegister) {
 
 // Register -
 func (c *client) Register() error {
-	defer c.healthCheck()
 	err := c.consul.Agent().ServiceRegister(c.sRegistryConfig)
 	if err != nil {
 		return status.ConnectFailed.WithDetail(err.Error()).Err()
 	}
 
+	defer c.healthCheck()
 	return nil
 }
 
