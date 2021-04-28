@@ -3,9 +3,9 @@ package grpc
 import (
 	"context"
 	"encoding/json"
+	"time"
 
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
-	"github.com/tyr-tech-team/hawk/config"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -15,7 +15,7 @@ var (
 
 // GetOperator -
 func GetOperator(ctx context.Context) (context.Context, error) {
-	d := new(config.Operator)
+	d := new(Operator)
 	byteStr := ""
 	// 先確認是否有metadata的存在
 	md, ok := metadata.FromIncomingContext(ctx)
@@ -33,4 +33,16 @@ func GetOperator(ctx context.Context) (context.Context, error) {
 	grpc_ctxtags.Extract(ctx).Set(OPERATOR, d)
 
 	return metadata.AppendToOutgoingContext(nctx, OPERATOR, byteStr), nil
+}
+
+// Operator - 操作者資訊
+type Operator struct {
+	// Name - 操作者姓名
+	Name string `json:"name"`
+	// Account - 帳號
+	Account string `json:"account"`
+	// Identifier - 身份類型
+	Identifier int32 `json:"identifier"`
+	// Time - 操作時間
+	Time time.Time `json:"time"`
 }
