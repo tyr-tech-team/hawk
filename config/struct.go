@@ -97,3 +97,15 @@ type ChangeSet struct {
 	Checksum  string
 	Timestamp time.Time
 }
+
+// Operator - 操作者資訊
+type Operator struct {
+	// Name - 更新者姓名
+	Name string `json:"name"`
+	// Account - 帳號
+	Account string `json:"account"`
+	// Identifier - 身份類型
+	Identifier int32 `json:"identifier"`
+	// Time - 操作時間
+	Time time.Time `json:"time"`
+}
