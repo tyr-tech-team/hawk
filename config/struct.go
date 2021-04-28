@@ -100,7 +100,7 @@ type ChangeSet struct {
 
 // Operator - 操作者資訊
 type Operator struct {
-	// Name - 更新者姓名
+	// Name - 操作者姓名
 	Name string `json:"name"`
 	// Account - 帳號
 	Account string `json:"account"`
