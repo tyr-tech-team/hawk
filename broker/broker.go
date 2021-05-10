@@ -2,17 +2,23 @@ package broker
 
 // Broker -
 type Broker interface {
-	//Options() Options
-	//Address() string
-	//Connect() error
-	//Disconnect() error
+	// Address -
+	Address() string
+
+	// Disconnect -
+	Disconnect() error
+
+	// Publish -
 	Publish(topic string, m *Message) error
-	Subscribe(topic string, h Handler) (Subscriber, error)
-	//String() string
+
+	// Subscribe -
+	Subscribe(topic string, h Handler, opts ...SubscribeOption) (Subscriber, error)
 }
 
+// Handler -
 type Handler func(Event) error
 
+// Message -
 type Message struct {
 	Header map[string]interface{}
 	Body   []byte

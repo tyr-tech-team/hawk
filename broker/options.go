@@ -24,3 +24,19 @@ func NewOptions(opts ...Option) Options {
 
 	return options
 }
+
+// SubscribeOption -
+type SubscribeOption func(*SubscribeOptions)
+
+// SubscribeOptions -
+type SubscribeOptions struct {
+	Queue   string
+	Context context.Context
+}
+
+// Queue sets the name of the queue to share messages on
+func Queue(name string) SubscribeOption {
+	return func(o *SubscribeOptions) {
+		o.Queue = name
+	}
+}

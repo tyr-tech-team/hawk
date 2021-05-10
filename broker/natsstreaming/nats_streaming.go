@@ -1,28 +1,31 @@
-package nats
+package natsstreaming
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
-
 	"sync"
 
-	"github.com/nats-io/nats.go"
-	natsgo "github.com/nats-io/nats.go"
+	"github.com/nats-io/nuid"
+	stan "github.com/nats-io/stan.go"
 	"github.com/tyr-tech-team/hawk/broker"
 )
 
 const (
-	DefaultURL = natsgo.DefaultURL
+	DefaultURL           = stan.DefaultNatsURL
+	DefaultstanClusterID = "test-cluster"
+	DefaultclientID      = "test-client"
 )
 
-type natsBroker struct {
+type natsstreamingBroker struct {
 	sync.RWMutex
 	sync.Once
-	options broker.Options
-	url     string
-	client  *natsgo.Conn
+	options       broker.Options
+	url           string
+	client        stan.Conn
+	stanClusterID string
+	clientID      string
 }
 
 type publication struct {
@@ -32,7 +35,7 @@ type publication struct {
 }
 
 type subscriber struct {
-	s *nats.Subscription
+	s stan.Subscription
 }
 
 func (p *publication) Topic() string {
@@ -49,23 +52,25 @@ func (p *publication) Error() error {
 
 // Topic -
 func (s *subscriber) Topic() string {
-	return s.s.Subject
+	return s.Topic()
 }
 
 // Unsubscribe -
 func (s *subscriber) Unsubscribe() error {
-	return s.s.Unsubscribe()
+	return s.Unsubscribe()
 }
 
 // NatsInstance -
-func NewNats(opts ...broker.Option) *natsBroker {
+func New(opts ...broker.Option) *natsstreamingBroker {
+	n := &natsstreamingBroker{
+		stanClusterID: DefaultstanClusterID,
+		clientID:      DefaultclientID + "-" + nuid.Next(),
+	}
+
 	options := broker.NewOptions(opts...)
 
-	// nats struct
-	n := &natsBroker{
-		options: options,
-		url:     setURL(options),
-	}
+	n.options = options
+	n.url = setURL(options)
 
 	// connect
 	n.connect()
@@ -74,12 +79,12 @@ func NewNats(opts ...broker.Option) *natsBroker {
 }
 
 // Connect -
-func (n *natsBroker) connect() {
+func (n *natsstreamingBroker) connect() {
 	n.Lock()
 	defer n.Unlock()
 
 	// connect nats
-	nc, err := natsgo.Connect(n.url)
+	nc, err := stan.Connect(n.stanClusterID, n.clientID, stan.NatsURL(n.url))
 	if err != nil {
 		panic(err)
 	}
@@ -88,11 +93,11 @@ func (n *natsBroker) connect() {
 }
 
 // Publish -
-func (n *natsBroker) Publish(topic string, m *broker.Message) error {
-
+func (n *natsstreamingBroker) Publish(topic string, m *broker.Message) error {
 	j, _ := json.Marshal(m)
 
-	if err := n.client.Publish(topic, j); err != nil {
+	err := n.client.Publish(topic, j)
+	if err != nil {
 		log.Fatal(err)
 		return err
 	}
@@ -101,7 +106,7 @@ func (n *natsBroker) Publish(topic string, m *broker.Message) error {
 }
 
 // Subscribe -
-func (n *natsBroker) Subscribe(topic string, h broker.Handler, opts ...broker.SubscribeOption) (broker.Subscriber, error) {
+func (n *natsstreamingBroker) Subscribe(topic string, h broker.Handler, opts ...broker.SubscribeOption) (broker.Subscriber, error) {
 	n.RLock()
 	defer n.RUnlock()
 
@@ -113,7 +118,7 @@ func (n *natsBroker) Subscribe(topic string, h broker.Handler, opts ...broker.Su
 		o(&opt)
 	}
 
-	fn := func(msg *natsgo.Msg) {
+	fn := func(msg *stan.Msg) {
 		var m broker.Message
 		err := json.Unmarshal(msg.Data, &m)
 
@@ -138,12 +143,21 @@ func (n *natsBroker) Subscribe(topic string, h broker.Handler, opts ...broker.Su
 
 	}
 
-	var sub *nats.Subscription
+	var sub stan.Subscription
 	var err error
 	if opt.Queue != "" {
-		sub, err = n.client.QueueSubscribe(topic, opt.Queue, fn)
+		sub, err = n.client.QueueSubscribe(
+			topic,
+			opt.Queue,
+			fn,
+			stan.DurableName("durable-name"),
+		)
 	} else {
-		sub, err = n.client.Subscribe(topic, fn)
+		sub, err = n.client.Subscribe(
+			topic,
+			fn,
+			stan.DurableName("durable-name"),
+		)
 	}
 	if err != nil {
 		return nil, err
@@ -153,23 +167,17 @@ func (n *natsBroker) Subscribe(topic string, h broker.Handler, opts ...broker.Su
 }
 
 // Disconnect -
-func (n *natsBroker) Disconnect() error {
+func (n *natsstreamingBroker) Disconnect() error {
 	n.Lock()
 	defer n.Unlock()
 
-	// drain the connection if specified
-	n.client.Drain()
 	// close the client connection
 	n.client.Close()
 
 	return nil
 }
 
-func (n *natsBroker) Address() string {
-	if n.client != nil && n.client.IsConnected() {
-		return n.client.ConnectedUrl()
-	}
-
+func (n *natsstreamingBroker) Address() string {
 	return ""
 }
 
