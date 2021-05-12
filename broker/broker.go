@@ -7,7 +7,6 @@ type Broker interface {
 
 	// Disconnect -
 	Disconnect() error
-
 	// Publish -
 	Publish(topic string, m *Message) error
 
@@ -20,8 +19,9 @@ type Handler func(Event) error
 
 // Message -
 type Message struct {
-	Header map[string]interface{}
-	Body   []byte
+	//Header map[string]interface{}
+	//Body   []byte
+	Event []byte
 }
 
 // Event is given to a subscription handler for processing
