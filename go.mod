@@ -15,6 +15,11 @@ require (
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.1.8
 	github.com/moul/http2curl v1.0.0 // indirect
+	github.com/nats-io/nats-server/v2 v2.2.2 // indirect
+	github.com/nats-io/nats-streaming-server v0.21.2 // indirect
+	github.com/nats-io/nats.go v1.10.1-0.20210419223411-20527524c393
+	github.com/nats-io/nuid v1.0.1
+	github.com/nats-io/stan.go v0.8.3
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.4.2
