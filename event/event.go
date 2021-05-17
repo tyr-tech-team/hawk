@@ -1,35 +1,66 @@
 package event
 
-import "time"
+import (
+	"context"
+	"encoding/json"
+	"time"
 
-type EventStore interface {
-	// 取得事件編號(traceID)
-	GetEventID() string
+	"github.com/tyr-tech-team/hawk/trace"
+)
 
-	// 取得事件類型(ex:Create、Update)
-	GetEventType() EventType
+func SetEventInterface(ctx context.Context, in EventStore, AggregateType EventType) []byte {
+	tid := trace.GetTraceID(ctx)
 
-	// 取得事件對象
-	GetAggregateID() string
+	e := &Event{
+		EventID:       tid,
+		EventType:     AggregateType,
+		AggregateID:   in.GetAggregateID(),
+		AggregateType: in.GetAggregateType(),
+		EventData:     in.GetEventData(),
+		CreatedAt:     in.GetCreatedAt(),
+	}
 
-	// 取得對象類別
-	GetAggregateType() string
+	j, _ := json.Marshal(e)
 
-	// 取得事件資料
-	GetEventData() string
-
-	// 取得建立時間
-
-	GetCreatedAt() time.Time
+	return j
 }
 
-type EventType int32
+func SetEventStruct(ctx context.Context, aggregateId, aggregateType string, eventData interface{}, eventType EventType) ([]byte, error) {
 
-const (
-	// 新增
-	EVENT_CREATE EventType = iota + 1
-	// 更新
-	EVENT_UPDATE
-	// 刪除
-	EVENT_DELETE
-)
+	tid := trace.GetTraceID(ctx)
+	d, _ := json.Marshal(eventData)
+
+	e := &Event{
+		EventID:       tid,
+		EventType:     EventType(eventType),
+		AggregateID:   aggregateId,
+		AggregateType: aggregateType,
+		EventData:     string(d),
+		CreatedAt:     time.Now().In(time.Local),
+	}
+
+	j, _ := json.Marshal(e)
+
+	return j, nil
+}
+
+// EventStore -
+type Event struct {
+	// 事件編號(traceID)
+	EventID string `bson:"eventId"`
+
+	// 事件類型(CRUD)
+	EventType EventType `bson:"eventType"`
+
+	// 事件對象
+	AggregateID string `bson:"aggregateId"`
+
+	// 對象類別
+	AggregateType string `bson:"aggregateType"`
+
+	// 事件資料
+	EventData string `bson:"eventData"`
+
+	// 建立時間
+	CreatedAt time.Time `bson:"createdAt"`
+}
