@@ -58,6 +58,47 @@ func UnaryServerInterceptor(opts ...Option) grpc.UnaryServerInterceptor {
 	}
 }
 
+// StreamServerInterceptor -
+func StreamServerInterceptor(opts ...Option) grpc.StreamServerInterceptor {
+	return func(
+		srv interface{},
+		ss grpc.ServerStream,
+		info *grpc.StreamServerInfo,
+		handler grpc.StreamHandler,
+	) error {
+		ctx := ss.Context()
+
+		requestMetadata, _ := metadata.FromIncomingContext(ctx)
+		metadataCopy := requestMetadata.Copy()
+
+		entries, spanCtx := Extract(ctx, &metadataCopy, opts...)
+		ctx = baggage.ContextWithValues(ctx, entries...)
+
+		tr := otel.Tracer(instrumentationName)
+
+		name, attr := spanInfo(info.FullMethod, peerFromCtx(ctx), nil)
+		ctx, span := tr.Start(
+			trace.ContextWithRemoteSpanContext(ctx, spanCtx),
+			name,
+			trace.WithSpanKind(trace.SpanKindServer),
+			trace.WithAttributes(attr...),
+		)
+		defer span.End()
+
+		err := handler(srv, wrapServerStream(ctx, ss))
+
+		if err != nil {
+			s, _ := status.FromError(err)
+			span.SetStatus(codes.Error, s.Message())
+			span.SetAttributes(statusCodeAttr(s.Code()))
+		} else {
+			span.SetAttributes(statusCodeAttr(grpc_codes.OK))
+		}
+
+		return err
+	}
+}
+
 // Extract -
 func Extract(ctx context.Context, metadata *metadata.MD, opts ...Option) ([]attribute.KeyValue, trace.SpanContext) {
 	c := newConfig(opts...)
@@ -93,12 +134,14 @@ func spanInfo(fullMethod, peerAddress string, req interface{}) (string, []attrib
 	attrs = append(attrs, mAttrs...)
 	attrs = append(attrs, peerAttr(peerAddress)...)
 
-	// requestMetadata
-	j, _ := json.Marshal(req)
-	attrs = append(attrs, attribute.KeyValue{
-		Key:   attribute.Key("request"),
-		Value: attribute.StringValue(string(j)),
-	})
+	if req != nil {
+		// requestMetadata
+		j, _ := json.Marshal(req)
+		attrs = append(attrs, attribute.KeyValue{
+			Key:   attribute.Key("request"),
+			Value: attribute.StringValue(string(j)),
+		})
+	}
 
 	return name, attrs
 }
