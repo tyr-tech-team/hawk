@@ -1,26 +1,30 @@
 package interceptor
 
 import (
+	"bytes"
+	"io/ioutil"
+
 	"github.com/kataras/iris/v12"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/semconv"
 	"go.opentelemetry.io/otel/trace"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 )
 
 const (
 	instrumentationName = "go.opentelemetry.io/otel"
 
+	// TRACEID -
 	TRACEID = "traceID"
 )
 
 // HTTP attributes.
 var (
-	HTTPStatus     = attribute.Key("http.status")
-	HTTPMethod     = attribute.Key("http.method")
-	HTTPPath       = attribute.Key("http.path")
-	HTTPURL        = attribute.Key("http.URL")
 	HTTPRemoteAddr = attribute.Key("http.remote")
+	HTTPBody       = attribute.Key("http.body")
 )
 
 // Opentelemetry -
@@ -40,32 +44,7 @@ func Opentelemetry(opts ...Option) func(ctx iris.Context) {
 
 		defer span.End()
 
-		span.SetAttributes([]attribute.KeyValue{
-			{
-				Key:   attribute.Key(HTTPURL),
-				Value: attribute.StringValue(ctx.FullRequestURI()),
-			},
-			{
-				Key:   attribute.Key(HTTPPath),
-				Value: attribute.StringValue(ctx.Path()),
-			},
-			{
-				Key:   attribute.Key(HTTPRemoteAddr),
-				Value: attribute.StringValue(ctx.RemoteAddr()),
-			},
-			{
-				Key:   attribute.Key(HTTPMethod),
-				Value: attribute.StringValue(ctx.Request().Method),
-			},
-			{
-				Key:   attribute.Key(TRACEID),
-				Value: attribute.StringValue(span.SpanContext().TraceID().String()),
-			},
-			{
-				Key:   attribute.Key(HTTPStatus),
-				Value: attribute.IntValue(ctx.GetStatusCode()),
-			},
-		}...)
+		span.SetAttributes(spanInfo(ctx)...)
 
 		// inject to metadata
 		Inject(ctx.Request().Context(), &metadataCopy)
@@ -77,5 +56,61 @@ func Opentelemetry(opts ...Option) func(ctx iris.Context) {
 		ctx.ResetRequest(ctx.Request().WithContext(mergeCtx))
 
 		ctx.Next()
+
+		err := ctx.Values().Get("error")
+
+		if err != nil {
+			s, _ := status.FromError(err.(error))
+			span.SetStatus(codes.Error, s.Message())
+		}
 	}
+}
+
+func spanInfo(ctx iris.Context) []attribute.KeyValue {
+	attrs := []attribute.KeyValue{}
+
+	attrs = append(attrs, []attribute.KeyValue{
+		{
+			Key:   semconv.HTTPMethodKey,
+			Value: attribute.StringValue(ctx.Request().Method),
+		},
+		{
+			Key:   semconv.HTTPStatusCodeKey,
+			Value: attribute.IntValue(ctx.GetStatusCode()),
+		},
+		{
+			Key:   semconv.HTTPUserAgentKey,
+			Value: attribute.StringValue(ctx.GetHeader("User-Agent")),
+		},
+		{
+			Key:   semconv.HTTPURLKey,
+			Value: attribute.StringValue(ctx.FullRequestURI()),
+		},
+		{
+			Key:   semconv.HTTPRouteKey,
+			Value: attribute.StringValue(ctx.Path()),
+		},
+		{
+			Key:   attribute.Key(HTTPRemoteAddr),
+			Value: attribute.StringValue(ctx.RemoteAddr()),
+		},
+	}...)
+
+	switch ctx.Request().Method {
+	case iris.MethodGet, iris.MethodDelete:
+	default:
+		body, err := ctx.GetBody()
+		if err != nil {
+			return attrs
+		}
+
+		attrs = append(attrs, attribute.KeyValue{
+			Key:   HTTPBody,
+			Value: attribute.StringValue(string(body)),
+		})
+
+		ctx.Request().Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	}
+
+	return attrs
 }
