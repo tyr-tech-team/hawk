@@ -5,10 +5,9 @@ go 1.15
 require (
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/bwmarrin/snowflake v0.3.0
-	github.com/davecgh/go-spew v1.1.1
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/gin-gonic/gin v1.6.3
-	github.com/go-redis/redis/v8 v8.4.4
+	github.com/go-redis/redis/v8 v8.10.0
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/hashicorp/consul/api v1.8.1
@@ -35,10 +34,10 @@ require (
 	go.mongodb.org/mongo-driver v1.5.1
 	go.opentelemetry.io/contrib v0.20.0
 	go.opentelemetry.io/otel v0.20.0
-	go.opentelemetry.io/otel/exporters/trace/jaeger v0.20.0 // indirect
 	go.opentelemetry.io/otel/sdk v0.20.0
 	go.opentelemetry.io/otel/trace v0.20.0
 	go.uber.org/zap v1.16.0
 	google.golang.org/grpc v1.34.0
+	google.golang.org/protobuf v1.25.0
 	gopkg.in/yaml.v2 v2.4.0
 )
