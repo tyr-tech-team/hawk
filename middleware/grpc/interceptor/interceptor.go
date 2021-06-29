@@ -73,10 +73,10 @@ func UnaryClientInterceptor(opts ...Option) grpc.UnaryClientInterceptor {
 	) error {
 		requestMetadata, _ := metadata.FromOutgoingContext(ctx)
 		metadataCopy := requestMetadata.Copy()
-		name, attr := spanInfo(method, cc.Target(), req)
 
 		tracer := otel.Tracer(instrumentationName)
 
+		name, attr := spanInfo(method, cc.Target(), req)
 		var span trace.Span
 		ctx, span = tracer.Start(
 			ctx,
@@ -84,6 +84,7 @@ func UnaryClientInterceptor(opts ...Option) grpc.UnaryClientInterceptor {
 			trace.WithSpanKind(trace.SpanKindClient),
 			trace.WithAttributes(attr...),
 		)
+
 		defer span.End()
 
 		Inject(ctx, &metadataCopy, opts...)
@@ -120,10 +121,7 @@ func StreamClientInterceptor(opts ...Option) grpc.StreamClientInterceptor {
 		requestMetadata, _ := metadata.FromOutgoingContext(ctx)
 		metadataCopy := requestMetadata.Copy()
 
-		tracer := newConfig(opts...).TracerProvider.Tracer(
-			instrumentationName,
-			trace.WithInstrumentationVersion(contrib.SemVersion()),
-		)
+		tracer := otel.Tracer(instrumentationName)
 
 		name, attr := spanInfo(method, cc.Target(), nil)
 		var span trace.Span
@@ -174,9 +172,9 @@ func UnaryServerInterceptor(opts ...Option) grpc.UnaryServerInterceptor {
 		entries, spanCtx := Extract(ctx, &metadataCopy, opts...)
 		ctx = baggage.ContextWithValues(ctx, entries...)
 
-		name, attr := spanInfo(info.FullMethod, peerFromCtx(ctx), req)
-
 		tr := otel.Tracer(instrumentationName)
+
+		name, attr := spanInfo(info.FullMethod, peerFromCtx(ctx), req)
 		ctx, span := tr.Start(
 			trace.ContextWithRemoteSpanContext(ctx, spanCtx),
 			name,
@@ -185,13 +183,18 @@ func UnaryServerInterceptor(opts ...Option) grpc.UnaryServerInterceptor {
 		)
 		defer span.End()
 
+		messageReceived.Event(ctx, 1, req)
+
 		resp, err := handler(ctx, req)
+
 		if err != nil {
 			s, _ := status.FromError(err)
 			span.SetStatus(codes.Error, s.Message())
 			span.SetAttributes(statusCodeAttr(s.Code()))
+			messageSent.Event(ctx, 1, s.Proto())
 		} else {
 			span.SetAttributes(statusCodeAttr(grpc_codes.OK))
+			messageSent.Event(ctx, 1, resp)
 		}
 
 		return resp, err
@@ -239,9 +242,7 @@ func StreamServerInterceptor(opts ...Option) grpc.StreamServerInterceptor {
 	}
 }
 
-// Inject injects correlation context and span context into the gRPC
-// metadata object. This function is meant to be used on outgoing
-// requests.
+// Inject -
 func Inject(ctx context.Context, metadata *metadata.MD, opts ...Option) {
 	c := newConfig(opts...)
 	c.Propagators.Inject(ctx, &metadataSupplier{
