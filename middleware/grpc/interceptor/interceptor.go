@@ -73,13 +73,10 @@ func UnaryClientInterceptor(opts ...Option) grpc.UnaryClientInterceptor {
 	) error {
 		requestMetadata, _ := metadata.FromOutgoingContext(ctx)
 		metadataCopy := requestMetadata.Copy()
+		name, attr := spanInfo(method, cc.Target(), req)
 
-		tracer := newConfig(opts...).TracerProvider.Tracer(
-			instrumentationName,
-			trace.WithInstrumentationVersion(contrib.SemVersion()),
-		)
+		tracer := otel.Tracer(instrumentationName)
 
-		name, attr := spanInfo(method, cc.Target(), nil)
 		var span trace.Span
 		ctx, span = tracer.Start(
 			ctx,
