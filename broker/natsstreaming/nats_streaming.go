@@ -62,14 +62,13 @@ func (s *subscriber) Unsubscribe() error {
 
 // NatsInstance -
 func New(opts ...broker.Option) *natsstreamingBroker {
-	n := &natsstreamingBroker{
-		stanClusterID: DefaultstanClusterID,
-		clientID:      DefaultclientID + "-" + nuid.Next(),
-	}
+	n := &natsstreamingBroker{}
 
 	options := broker.NewOptions(opts...)
 
 	n.options = options
+	n.stanClusterID = setClusterID(options)
+	n.clientID = setClientID(options)
 	n.url = setURL(options)
 
 	// connect
@@ -185,7 +184,6 @@ func setURL(opts broker.Options) string {
 	u := DefaultURL
 
 	// set URL
-
 	ctxURL, ok := opts.Context.Value(url{}).(string)
 	if ok {
 		u = ctxURL
@@ -202,4 +200,30 @@ func setURL(opts broker.Options) string {
 	}
 
 	return fmt.Sprintf("%s:%s@%s", ctxUser, ctxPassword, u)
+}
+
+func setClusterID(opts broker.Options) string {
+	u := DefaultstanClusterID
+
+	ctxClusterID, ok := opts.Context.Value(stanClusterID{}).(string)
+	if ok {
+		if ctxClusterID != "" {
+			u = ctxClusterID
+		}
+	}
+
+	return u
+}
+
+func setClientID(opts broker.Options) string {
+	u := DefaultclientID
+
+	ctxClientID, ok := opts.Context.Value(clientID{}).(string)
+	if ok {
+		if ctxClientID != "" {
+			u = ctxClientID
+		}
+	}
+
+	return fmt.Sprintf("%s-%s", u, nuid.Next())
 }
