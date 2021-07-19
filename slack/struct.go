@@ -86,4 +86,6 @@ type SlackConfig struct {
 	BotToken string `yaml:"botToken"`
 	// User令牌
 	UserToken string `yaml:"userToken"`
+	// 開關 0->關閉,1->啟用
+	Open int `yaml:"open"`
 }
