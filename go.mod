@@ -8,6 +8,7 @@ require (
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-redis/redis/v8 v8.10.0
+	github.com/go-resty/resty/v2 v2.6.0
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/hashicorp/consul/api v1.8.1
