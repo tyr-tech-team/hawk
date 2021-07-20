@@ -4,7 +4,7 @@ const (
 	// Slack API Domain
 	Slack_Host string = "https://slack.com/api"
 
-	// Slace SendMessage API
+	// Slack SendMessage API
 	Slack_SendMessage string = "/chat.postMessage"
 )
 
@@ -27,7 +27,7 @@ type Message struct {
 }
 
 type Attachment struct {
-	MrakdwnIn []string `json:"mrkdwn_in"`
+	MarkdownIn []string `json:"markdown_in"`
 	// 左側的邊框顏色(16進制)
 	Color string `json:"color"`
 	// 出現在首段的文字
@@ -51,7 +51,7 @@ type Attachment struct {
 	// 最底文字
 	Footer string `json:"footer"`
 	// Footer旁的小圖示
-	FooterIcon string `jsno:"footer_icon"`
+	FooterIcon string `json:"footer_icon"`
 	// 時間戳
 	Ts string `json:"ts"`
 }
