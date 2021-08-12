@@ -1,116 +1,102 @@
 package interceptor
 
-import (
-	"bytes"
-	"io/ioutil"
+//const (
+//instrumentationName = "go.opentelemetry.io/otel"
 
-	"github.com/kataras/iris/v12"
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/semconv"
-	"go.opentelemetry.io/otel/trace"
-	"google.golang.org/grpc/metadata"
-	"google.golang.org/grpc/status"
-)
+//// TRACEID -
+//TRACEID = "traceID"
+//)
 
-const (
-	instrumentationName = "go.opentelemetry.io/otel"
+//// HTTP attributes.
+//var (
+//HTTPRemoteAddr = attribute.Key("http.remote")
+//HTTPBody       = attribute.Key("http.body")
+//)
 
-	// TRACEID -
-	TRACEID = "traceID"
-)
+//// Opentelemetry -
+//func Opentelemetry(opts ...Option) func(ctx iris.Context) {
+//return func(ctx iris.Context) {
+//requestMetadata, _ := metadata.FromOutgoingContext(ctx.Request().Context())
+//metadataCopy := requestMetadata.Copy()
 
-// HTTP attributes.
-var (
-	HTTPRemoteAddr = attribute.Key("http.remote")
-	HTTPBody       = attribute.Key("http.body")
-)
+//tr := otel.Tracer(instrumentationName)
+//newCtx, span := tr.Start(
+//ctx.Request().Context(),
+//ctx.FullRequestURI(),
+//trace.WithSpanKind(trace.SpanKindClient),
+//)
 
-// Opentelemetry -
-func Opentelemetry(opts ...Option) func(ctx iris.Context) {
-	return func(ctx iris.Context) {
-		requestMetadata, _ := metadata.FromOutgoingContext(ctx.Request().Context())
-		metadataCopy := requestMetadata.Copy()
+//ctx.ResetRequest(ctx.Request().WithContext(newCtx))
 
-		tr := otel.Tracer(instrumentationName)
-		newCtx, span := tr.Start(
-			ctx.Request().Context(),
-			ctx.FullRequestURI(),
-			trace.WithSpanKind(trace.SpanKindClient),
-		)
+//defer span.End()
 
-		ctx.ResetRequest(ctx.Request().WithContext(newCtx))
+//span.SetAttributes(spanInfo(ctx)...)
 
-		defer span.End()
+//// inject to metadata
+//Inject(ctx.Request().Context(), &metadataCopy)
 
-		span.SetAttributes(spanInfo(ctx)...)
+////  merge ctx
+//mergeCtx := metadata.NewOutgoingContext(ctx.Request().Context(), metadataCopy)
 
-		// inject to metadata
-		Inject(ctx.Request().Context(), &metadataCopy)
+//// reset iris context
+//ctx.ResetRequest(ctx.Request().WithContext(mergeCtx))
 
-		//  merge ctx
-		mergeCtx := metadata.NewOutgoingContext(ctx.Request().Context(), metadataCopy)
+//ctx.Next()
 
-		// reset iris context
-		ctx.ResetRequest(ctx.Request().WithContext(mergeCtx))
+//err := ctx.Values().Get("error")
 
-		ctx.Next()
+//if err != nil {
+//s, _ := status.FromError(err.(error))
+//span.SetStatus(codes.Error, s.Message())
+//}
+//}
+//}
 
-		err := ctx.Values().Get("error")
+//func spanInfo(ctx iris.Context) []attribute.KeyValue {
+//attrs := []attribute.KeyValue{}
 
-		if err != nil {
-			s, _ := status.FromError(err.(error))
-			span.SetStatus(codes.Error, s.Message())
-		}
-	}
-}
+//attrs = append(attrs, []attribute.KeyValue{
+//{
+//Key:   semconv.HTTPMethodKey,
+//Value: attribute.StringValue(ctx.Request().Method),
+//},
+//{
+//Key:   semconv.HTTPStatusCodeKey,
+//Value: attribute.IntValue(ctx.GetStatusCode()),
+//},
+//{
+//Key:   semconv.HTTPUserAgentKey,
+//Value: attribute.StringValue(ctx.GetHeader("User-Agent")),
+//},
+//{
+//Key:   semconv.HTTPURLKey,
+//Value: attribute.StringValue(ctx.FullRequestURI()),
+//},
+//{
+//Key:   semconv.HTTPRouteKey,
+//Value: attribute.StringValue(ctx.Path()),
+//},
+//{
+//Key:   attribute.Key(HTTPRemoteAddr),
+//Value: attribute.StringValue(ctx.RemoteAddr()),
+//},
+//}...)
 
-func spanInfo(ctx iris.Context) []attribute.KeyValue {
-	attrs := []attribute.KeyValue{}
+//switch ctx.Request().Method {
+//case iris.MethodGet, iris.MethodDelete:
+//default:
+//body, err := ctx.GetBody()
+//if err != nil {
+//return attrs
+//}
 
-	attrs = append(attrs, []attribute.KeyValue{
-		{
-			Key:   semconv.HTTPMethodKey,
-			Value: attribute.StringValue(ctx.Request().Method),
-		},
-		{
-			Key:   semconv.HTTPStatusCodeKey,
-			Value: attribute.IntValue(ctx.GetStatusCode()),
-		},
-		{
-			Key:   semconv.HTTPUserAgentKey,
-			Value: attribute.StringValue(ctx.GetHeader("User-Agent")),
-		},
-		{
-			Key:   semconv.HTTPURLKey,
-			Value: attribute.StringValue(ctx.FullRequestURI()),
-		},
-		{
-			Key:   semconv.HTTPRouteKey,
-			Value: attribute.StringValue(ctx.Path()),
-		},
-		{
-			Key:   attribute.Key(HTTPRemoteAddr),
-			Value: attribute.StringValue(ctx.RemoteAddr()),
-		},
-	}...)
+//attrs = append(attrs, attribute.KeyValue{
+//Key:   HTTPBody,
+//Value: attribute.StringValue(string(body)),
+//})
 
-	switch ctx.Request().Method {
-	case iris.MethodGet, iris.MethodDelete:
-	default:
-		body, err := ctx.GetBody()
-		if err != nil {
-			return attrs
-		}
+//ctx.Request().Body = ioutil.NopCloser(bytes.NewBuffer(body))
+//}
 
-		attrs = append(attrs, attribute.KeyValue{
-			Key:   HTTPBody,
-			Value: attribute.StringValue(string(body)),
-		})
-
-		ctx.Request().Body = ioutil.NopCloser(bytes.NewBuffer(body))
-	}
-
-	return attrs
-}
+//return attrs
+//}

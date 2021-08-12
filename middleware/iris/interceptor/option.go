@@ -1,39 +1,30 @@
 package interceptor
 
-import (
-	"context"
+//type config struct {
+//Propagators    propagation.TextMapPropagator
+//TracerProvider trace.TracerProvider
+//}
 
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/propagation"
-	"go.opentelemetry.io/otel/trace"
-	"google.golang.org/grpc/metadata"
-)
+//// Option applies an option value for a config.
+//type Option interface {
+//Apply(*config)
+//}
 
-type config struct {
-	Propagators    propagation.TextMapPropagator
-	TracerProvider trace.TracerProvider
-}
+//// Inject -
+//func Inject(ctx context.Context, metadata *metadata.MD, opts ...Option) {
+//c := newConfig(opts)
+//c.Propagators.Inject(ctx, &metadataSupplier{
+//metadata: metadata,
+//})
+//}
 
-// Option applies an option value for a config.
-type Option interface {
-	Apply(*config)
-}
-
-// Inject -
-func Inject(ctx context.Context, metadata *metadata.MD, opts ...Option) {
-	c := newConfig(opts)
-	c.Propagators.Inject(ctx, &metadataSupplier{
-		metadata: metadata,
-	})
-}
-
-func newConfig(opts []Option) *config {
-	c := &config{
-		Propagators:    otel.GetTextMapPropagator(),
-		TracerProvider: otel.GetTracerProvider(),
-	}
-	for _, o := range opts {
-		o.Apply(c)
-	}
-	return c
-}
+//func newConfig(opts []Option) *config {
+//c := &config{
+//Propagators:    otel.GetTextMapPropagator(),
+//TracerProvider: otel.GetTracerProvider(),
+//}
+//for _, o := range opts {
+//o.Apply(c)
+//}
+//return c
+//}

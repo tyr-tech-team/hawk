@@ -33,12 +33,11 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.mongodb.org/mongo-driver v1.5.1
-	go.opentelemetry.io/contrib v0.20.0
-	go.opentelemetry.io/otel v0.20.0
-	go.opentelemetry.io/otel/sdk v0.20.0
-	go.opentelemetry.io/otel/trace v0.20.0
+	go.opentelemetry.io/otel v1.0.0-RC2
+	go.opentelemetry.io/otel/internal/metric v0.22.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.0.0-RC2
 	go.uber.org/zap v1.16.0
 	google.golang.org/grpc v1.34.0
-	google.golang.org/protobuf v1.25.0
 	gopkg.in/yaml.v2 v2.4.0
+
 )
