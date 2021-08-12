@@ -23,6 +23,7 @@ var (
 	TooManayConnect     = NewStatus(LevelERROR, ServiceNormal, GRPCResourceExhausted, NewDescCode(7), "太多連線", "too manay connect")
 	HealthCheckFailed   = NewStatus(LevelFATAL, ServiceNormal, GRPCAborted, NewDescCode(18), "健康檢查失敗", "health check failed")
 	RemoteHostNotFound  = NewStatus(LevelERROR, ServiceNormal, GRPCNotFound, NewDescCode(7), "找不到遠端呼叫地址", "remote host not found")
+	InvalidTime         = NewStatus(LevelERROR, ServiceNormal, GRPCInvalidArgument, NewDescCode(1), "錯誤的時間", "invalid time")
 
 	// Auth -
 	TokenGenerationFailed = NewStatus(LevelERROR, ServiceAuth, GRPCAborted, NewDescCode(1), "權杖產生失敗", "token generation failed")
