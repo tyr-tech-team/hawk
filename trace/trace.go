@@ -46,20 +46,3 @@ func New(c Config) *tracesdk.TracerProvider {
 
 	return tp
 }
-
-// TracerProvider -
-//func TracerProvider(c Config) {
-//tp := tracesdk.NewTracerProvider(
-//// Always be sure to batch in production.
-//tracesdk.WithBatcher(c.Exporter),
-
-//// Record information about this application in an Resource.
-//tracesdk.WithResource(resource.NewWithAttributes(
-//semconv.ServiceNameKey.String(c.Service),
-//attribute.String(environment, c.Environment),
-//)),
-//)
-
-//otel.SetTracerProvider(tp)
-//otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
-//}

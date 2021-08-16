@@ -11,8 +11,8 @@ import (
 
 // NewDial -
 func NewDial(c config.Redis) (*goredis.Client, error) {
+	ctx := context.Background()
 
-	ctx := context.TODO()
 	opts := goredis.Options{
 		Addr:         c.Host,
 		Password:     c.Password,
