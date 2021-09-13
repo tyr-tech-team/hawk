@@ -11,7 +11,7 @@ Tyr Schedule Master Manager
 
 ### Usage
 
-```go=
+```go
 import(
   "context"
   "time"
@@ -42,7 +42,7 @@ header["itemIDList"] = []string{"1234"}
 // Add schedule request
 addReq := &tsmm_client.AddScheduleReq{
   Header: header,
-  ScheduleList: []\*tsmm_client.AddScheduleDetail{
+  ScheduleList: []*tsmm_client.AddScheduleDetail{
     {
       Topic:      "update-item",
       Webhook:    "",
