@@ -14,7 +14,7 @@ func (s *server) StopSubscribe() {
 	s.broker.Disconnect()
 }
 
-// AddTopic - 新增監聽Topic
+// AddTopic - 新增自訂監聽通道
 func (s *server) AddTopic(topic string, fn func(map[string]interface{}, []byte) error) {
 	subscribe, _ := s.broker.Subscribe(
 		topic,
@@ -32,7 +32,7 @@ func (s *server) AddTopic(topic string, fn func(map[string]interface{}, []byte) 
 	s.subscriber = append(s.subscriber, subscribe)
 }
 
-// AddScheduleReply - 新增排程
+// AddScheduleReply - 監聽新增排程回覆通道
 func (s *server) AddScheduleReply(fn func(map[string]interface{}, *AddScheduleRes) error) {
 	subscribe, _ := s.broker.Subscribe(
 		ADD_SCHEDULE_REPLY_TOPIC,
@@ -52,7 +52,7 @@ func (s *server) AddScheduleReply(fn func(map[string]interface{}, *AddScheduleRe
 	s.subscriber = append(s.subscriber, subscribe)
 }
 
-// UpdateScheduleReply - 更新排程
+// UpdateScheduleReply - 監聽更新排程回覆通道
 func (s *server) UpdateScheduleReply(fn func(map[string]interface{}, *UpdateScheduleRes) error) {
 	subscribe, _ := s.broker.Subscribe(
 		UPDATE_SCHEDULE_REPLY_TOPIC,
@@ -72,7 +72,7 @@ func (s *server) UpdateScheduleReply(fn func(map[string]interface{}, *UpdateSche
 	s.subscriber = append(s.subscriber, subscribe)
 }
 
-// CancelScheduleReply - 取消排程
+// CancelScheduleReply - 監聽取消排程回覆通道
 func (s *server) CancelScheduleReply(fn func(map[string]interface{}, *CancelScheduleRes) error) {
 	subscribe, _ := s.broker.Subscribe(
 		CANCEL_SCHEDULE_REPLY_TOPIC,

@@ -14,6 +14,10 @@ type server struct {
 	queueName  string
 }
 
+// NewTsmmServer - TsmmServer端
+// Options:
+//     設定Queue group name
+//     server.SetQueueName(queueName string)
 func NewTsmmServer(broker broker.Broker, opts ...Options) Server {
 	s := &server{
 		queueName: DEFAULT_QUEUE_NAME,
@@ -27,6 +31,7 @@ func NewTsmmServer(broker broker.Broker, opts ...Options) Server {
 	return s
 }
 
+// SetQueueName - 設定Queue group name
 func (s *server) SetQueueName(queueName string) {
 	if queueName == "" {
 		s.queueName = DEFAULT_QUEUE_NAME
