@@ -18,14 +18,23 @@ type Response struct {
 // Status -
 type Status struct {
 	// 追蹤碼
-	TraceID string `json:"traceID"`
+	TraceID string `json:"traceId"`
+
 	// 新版狀態碼
-	Code     string   `json:"code"`
-	Message  string   `json:"message"`
-	EMessage string   `json:"emessage"`
-	Details  []string `json:"details"`
+	Code string `json:"code"`
+
+	// 訊息
+	Message string `json:"message"`
+
+	// 錯誤訊息
+	EMessage string `json:"emessage"`
+
+	// 更多描述
+	Details []string `json:"details"`
+
 	// RFC3339 時間
 	Time string `json:"time"`
+
 	// Timestamp
 	Unix int64 `json:"unix"`
 }
@@ -40,6 +49,7 @@ func (r Response) JSON() []byte {
 func newStatus(ctx context.Context, s status.Status) Status {
 	t := time.Now().In(time.Local)
 	tid := trace.GetTraceID(ctx)
+
 	ss := Status{
 		TraceID: tid,
 		Time:    t.Format(time.RFC3339),

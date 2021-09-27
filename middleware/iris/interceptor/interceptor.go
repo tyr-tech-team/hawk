@@ -13,13 +13,15 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+
+	grpc_codes "google.golang.org/grpc/codes"
 )
 
 const (
 	instrumentationName = "go.opentelemetry.io/otel"
 
 	// TRACEID -
-	TRACEID = "traceID"
+	TRACEID = "traceId"
 )
 
 // HTTP attributes.
@@ -49,6 +51,12 @@ func Opentelemetry(opts ...Opt) context.Handler {
 
 		defer span.End()
 
+		// set TraceID
+		span.SetAttributes(attribute.KeyValue{
+			Key:   attribute.Key(TRACEID),
+			Value: attribute.StringValue(span.SpanContext().TraceID().String()),
+		})
+
 		span.SetAttributes(spanInfo(ctx)...)
 
 		// inject to metadata
@@ -66,7 +74,11 @@ func Opentelemetry(opts ...Opt) context.Handler {
 		if err != nil {
 			s, _ := status.FromError(err.(error))
 			span.SetStatus(codes.Error, s.Message())
+			span.SetAttributes(statusCodeAttr(s.Code()))
+			return
 		}
+
+		span.SetAttributes(statusCodeAttr(grpc_codes.OK))
 	}
 }
 
@@ -107,10 +119,19 @@ func spanInfo(ctx iris.Context) []attribute.KeyValue {
 		if err != nil {
 			return attrs
 		}
+		// 取得 body 後需要重新設定
+		defer func() {
+			ctx.Request().Body = ioutil.NopCloser(bytes.NewBuffer(body))
+		}()
 
+		// set body to attribute
 		value := attribute.StringValue(string(body))
-		if v, ok := options.secrets[ctx.Path()]; ok {
-			json.Unmarshal(body, v)
+
+		// find path
+		if v, ok := options.secrets[ctx.GetCurrentRoute().Path()]; ok {
+			if err := json.Unmarshal(body, v); err != nil {
+				return attrs
+			}
 			value = attribute.StringValue(v.Secret())
 		}
 
@@ -118,9 +139,14 @@ func spanInfo(ctx iris.Context) []attribute.KeyValue {
 			Key:   HTTPBody,
 			Value: value,
 		})
-
-		ctx.Request().Body = ioutil.NopCloser(bytes.NewBuffer(body))
 	}
 
 	return attrs
+}
+
+func statusCodeAttr(c grpc_codes.Code) attribute.KeyValue {
+	return attribute.KeyValue{
+		Key:   attribute.Key("statusCode"),
+		Value: attribute.Int64Value(int64(c)),
+	}
 }

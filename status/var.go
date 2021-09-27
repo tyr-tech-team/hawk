@@ -125,4 +125,7 @@ var (
 	ReceiptNotFound         = NewStatus(LevelWARNING, ServiceReceipt, GRPCNotFound, NewDescCode(0), "找不到此付款單發票", "this receipt not found")
 	ReceiptInvalidBarcode   = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(1), "無效的手機條碼", "invalid barcode")
 	ReceiptInvalidLovecode  = NewStatus(LevelWARNING, ServiceReceipt, GRPCInvalidArgument, NewDescCode(2), "無效的捐獻碼", "invalid lovecode")
+
+	// Broker
+	PublishFailed = NewStatus(LevelERROR, ServiceNormal, GRPCAborted, NewDescCode(1), "推播失敗", "publish failed")
 )

@@ -6,7 +6,7 @@ require (
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
-	github.com/gin-gonic/gin v1.6.3
+	github.com/gin-gonic/gin v1.7.0
 	github.com/go-redis/redis/v8 v8.10.0
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/golang/protobuf v1.4.3 // indirect
@@ -34,10 +34,10 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.mongodb.org/mongo-driver v1.6.0
-	go.opentelemetry.io/otel v1.0.0-RC2
-	go.opentelemetry.io/otel/internal/metric v0.22.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.0.0-RC2
-	go.opentelemetry.io/otel/trace v1.0.0-RC2
+	go.opentelemetry.io/otel v1.0.0
+	go.opentelemetry.io/otel/internal/metric v0.23.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.0.0
+	go.opentelemetry.io/otel/trace v1.0.0
 	go.uber.org/zap v1.16.0
 	google.golang.org/grpc v1.34.0
 	gopkg.in/yaml.v2 v2.4.0

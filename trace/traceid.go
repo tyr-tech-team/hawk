@@ -36,7 +36,7 @@ func (c traceID) GenerateID() string {
 
 // GetTraceID -
 func GetTraceID(ctx context.Context) string {
-	data := ctx.Value(TraceID)
+	data := ctx.Value(string(TraceID))
 	if data != nil {
 		if id, ok := data.(string); ok {
 			return id
@@ -46,14 +46,8 @@ func GetTraceID(ctx context.Context) string {
 }
 
 // SetTraceID -
-func SetTraceID(ctx context.Context, id ...string) context.Context {
-	rid := ""
-	if len(id) > 0 && id[0] != "" {
-		rid = id[0]
-	} else {
-		rid = r.GenerateID()
-	}
-	return context.WithValue(ctx, TraceID, rid)
+func SetTraceID(ctx context.Context, id string) context.Context {
+	return context.WithValue(ctx, string(TraceID), id)
 }
 
 // NewTraceID -
