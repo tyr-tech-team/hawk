@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 
 	"sync"
 
@@ -89,11 +88,9 @@ func (n *natsBroker) connect() {
 
 // Publish -
 func (n *natsBroker) Publish(topic string, m *broker.Message) error {
-
 	j, _ := json.Marshal(m)
 
 	if err := n.client.Publish(topic, j); err != nil {
-		log.Fatal(err)
 		return err
 	}
 
