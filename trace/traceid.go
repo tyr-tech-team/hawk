@@ -11,7 +11,7 @@ type ContextKey string
 
 //
 const (
-	TraceID ContextKey = "traceID"
+	TraceID ContextKey = "traceId"
 )
 
 var r traceID
