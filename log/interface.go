@@ -46,7 +46,7 @@ func NewZapLogger(level string) *zap.Logger {
 		zapLevel = zapcore.DebugLevel
 	}
 
-	return zaplog.NewLogger(zaplog.NewCore(zapLevel), zapLevel)
+	return zaplog.NewLogger(zaplog.NewCore(zapLevel))
 }
 
 // NewLogrusLogger -

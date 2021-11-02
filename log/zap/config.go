@@ -17,20 +17,20 @@ func (z *zapSugaryLogger) Log(msg string, kv ...interface{}) {
 var zaplogger *zap.Logger
 
 // NewLogger -
-func NewLogger(core zapcore.Core, zapLevel zapcore.Level) *zap.Logger {
+func NewLogger(core zapcore.Core) *zap.Logger {
 	// AddCallerSkip(2) - 顯示調用位置(行數)
 	// AddStacktrace - 跳過哪些level的log不秀出來(Warn 只會秀出 Warn & Error log)
-	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapLevel))
+	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
 	return zaplogger
 }
 
 // NewSuggerLogger -
-func NewSuggerLogger(core zapcore.Core, zapLevel zapcore.Level) *zap.SugaredLogger {
+func NewSuggerLogger(core zapcore.Core) *zap.SugaredLogger {
 	if zaplogger != nil {
 		return zaplogger.Sugar()
 	}
 
-	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapLevel))
+	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
 	return zaplogger.Sugar()
 }
 
@@ -70,7 +70,7 @@ func encoderConfig() zapcore.EncoderConfig {
 	}
 
 	// 顏色大小寫區隔
-	base.EncodeLevel = zapcore.LowercaseColorLevelEncoder
+	base.EncodeLevel = zapcore.LowercaseLevelEncoder
 
 	return base
 }
