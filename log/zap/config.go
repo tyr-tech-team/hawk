@@ -18,6 +18,8 @@ var zaplogger *zap.Logger
 
 // NewLogger -
 func NewLogger(core zapcore.Core) *zap.Logger {
+	// AddCallerSkip(2) - 顯示調用位置(行數)
+	// AddStacktrace - 跳過哪些level的log不秀出來(Warn 只會秀出 Warn & Error log)
 	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
 	return zaplogger
 }
@@ -32,66 +34,19 @@ func NewSuggerLogger(core zapcore.Core) *zap.SugaredLogger {
 	return zaplogger.Sugar()
 }
 
-// DevCore -
-func DevCore() zapcore.Core {
-	// 高優先權
-	hightPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl >= zapcore.PanicLevel
-	})
-	// 低優先權
-	lowPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl < zapcore.PanicLevel
-	})
+// NewCore -
+func NewCore(zapLevel zapcore.Level) zapcore.Core {
 	// 編譯方式
-	encoder := zapcore.NewConsoleEncoder(encoderConfig("dev"))
+	encoder := zapcore.NewConsoleEncoder(encoderConfig())
 
-	// 輸出
-	outputDebuging := zapcore.Lock(os.Stdout)
-	outputErrors := zapcore.Lock(os.Stderr)
+	// 輸出樣式
+	output := zapcore.Lock(os.Stderr)
 
 	core := zapcore.NewTee(
 		zapcore.NewCore(
 			encoder,
-			outputErrors,
-			hightPriority,
-		),
-		zapcore.NewCore(
-			encoder,
-			outputDebuging,
-			lowPriority,
-		),
-	)
-
-	return core
-}
-
-// PRDCore -
-func PRDCore() zapcore.Core {
-	// 高優先權
-	hightPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl >= zapcore.PanicLevel
-	})
-	// 低優先權
-	lowPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl < zapcore.PanicLevel
-	})
-	// 編譯方式
-	encoder := zapcore.NewJSONEncoder(encoderConfig("prd"))
-
-	// 輸出
-	outputDebuging := zapcore.Lock(os.Stdout)
-	outputErrors := zapcore.Lock(os.Stderr)
-
-	core := zapcore.NewTee(
-		zapcore.NewCore(
-			encoder,
-			outputErrors,
-			hightPriority,
-		),
-		zapcore.NewCore(
-			encoder,
-			outputDebuging,
-			lowPriority,
+			output,
+			zapLevel,
 		),
 	)
 
@@ -99,8 +54,7 @@ func PRDCore() zapcore.Core {
 }
 
 // EncoderConfig  -
-func encoderConfig(mode string) zapcore.EncoderConfig {
-
+func encoderConfig() zapcore.EncoderConfig {
 	base := zapcore.EncoderConfig{
 		MessageKey:     "msg",
 		TimeKey:        "ts",
@@ -115,37 +69,8 @@ func encoderConfig(mode string) zapcore.EncoderConfig {
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
 
-	switch mode {
-	case "dev":
-		base.EncodeLevel = zapcore.LowercaseColorLevelEncoder
-	default:
-		base.EncodeLevel = zapcore.LowercaseLevelEncoder
-	}
-
-	return base
-}
-
-func config(mode string, ec zapcore.EncoderConfig) zap.Config {
-	base := zap.Config{
-		Level:         zap.NewAtomicLevelAt(zapcore.ErrorLevel),
-		Development:   false,
-		EncoderConfig: ec,
-		Encoding:      "json",
-		Sampling: &zap.SamplingConfig{
-			Initial:    100,
-			Thereafter: 100,
-		},
-		OutputPaths:      []string{"stdout"},
-		ErrorOutputPaths: []string{"stderr"},
-	}
-
-	switch mode {
-	case "dev":
-		base.Encoding = "console"
-		base.Development = true
-		base.Sampling = nil
-		base.OutputPaths = []string{"stderr"}
-	}
+	// 顏色大小寫區隔
+	base.EncodeLevel = zapcore.LowercaseColorLevelEncoder
 
 	return base
 }

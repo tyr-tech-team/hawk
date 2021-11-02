@@ -9,6 +9,7 @@ import (
 	zaplog "github.com/tyr-tech-team/hawk/log/zap"
 	"github.com/tyr-tech-team/hawk/status"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 // Logger -
@@ -24,12 +25,28 @@ type Logger interface {
 	WithContext(ctx context.Context) Logger
 }
 
-// NewZapLogger --
+// NewZapLogger -
 func NewZapLogger(level string) *zap.Logger {
-	if strings.ToLower(level) != "prd" {
-		return zaplog.NewLogger(zaplog.DevCore())
+	var zapLevel zapcore.Level
+
+	switch strings.ToLower(level) {
+	case "info":
+		zapLevel = zapcore.InfoLevel
+	case "error":
+		zapLevel = zapcore.ErrorLevel
+	case "warning":
+		zapLevel = zapcore.WarnLevel
+	case "fatal":
+		zapLevel = zapcore.FatalLevel
+	case "panic":
+		zapLevel = zapcore.PanicLevel
+	case "debug":
+		zapLevel = zapcore.DebugLevel
+	default:
+		zapLevel = zapcore.DebugLevel
 	}
-	return zaplog.NewLogger(zaplog.PRDCore())
+
+	return zaplog.NewLogger(zaplog.NewCore(zapLevel))
 }
 
 // NewLogrusLogger -
