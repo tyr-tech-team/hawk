@@ -70,7 +70,7 @@ func encoderConfig() zapcore.EncoderConfig {
 	}
 
 	// 顏色大小寫區隔
-	base.EncodeLevel = zapcore.LowercaseLevelEncoder
+	base.EncodeLevel = zapcore.LowercaseColorLevelEncoder
 
 	return base
 }
