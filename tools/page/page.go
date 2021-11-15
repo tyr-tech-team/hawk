@@ -25,12 +25,8 @@ type Data struct {
 
 // ToSkipLimit  - 轉換至 SKIP LIMIT
 func (d *Data) ToSkipLimit() {
-	if d.Page < 1 {
-		d.Page = 1
-	}
-
-	if d.Size == 0 {
-		d.Size = DefaultSize
+	if d.Page < 1 && d.Size < 1 {
+		return
 	}
 
 	d.Skip = d.Size * (d.Page - 1)
