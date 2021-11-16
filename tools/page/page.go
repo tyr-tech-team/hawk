@@ -1,7 +1,7 @@
 package page
 
 // DefaultSize - 預設每一頁初始顯示筆數
-var DefaultSize int64 = 10
+var DefaultSize int64 = 0
 
 // ConvertMongoSizeAndLimit -
 func ConvertMongoSizeAndLimit(page, size int64) (skip int64, limit int64) {
@@ -25,11 +25,14 @@ type Data struct {
 
 // ToSkipLimit  - 轉換至 SKIP LIMIT
 func (d *Data) ToSkipLimit() {
-	if d.Page < 1 && d.Size < 1 {
-		return
+	if d.Page < 1 {
+		d.Page = 1
+	}
+
+	if d.Size == 0 {
+		d.Size = DefaultSize
 	}
 
 	d.Skip = d.Size * (d.Page - 1)
 	d.Limit = d.Size
-
 }
