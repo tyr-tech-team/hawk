@@ -1,12 +1,24 @@
 # hawk
+`hawk` is a toolkit that provides service building, startup and other functions. Here are the main features.
+  * [broker](##Broker)
+  * [TSMM](##TSMM)
+  * [config](##config)
+  * [status](##status)
+  * [trace](##trace)
+  * [middleware](##middleware)
+  * [register](##register)
+  * [consul](##consul)
 
-# Lib
-## Broker
-## TSMM - 排程管理大師管理器
+## Getting Started
+### Installation
+Run the following command under your project
+```shell
+go get -u github.com/tyr-tech-team/hawk
+```
 
-Tyr Schedule Master Manager
-
-### Usage
+## Features
+### TSMM
+###### `Tyr Schedule Master Manager!`
 #### Client
 You can new a `Client` with a `Broker`.
 ```go
@@ -66,7 +78,7 @@ server := tsmm_server.NewTsmmServer(
 ```
 Use `Server` to subscribe the topic you want to listen or existing add, delete, update reply.
 You need to give an closure func to make sure you can run somthing when Tsmm receive response.
-> :warning: **Make sure the thread these subscribe function stay in should not be stoped.**
+> :warning: **Make sure the thread these subscribe function stay in should not be stopped.**
 ```go
 // subscribe add schedule reply
 a.tsmmServer.AddScheduleReply(
@@ -101,14 +113,20 @@ a.tsmmServer.AddTopic(
   },
 )
 ```
-## config 配置檔
-## status 狀態碼
-## trace 追蹤模組
-## middleware 中間件
-### http
-### grpc
-## env 常數
-## service 服務元件模組
+### broker
+
+### config
+
+### status
+
+### trace
+
+### middleware
+
+### env
+
+### service
+
 ### register
-## pkg 第三方包
-### consul  
+
+### consul

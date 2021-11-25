@@ -18,7 +18,7 @@ var zaplogger *zap.Logger
 
 // NewLogger -
 func NewLogger(core zapcore.Core) *zap.Logger {
-	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
+	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.PanicLevel))
 	return zaplogger
 }
 
