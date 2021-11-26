@@ -28,7 +28,7 @@ func NewSuggerLogger(core zapcore.Core) *zap.SugaredLogger {
 		return zaplogger.Sugar()
 	}
 
-	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.ErrorLevel))
+	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.PanicLevel))
 	return zaplogger.Sugar()
 }
 
