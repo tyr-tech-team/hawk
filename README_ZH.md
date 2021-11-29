@@ -1,6 +1,6 @@
 # hawk
 
-English | **[繁體中文](README_ZH.md)**
+**[English](README_ZH.md)** | 繁體中文
 
 `hawk` is a toolkit that provides service building, startup and other functions. Here are the main features.
   * [TSMM](#TSMM)
