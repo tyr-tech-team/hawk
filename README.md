@@ -130,7 +130,7 @@ However, the `broker` is an interface, you must implement a struct.
 so the `boker` provider quickly starts nata and nat-streaming functions.
 
 ### Basic Usage
-```go=
+```go
 import(
   "github.com/tyr-tech-team/hawk/broker/natsstreaming"
   "github.com/tyr-tech-team/hawk/broker/nats"
@@ -147,7 +147,7 @@ func main() {
 }
 ```
 ### Sub / Pub
-```go=
+```go
 import(
   "github.com/tyr-tech-team/hawk/broker/natsstreaming"
   "github.com/tyr-tech-team/hawk/broker/nats"
