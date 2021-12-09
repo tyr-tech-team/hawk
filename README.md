@@ -20,7 +20,7 @@ go get -u github.com/tyr-tech-team/hawk
 ```
 
 ## Features
-### TSMM
+## TSMM
 ###### `Tyr Schedule Master Manager!`
 #### Client
 You can new a `Client` with a `Broker`.
@@ -116,7 +116,73 @@ a.tsmmServer.AddTopic(
   },
 )
 ```
-### broker
+## broker
+An `broker` is an intermediary entity that enables message queue clients to communicate. 
+The pub/sub model is at the core of broker communication.
+Information is organized by topics. client devices can publish data to a topic to send messages to any subscribers. Similarly, clients can subscribe to a topic to be notified when a message is published.
+
+### Client
+You can new a `Client` with a `Broker`
+```go=
+broker.NewBroker()
+```
+However, the `broker` is an interface, you must implement a struct.
+so the `boker` provider quickly starts nata and nat-streaming functions.
+
+### Basic Usage
+```go=
+import(
+  "github.com/tyr-tech-team/hawk/broker/natsstreaming"
+  "github.com/tyr-tech-team/hawk/broker/nats"
+)
+
+func main() {
+    // new nats 
+    n := nats.NewNats()
+    bn :=  broker.NewBroker(n)
+    
+    // new natsstreaming 
+    ns := natsstreaming.New()
+    bns := broker.NewBroker(ns)
+}
+```
+### Sub / Pub
+```go=
+import(
+  "github.com/tyr-tech-team/hawk/broker/natsstreaming"
+  "github.com/tyr-tech-team/hawk/broker/nats"
+)
+
+func main() {
+    b :=  broker.NewBroker(nats.NewNats())
+    
+    // Subscribe "topic" channel
+    subscribe, err := b.Subscribe("topic", func(e broker.Event) error {
+        // get data
+        data := e.Message().Body
+        // do something...
+    })
+    
+    // Subscribe "topic" channel and tyr group
+    subscribe, err = b.Subscribe("topic", func(e broker.Event) error {
+        // do something...
+    }, broker.Queue("tyr"))
+    
+    
+    // Publish message to topic channel
+    err = b.Publish("topic", &broker.Message{
+        Header: map[string]interface{}{},
+        Body: []byte("tyr"),   
+    })
+    
+    // Unsubscribe
+    subscribe.Unsubscribe()
+    
+    // disconnect broker
+    b.Disconnect()
+}
+```
+
 
 ### config
 
