@@ -117,13 +117,13 @@ a.tsmmServer.AddTopic(
 )
 ```
 ## broker
-An `broker` is an intermediary entity that enables message queue clients to communicate. 
+A `broker` is an intermediary entity that enables message queue clients to communicate. 
 The pub/sub model is at the core of broker communication.
 Information is organized by topics. client devices can publish data to a topic to send messages to any subscribers. Similarly, clients can subscribe to a topic to be notified when a message is published.
 
 ### Client
 You can new a `Client` with a `Broker`
-```go=
+```go
 broker.NewBroker()
 ```
 However, the `broker` is an interface, you must implement a struct.
