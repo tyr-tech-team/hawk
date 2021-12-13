@@ -13,7 +13,7 @@
 <h1 align="center">
   Hawk
 </h1>
-<div align="center">A toolkit that provides service building, startup and other functions. Here are the main features</div>
+<div align="center">A toolkit that provides service building, startup and other functions.</div>
 <div align="center">Our product: <a href="https://relithe.com">https://relithe.com</a></div>
 <br />
 
@@ -33,8 +33,6 @@ Run the following command under your project
 ```shell
 go get -u github.com/tyr-tech-team/hawk
 ```
-
-## Features
 ## TSMM
 ###### `Tyr Schedule Master Manager!`
 #### Client
