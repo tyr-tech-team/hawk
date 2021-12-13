@@ -1,6 +1,8 @@
+![](https://pkg.go.dev/badge/github.com/tyr-tech-team/hawk)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tyr-tech-team/hawk)](https://goreportcard.com/report/github.com/tyr-tech-team/hawk)
 # hawk
 
-![](https://i.imgur.com/dp3mDnX.png)
+[![hawk logo](https://i.imgur.com/dp3mDnX.png)]
 
 `hawk` is a toolkit that provides service building, startup and other functions. Here are the main features.
   * [TSMM](#TSMM)
