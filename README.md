@@ -9,13 +9,28 @@
 [![Release](https://img.shields.io/github/v/release/tyr-tech-team/hawk.svg?color=brightgreen)](https://github.com/tyr-tech-team/hawk/releases)
 <!-- [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)-->
 
+
+
+
 <div align="center"><img src="https://i.imgur.com/dp3mDnX.png" width="200" /></div>
 <h1 align="center">
   Hawk
 </h1>
 <div align="center">A toolkit that provides service building, startup and other functions.</div>
-<div align="center">Our product: <a href="https://relithe.com">https://relithe.com</a></div>
-<br />
+<div align="center">Our product: </div>
+<div align="center">
+  <img src="https://relithe.com/_nuxt/img/logo.12e503b.svg" style="width:50%"/>
+</div>
+<div align="center">
+  <a href="https://www.youtube.com/channel/UC54a26q2U109EIwZJWNBCwQ" >
+    <img src="https://img.shields.io/badge/youtube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" /></a>
+  <a href="https://www.instagram.com/relithe_boutique">
+    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white"></a>
+ <a href="https://www.facebook.com/relithe.boutique/">
+   <img src="https://img.shields.io/badge/facebook-3b5998?style=for-the-badge&logo=facebook&logoColor=white" /></a>
+</div>
+
+<br/>
 
 Here are the main features.
   * [TSMM](#tsmm)
