@@ -19,7 +19,8 @@
 <div align="center">A toolkit that provides service building, startup and other functions.</div>
 <div align="center">Our product: </div>
 <div align="center">
-  <img src="https://relithe.com/_nuxt/img/logo.12e503b.svg" style="width:50%"/>
+  <a  href="https://relithe.com/zh" >
+  <img src="https://relithe.com/_nuxt/img/logo.12e503b.svg" style="width:50%"/></a>
 </div>
 <div align="center">
   <a href="https://www.youtube.com/channel/UC54a26q2U109EIwZJWNBCwQ" >
