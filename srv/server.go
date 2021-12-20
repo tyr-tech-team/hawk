@@ -23,7 +23,7 @@ type server struct {
 	name                  string
 	host                  string
 	port                  string
-	protocal              config.Protocol
+	protocol              config.Protocol
 	register              Register
 	traefik               bool
 	serviceRegisterConfig config.ServiceRegister
@@ -88,7 +88,7 @@ func (s *server) SetPort(port string) {
 }
 
 func (s *server) SetProtocal(p config.Protocol) {
-	s.protocal = p
+	s.protocol = p
 }
 
 func (s *server) SetTraefik(setup bool) {
@@ -107,10 +107,10 @@ func (s *server) setServiceRegister() {
 		Port:    port,
 		Traefik: s.traefik,
 		Protocol: func() config.Protocol {
-			if s.protocal == "" {
+			if s.protocol == "" {
 				return config.HTTP
 			}
-			return s.protocal
+			return s.protocol
 		}(),
 	}
 }
