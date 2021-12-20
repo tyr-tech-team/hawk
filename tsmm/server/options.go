@@ -1,5 +1,6 @@
 package server
 
+// Options -
 type Options func(*server)
 
 // SetQueueName - 設定Queue group name option

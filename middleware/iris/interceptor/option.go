@@ -43,7 +43,7 @@ type Options struct {
 	secrets Secrets
 }
 
-// Option -
+// Opt -
 type Opt func(o *Options)
 
 // Secret -

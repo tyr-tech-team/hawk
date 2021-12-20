@@ -10,6 +10,7 @@ import (
 )
 
 var (
+	// OPERATOR -
 	OPERATOR = "operator"
 )
 

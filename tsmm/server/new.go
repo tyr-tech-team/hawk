@@ -5,6 +5,7 @@ import (
 )
 
 const (
+	// DEFAULT_QUEUE_NAME -
 	DEFAULT_QUEUE_NAME = "tsmm"
 )
 

@@ -12,7 +12,7 @@ type user struct{}
 
 type password struct{}
 
-// SetAddrs - Addrs is the registry addresses to use
+// SetURL - Addrs is the registry addresses to use
 func SetURL(in string) broker.Option {
 	return func(o *broker.Options) {
 		o.Context = context.WithValue(o.Context, url{}, in)

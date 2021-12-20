@@ -8,7 +8,7 @@ import (
 )
 
 // SendMessage - 傳送訊息
-func SendMessage(ctx context.Context, c SlackConfig, msg string, attachment []Attachment) error {
+func SendMessage(ctx context.Context, c Config, msg string, attachment []Attachment) error {
 	// new a Resty client
 	client := resty.New()
 
@@ -33,7 +33,7 @@ func SendMessage(ctx context.Context, c SlackConfig, msg string, attachment []At
 	resp.SetResult(&response)
 
 	// post
-	_, err := resp.Post(fmt.Sprintf("%s%s", Slack_Host, Slack_SendMessage))
+	_, err := resp.Post(fmt.Sprintf("%s%s", SlackHost, SlackSendMessage))
 	if err != nil {
 		return err
 	}

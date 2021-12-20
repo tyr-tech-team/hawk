@@ -11,6 +11,7 @@ type ContextKey string
 
 //
 const (
+	// TraceID -
 	TraceID ContextKey = "traceId"
 )
 

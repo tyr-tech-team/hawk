@@ -13,9 +13,14 @@ import (
 )
 
 const (
-	DefaultURL           = stan.DefaultNatsURL
+	//DefaultURL -
+	DefaultURL = stan.DefaultNatsURL
+
+	// DefaultstanClusterID -
 	DefaultstanClusterID = "test-cluster"
-	DefaultclientID      = "test-client"
+
+	// DefaultclientID -
+	DefaultclientID = "test-client"
 )
 
 type natsstreamingBroker struct {
@@ -60,7 +65,7 @@ func (s *subscriber) Unsubscribe() error {
 	return s.Unsubscribe()
 }
 
-// NatsInstance -
+// New -
 func New(opts ...broker.Option) *natsstreamingBroker {
 	n := &natsstreamingBroker{}
 

@@ -13,6 +13,7 @@ import (
 )
 
 const (
+	//DefaultURL - default nat URL
 	DefaultURL = natsgo.DefaultURL
 )
 
@@ -56,7 +57,7 @@ func (s *subscriber) Unsubscribe() error {
 	return s.s.Unsubscribe()
 }
 
-// NatsInstance -
+// NewNats -
 func NewNats(opts ...broker.Option) *natsBroker {
 	options := broker.NewOptions(opts...)
 
