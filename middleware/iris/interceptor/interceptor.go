@@ -33,7 +33,7 @@ var (
 
 // Opentelemetry -
 func Opentelemetry(opts ...Opt) context.Handler {
-	return func(ctx context.Context) {
+	return func(ctx iris.Context) {
 		for _, o := range opts {
 			o(options)
 		}

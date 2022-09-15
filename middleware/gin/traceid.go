@@ -1,3 +1,4 @@
+// Package gin provides gin ﳑ
 package gin
 
 import (

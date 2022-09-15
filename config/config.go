@@ -1,3 +1,4 @@
+// Package config provides config ﳑ
 package config
 
 // Reader -

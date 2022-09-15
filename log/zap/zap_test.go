@@ -7,7 +7,7 @@ import (
 )
 
 func Test_NewDevZap(t *testing.T) {
-	z := NewLogger(NewCore(zapcore.WarnLevel))
+	z := New(zapcore.WarnLevel)
 	z.Sugar().Error("this is a test for Error")
 	z.Sugar().Info("this is a test for Info")
 	z.Sugar().Warn("this is a test for Warn")

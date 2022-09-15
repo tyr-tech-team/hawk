@@ -1,3 +1,4 @@
+// Package consul provides consul ﳑ
 package consul
 
 import (
