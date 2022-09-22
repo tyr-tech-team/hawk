@@ -45,7 +45,7 @@ func (z *zaplog) Error(args ...interface{}) {
 	z.zslog.Error(args)
 }
 
-//  Errorf -
+// Errorf -
 func (z *zaplog) Errorf(format string, args ...interface{}) {
 	z.zslog.Errorf(format, args)
 }

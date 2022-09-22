@@ -1,3 +1,4 @@
+// Package logrus provides logrus ﳑ
 package logrus
 
 import (

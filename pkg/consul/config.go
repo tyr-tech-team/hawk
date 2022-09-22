@@ -1,7 +1,7 @@
 package consul
 
 import (
-	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/hashicorp/consul/api"
@@ -18,7 +18,9 @@ type Config struct {
 
 // ToAgentServiceRegistration -
 func ToAgentServiceRegistration(s config.ServiceRegister) *api.AgentServiceRegistration {
-	s.ID = fmt.Sprintf("%s-%v", s.Name, time.Now().UnixNano())
+	// s.ID = fmt.Sprintf("%s-%v", s.Name, time.Now().UnixNano())
+	// s.ID = fmt.Sprintf("%s-%s:%s", s.Name, s.Address, strconv.Itoa(s.Port))
+	s.ID = s.Name + "-" + s.Address + ":" + strconv.Itoa(s.Port)
 	asr := &api.AgentServiceRegistration{
 		ID:      s.ID,
 		Name:    s.Name,
@@ -28,12 +30,14 @@ func ToAgentServiceRegistration(s config.ServiceRegister) *api.AgentServiceRegis
 		Check: &api.AgentServiceCheck{
 			CheckID: s.ID,
 			TTL:     (TTL + time.Second).String(),
-			Timeout: time.Minute.String(),
+			// 修改 Timeout 一分半
+			Timeout: time.Duration(90 * time.Second).String(),
 			// 成功幾次才叫成功
 			SuccessBeforePassing: 1,
 			// 錯誤幾次就失敗
-			FailuresBeforeCritical:         2,
-			DeregisterCriticalServiceAfter: time.Duration(3 * time.Second).String(),
+			FailuresBeforeCritical: 3,
+			// 當失敗十秒後取消註冊
+			DeregisterCriticalServiceAfter: time.Duration(10 * time.Second).String(),
 		},
 	}
 

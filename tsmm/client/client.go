@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/tyr-tech-team/hawk/broker"
+	"github.com/tyr-tech-team/hawk/broker/v1"
 )
 
 // AddSchedule - 批次新增排程

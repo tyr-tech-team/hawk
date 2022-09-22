@@ -3,6 +3,7 @@ package iris
 import (
 	"fmt"
 
+	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"github.com/tyr-tech-team/hawk/middleware/grpc"
 	"github.com/tyr-tech-team/hawk/trace"
@@ -12,7 +13,7 @@ import (
 
 // TraceID -
 func TraceID() context.Handler {
-	return func(ctx context.Context) {
+	return func(ctx iris.Context) {
 		r := ctx.Request()
 		rid := fmt.Sprintf("%s", trace.NewTraceID())
 

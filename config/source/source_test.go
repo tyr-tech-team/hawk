@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/tyr-tech-team/hawk/config"
 	"github.com/tyr-tech-team/hawk/pkg/consul"
 )
 
@@ -56,4 +57,28 @@ func Test_NewConsulSource(t *testing.T) {
 	d, err := s.Read()
 	assert.NoError(t, err)
 	assert.NotEmpty(t, d)
+}
+
+func Test_ConsulConfig(t *testing.T) {
+
+	cli := consul.NewClient(context.TODO(), consul.Config{
+		Address: "localhost:8500",
+	})
+
+	s := NewConsul(cli, "auth")
+
+	r := config.NewReader(s, config.YAML)
+	d, err := r.Read()
+	assert.NoError(t, err)
+	assert.NotEmpty(t, d)
+	t.Log(string(d))
+
+	x := &struct {
+		Redis config.Redis `yaml:"redis"`
+	}{}
+	err = r.ReadWith(x)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, x)
+
+	t.Log(x)
 }

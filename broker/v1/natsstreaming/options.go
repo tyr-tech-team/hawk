@@ -3,7 +3,7 @@ package natsstreaming
 import (
 	"context"
 
-	"github.com/tyr-tech-team/hawk/broker"
+	"github.com/tyr-tech-team/hawk/broker/v1"
 )
 
 type url struct{}
