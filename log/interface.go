@@ -1,7 +1,7 @@
+// Package log provides log ﳑ
 package log
 
 import (
-	"context"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -22,7 +22,7 @@ type Logger interface {
 	With(kv ...interface{}) Logger
 	WithStatus(s status.Status) Logger
 	WithError(err error) Logger
-	WithContext(ctx context.Context) Logger
+	// WithContext(ctx context.Context) Logger
 }
 
 // NewZapLogger -
@@ -46,7 +46,7 @@ func NewZapLogger(level string) *zap.Logger {
 		zapLevel = zapcore.DebugLevel
 	}
 
-	return zaplog.NewLogger(zaplog.NewCore(zapLevel))
+	return zaplog.New(zapLevel)
 }
 
 // NewLogrusLogger -

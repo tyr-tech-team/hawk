@@ -1,54 +1,57 @@
+// Package zap provides zap ﳑ
 package zap
 
 import (
-	"os"
-
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-//TODO: lookup go-mirco logger
-type zapSugaryLogger func(msg string, kv ...interface{})
+// type zapSugaryLogger func(msg string, kv ...interface{})
 
-func (z *zapSugaryLogger) Log(msg string, kv ...interface{}) {
+// func (z *zapSugaryLogger) Log(msg string, kv ...interface{}) {
 
-}
+// }
 
 var zaplogger *zap.Logger
 
-// NewLogger -
-func NewLogger(core zapcore.Core) *zap.Logger {
-	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.PanicLevel))
-	return zaplogger
+// New function
+func New(level zapcore.Level) *zap.Logger {
+    if zaplogger != nil {
+        return zaplogger
+    }
+	return setup(level)
 }
 
-// NewSuggerLogger -
-func NewSuggerLogger(core zapcore.Core) *zap.SugaredLogger {
-	if zaplogger != nil {
-		return zaplogger.Sugar()
+// NewSugger function
+func NewSugger(level zapcore.Level) *zap.SugaredLogger {
+    if zaplogger != nil {
+        return zaplogger.Sugar()
+    }
+	return setup(level).Sugar()
+}
+
+// Setup -
+func setup(level zapcore.Level) *zap.Logger {
+	cfg := zap.Config{
+		Level:            zap.NewAtomicLevelAt(level),
+		OutputPaths:      []string{"stdout"},
+		ErrorOutputPaths: []string{"stderr"},
+		EncoderConfig:    encoderConfig(),
+		Sampling:         nil,
+		Encoding:         "json",
 	}
 
-	zaplogger = zap.New(core, zap.AddCallerSkip(2), zap.AddStacktrace(zapcore.PanicLevel))
-	return zaplogger.Sugar()
-}
+	logger, err := cfg.Build()
+	if err != nil {
+		panic(err)
+	}
 
-// NewCore -
-func NewCore(zapLevel zapcore.Level) zapcore.Core {
-	// 編譯方式
-	encoder := zapcore.NewConsoleEncoder(encoderConfig())
-
-	// 輸出樣式
-	output := zapcore.Lock(os.Stderr)
-
-	core := zapcore.NewTee(
-		zapcore.NewCore(
-			encoder,
-			output,
-			zapLevel,
-		),
+	logger = logger.WithOptions(
+		zap.AddCallerSkip(1),
+		zap.AddStacktrace(zapcore.PanicLevel),
 	)
 
-	return core
+	return logger
 }
 
 // EncoderConfig  -
@@ -66,9 +69,11 @@ func encoderConfig() zapcore.EncoderConfig {
 		EncodeDuration: zapcore.MillisDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
-
-	// 顏色大小寫區隔
-	base.EncodeLevel = zapcore.LowercaseColorLevelEncoder
+	// 小寫的 error , panic , debug , info 標誌
+	base.EncodeLevel = zapcore.LowercaseLevelEncoder
 
 	return base
 }
+
+
+

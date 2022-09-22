@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"runtime"
 
+	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"github.com/sirupsen/logrus"
 	"github.com/tyr-tech-team/hawk/response"
@@ -13,7 +14,7 @@ import (
 
 // Recover -
 func Recover() context.Handler {
-	return func(ctx context.Context) {
+	return func(ctx iris.Context) {
 		defer func() {
 			if err := recover(); err != nil {
 				if ctx.IsStopped() {
@@ -48,7 +49,7 @@ func Recover() context.Handler {
 
 // RecoverByLogrus -
 func RecoverByLogrus(log *logrus.Entry) context.Handler {
-	return func(ctx context.Context) {
+	return func(ctx iris.Context) {
 		defer func() {
 			if err := recover(); err != nil {
 				if ctx.IsStopped() {
@@ -83,7 +84,7 @@ func RecoverByLogrus(log *logrus.Entry) context.Handler {
 
 // RecoverByZap -
 func RecoverByZap(log *zap.Logger) context.Handler {
-	return func(ctx context.Context) {
+	return func(ctx iris.Context) {
 		defer func() {
 			if err := recover(); err != nil {
 				if ctx.IsStopped() {

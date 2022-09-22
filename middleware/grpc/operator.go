@@ -6,12 +6,8 @@ import (
 	"time"
 
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
+	"github.com/tyr-tech-team/hawk/ctxtags"
 	"google.golang.org/grpc/metadata"
-)
-
-var (
-	// OPERATOR -
-	OPERATOR = "operator"
 )
 
 // GetOperator -
@@ -21,19 +17,21 @@ func GetOperator(ctx context.Context) (context.Context, error) {
 	// 先確認是否有metadata的存在
 	md, ok := metadata.FromIncomingContext(ctx)
 
+    key := ctxtags.Operator
+
 	if ok {
-		value := md.Get(OPERATOR)
+		value := md.Get(string(key))
 		if len(value) > 0 && value[0] != "" {
 			byteStr = value[0]
 			json.Unmarshal([]byte(value[0]), d)
 		}
 	}
 
-	nctx := context.WithValue(ctx, OPERATOR, d)
+	nctx := context.WithValue(ctx, key, d)
 
-	grpc_ctxtags.Extract(ctx).Set(OPERATOR, d)
+	grpc_ctxtags.Extract(ctx).Set(string(key), d)
 
-	return metadata.AppendToOutgoingContext(nctx, OPERATOR, byteStr), nil
+	return metadata.AppendToOutgoingContext(nctx, string(key), byteStr), nil
 }
 
 // Operator - 操作者資訊
