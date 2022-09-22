@@ -59,6 +59,7 @@ func (c *client) SetRegisterConfig(cfg config.ServiceRegister) {
 func (c *client) Register() error {
 	err := c.consul.Agent().ServiceRegister(c.sRegistryConfig)
 	if err != nil {
+		fmt.Println(err)
 		return status.ConnectFailed.WithDetail(err.Error()).Err()
 	}
 
@@ -87,7 +88,7 @@ func (c *client) healthCheck() {
 }
 
 func (c *client) updateHealth() error {
-	if err := c.consul.Agent().PassTTL(c.sRegistryConfig.ID, ""); err != nil {
+	if err := c.consul.Agent().UpdateTTL(c.sRegistryConfig.ID, "", "pass"); err != nil {
 		return status.HealthCheckFailed.WithDetail(err.Error()).Err()
 	}
 	return nil
