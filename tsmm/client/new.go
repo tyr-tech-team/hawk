@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/tyr-tech-team/hawk/broker"
+	"github.com/tyr-tech-team/hawk/broker/v1"
 )
 
 type client struct {

@@ -1,3 +1,4 @@
+// Package natsstreaming -
 package natsstreaming
 
 import (
@@ -9,7 +10,7 @@ import (
 
 	"github.com/nats-io/nuid"
 	stan "github.com/nats-io/stan.go"
-	"github.com/tyr-tech-team/hawk/broker"
+	"github.com/tyr-tech-team/hawk/broker/v1"
 )
 
 const (

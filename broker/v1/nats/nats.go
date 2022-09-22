@@ -1,3 +1,4 @@
+// Package nats -
 package nats
 
 import (
@@ -9,7 +10,7 @@ import (
 
 	"github.com/nats-io/nats.go"
 	natsgo "github.com/nats-io/nats.go"
-	"github.com/tyr-tech-team/hawk/broker"
+	"github.com/tyr-tech-team/hawk/broker/v1"
 )
 
 const (

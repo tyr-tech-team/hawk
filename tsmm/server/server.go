@@ -3,7 +3,7 @@ package server
 import (
 	"encoding/json"
 
-	"github.com/tyr-tech-team/hawk/broker"
+	"github.com/tyr-tech-team/hawk/broker/v1"
 )
 
 // StopSubscribe - 停止訂閱

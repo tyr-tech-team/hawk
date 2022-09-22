@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/tyr-tech-team/hawk/broker"
+	"github.com/tyr-tech-team/hawk/broker/v1"
 )
 
 const (
@@ -17,8 +17,9 @@ type server struct {
 
 // NewTsmmServer - TsmmServer端
 // Options:
-//     設定Queue group name
-//     server.SetQueueName(queueName string)
+//
+//	設定Queue group name
+//	server.SetQueueName(queueName string)
 func NewTsmmServer(broker broker.Broker, opts ...Options) Server {
 	s := &server{
 		queueName: DEFAULT_QUEUE_NAME,
