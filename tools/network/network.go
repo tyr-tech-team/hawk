@@ -1,3 +1,4 @@
+// Package network provides network ﳑ
 package network
 
 import (
@@ -8,7 +9,7 @@ import (
 	"strings"
 )
 
-//
+// -
 const (
 	IPIFY        = "https://api.ipify.org?format=json"
 	IPIFCONFIGME = "https://ifconfig.me/ip"

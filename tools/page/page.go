@@ -1,7 +1,8 @@
+// Package page provides page ﳑ
 package page
 
 // DefaultSize - 預設每一頁初始顯示筆數
-var DefaultSize int64 = 0
+var DefaultSize int64
 
 // ConvertMongoSizeAndLimit -
 func ConvertMongoSizeAndLimit(page, size int64) (skip int64, limit int64) {

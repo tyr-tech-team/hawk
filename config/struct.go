@@ -20,7 +20,8 @@ type Mongo struct {
 	Password       string `json:"password" yaml:"password"`
 	Database       string `json:"database" yaml:"database"`
 	ReplicaSet     string `json:"replicaSet" yaml:"replicaSet"`
-	DatabaseOption `yaml:"option"`
+	ReadPreference string `json:"readPreference" yaml:"readPreference"`
+	DatabaseOption `json:"option" yaml:"option"`
 }
 
 // Redis - Redis 資料庫配置
@@ -29,23 +30,22 @@ type Redis struct {
 	Password       string `json:"password" yaml:"password"`
 	Database       int    `json:"database" yaml:"database"`
 	TTL            int64  `json:"ttl" yaml:"ttl"`
-	DatabaseOption `yaml:"option"`
+	DatabaseOption `json:"option" yaml:"option"`
 }
 
 // DatabaseOption - 資料庫額外參數
 type DatabaseOption struct {
-	SSL               bool          `json:"ssl" yaml:"ssl"`
-	MaxPoolSize       uint64        `json:"maxPoolSize" yaml:"maxPoolSize"`
-	MinPoolSize       uint64        `json:"minPoolSize" yaml:"minPoolSize"`
-	MaxRetries        int64         `json:"maxRetries" yaml:"maxReties"`
-	MaxIdelConns      int64         `json:"maxIdelConns" yaml:"maxIdelConns"`
-	MinIdelConns      uint64        `json:"minIdelConns" yaml:"minIdelConns"`
-	MaxConns          int64         `json:"maxConns" yaml:"maxConns"`
-	MinConns          int64         `json:"minConns" yaml:"minConns"`
-	MaxConnIdleTime   time.Duration `json:"maxConnIdleTime" yaml:"maxConnIdleTime"`
-	HeartbeatInterval time.Duration `json:"heartbeatInterval" yaml:"heartbeatInterval"`
-	ReadPreference    string        `json:"readPreference" yaml:"readPreference"`
-	Direct            bool          `json:"direct" yaml:"direct"`
+	SSL               bool   `json:"ssl" yaml:"ssl"`
+	MaxPoolSize       uint64 `json:"maxPoolSize" yaml:"maxPoolSize"`
+	MinPoolSize       uint64 `json:"minPoolSize" yaml:"minPoolSize"`
+	MaxRetries        int64  `json:"maxRetries" yaml:"maxReties"`
+	MaxIdelConns      int64  `json:"maxIdelConns" yaml:"maxIdelConns"`
+	MinIdelConns      uint64 `json:"minIdelConns" yaml:"minIdelConns"`
+	MaxConns          int64  `json:"maxConns" yaml:"maxConns"`
+	MinConns          int64  `json:"minConns" yaml:"minConns"`
+	MaxConnIdleTime   int64  `json:"maxConnIdleTime" yaml:"maxConnIdleTime"`
+	HeartbeatInterval int64  `json:"heartbeatInterval" yaml:"heartbeatInterval"`
+	Direct            bool   `json:"direct" yaml:"direct"`
 }
 
 // Nats -
@@ -72,7 +72,7 @@ type Info struct {
 	// Host -  監聽網路介面
 	Host string `json:"host" yaml:"host"`
 	// Mod - 啟動模式
-	Mode string `json:"mode"`
+	Mode string `json:"mode" yaml:"mode"`
 	// Version -  版本號
 	Version string `json:"version" yaml:"version"`
 	// Git commit

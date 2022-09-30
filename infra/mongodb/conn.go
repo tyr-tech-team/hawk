@@ -153,16 +153,16 @@ func SetMinPoolSize(u uint64) Option {
 }
 
 // SetMaxConnIdleTime -
-func SetMaxConnIdleTime(t time.Duration) Option {
+func SetMaxConnIdleTime(t int64) Option {
 	return func(o *options.ClientOptions) {
-		o.SetMaxConnIdleTime(t)
+		o.SetMaxConnIdleTime(time.Duration(t) * time.Second)
 	}
 }
 
 // SetHeartbeatInterval -
-func SetHeartbeatInterval(t time.Duration) Option {
+func SetHeartbeatInterval(t int64) Option {
 	return func(o *options.ClientOptions) {
-		o.SetHeartbeatInterval(t)
+		o.SetHeartbeatInterval(time.Duration(t) * time.Second)
 	}
 }
 

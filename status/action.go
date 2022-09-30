@@ -11,7 +11,7 @@ func (a ActionCode) String() string {
 }
 
 const (
-	//
+	// ActionNone 0
 	ActionNone ActionCode = iota
 	// ActionCreate - 建立動作
 	ActionCreate
@@ -27,13 +27,13 @@ const (
 	ActionCallAPI
 	// ActionConnect - 建立鏈結
 	ActionConnect
-	// 解析
+	//ActionDecode 解析
 	ActionDecode
-	// 加密
+	//ActionEncode 加密
 	ActionEncode
-	// 執行
+	//ActionExecute 執行
 	ActionExecute
-	// 登入
+	//ActionSignIn 登入
 	ActionSignIn
 	// 登出
 	ActionSignOut
