@@ -65,7 +65,7 @@ func Test_ConsulConfig(t *testing.T) {
 		Address: "localhost:8500",
 	})
 
-	s := NewConsul(cli, "auth")
+	s := NewConsul(cli, "member")
 
 	r := config.NewReader(s, config.YAML)
 	d, err := r.Read()
@@ -74,7 +74,8 @@ func Test_ConsulConfig(t *testing.T) {
 	t.Log(string(d))
 
 	x := &struct {
-		Redis config.Redis `yaml:"redis"`
+		Mongo config.Mongo `yaml:"mongo"`
+		Redis config.Redis `yaml:"rfm-redis"`
 	}{}
 	err = r.ReadWith(x)
 	assert.NoError(t, err)

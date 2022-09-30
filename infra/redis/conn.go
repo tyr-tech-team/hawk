@@ -1,3 +1,4 @@
+// Package redis provides redis ﳑ
 package redis
 
 import (

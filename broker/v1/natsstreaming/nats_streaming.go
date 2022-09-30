@@ -67,7 +67,7 @@ func (s *subscriber) Unsubscribe() error {
 }
 
 // New -
-func New(opts ...broker.Option) *natsstreamingBroker {
+func New(opts ...broker.Option) broker.Broker {
 	n := &natsstreamingBroker{}
 
 	options := broker.NewOptions(opts...)

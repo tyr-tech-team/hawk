@@ -1,3 +1,4 @@
+// Package response provides response ﳑ
 package response
 
 import (

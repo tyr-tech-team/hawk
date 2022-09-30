@@ -1,3 +1,4 @@
+// Package iris provides iris ﳑ
 package iris
 
 import (

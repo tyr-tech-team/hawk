@@ -1,3 +1,4 @@
+// Package status provides status ﳑ
 package status
 
 import "fmt"
@@ -9,7 +10,6 @@ func (a ActionCode) String() string {
 	return fmt.Sprintf("%03d", a)
 }
 
-//
 const (
 	//
 	ActionNone ActionCode = iota

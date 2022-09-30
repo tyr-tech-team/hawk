@@ -1,3 +1,4 @@
+// Package mongodb provides mongodb ﳑ
 package mongodb
 
 import (

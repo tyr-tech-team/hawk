@@ -1,3 +1,4 @@
+// Package grpc provides grpc ﳑ
 package grpc
 
 import (

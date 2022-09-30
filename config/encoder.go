@@ -6,7 +6,7 @@ type Encoder interface {
 	Decode([]byte, interface{}) error
 }
 
-//
+// -
 var (
 	JSON Encoder
 	YAML Encoder

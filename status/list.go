@@ -11,7 +11,7 @@ type List struct {
 	statusList map[string]Status
 }
 
-var list *List = &List{statusList: make(map[string]Status)}
+var list = &List{statusList: make(map[string]Status)}
 
 // Set -
 func (l *List) Set(code string, s Status) {

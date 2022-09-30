@@ -1,3 +1,4 @@
+// Package srv provides srv ﳑ
 package srv
 
 import "github.com/tyr-tech-team/hawk/config"

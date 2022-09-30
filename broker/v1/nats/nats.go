@@ -59,7 +59,7 @@ func (s *subscriber) Unsubscribe() error {
 }
 
 // NewNats -
-func NewNats(opts ...broker.Option) *natsBroker {
+func NewNats(opts ...broker.Option) broker.Broker {
 	options := broker.NewOptions(opts...)
 
 	// nats struct

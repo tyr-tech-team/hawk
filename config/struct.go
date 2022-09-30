@@ -14,22 +14,22 @@ type DefaultConfig struct {
 
 // Mongo - Mongo資料庫配置檔
 type Mongo struct {
-	Name       string `json:"name" yaml:"name"`
-	Host       string `json:"host" yaml:"host"`
-	User       string `json:"user" yaml:"user"`
-	Password   string `json:"password" yaml:"password"`
-	Database   string `json:"database" yaml:"database"`
-	ReplicaSet string `json:"replicaSet" yaml:"replicaSet"`
-	DatabaseOption
+	Name           string `json:"name" yaml:"name"`
+	Host           string `json:"host" yaml:"host"`
+	User           string `json:"user" yaml:"user"`
+	Password       string `json:"password" yaml:"password"`
+	Database       string `json:"database" yaml:"database"`
+	ReplicaSet     string `json:"replicaSet" yaml:"replicaSet"`
+	DatabaseOption `yaml:"option"`
 }
 
 // Redis - Redis 資料庫配置
 type Redis struct {
-	Host     string `json:"host" yaml:"host"`
-	Password string `json:"password" yaml:"password"`
-	Database int    `json:"database" yaml:"database"`
-	TTL      int64  `json:"ttl" yaml:"ttl"`
-	DatabaseOption
+	Host           string `json:"host" yaml:"host"`
+	Password       string `json:"password" yaml:"password"`
+	Database       int    `json:"database" yaml:"database"`
+	TTL            int64  `json:"ttl" yaml:"ttl"`
+	DatabaseOption `yaml:"option"`
 }
 
 // DatabaseOption - 資料庫額外參數
@@ -44,6 +44,7 @@ type DatabaseOption struct {
 	MinConns          int64         `json:"minConns" yaml:"minConns"`
 	MaxConnIdleTime   time.Duration `json:"maxConnIdleTime" yaml:"maxConnIdleTime"`
 	HeartbeatInterval time.Duration `json:"heartbeatInterval" yaml:"heartbeatInterval"`
+	ReadPreference    string        `json:"readPreference" yaml:"readPreference"`
 	Direct            bool          `json:"direct" yaml:"direct"`
 }
 
