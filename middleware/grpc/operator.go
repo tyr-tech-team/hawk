@@ -17,7 +17,7 @@ func GetOperator(ctx context.Context) (context.Context, error) {
 	// 先確認是否有metadata的存在
 	md, ok := metadata.FromIncomingContext(ctx)
 
-    key := ctxtags.Operator
+	key := ctxtags.Operator
 
 	if ok {
 		value := md.Get(string(key))
@@ -27,7 +27,7 @@ func GetOperator(ctx context.Context) (context.Context, error) {
 		}
 	}
 
-	nctx := context.WithValue(ctx, key, d)
+	nctx := context.WithValue(ctx, string(key), d)
 
 	grpc_ctxtags.Extract(ctx).Set(string(key), d)
 
