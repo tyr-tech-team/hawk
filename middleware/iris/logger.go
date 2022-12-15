@@ -64,7 +64,7 @@ func LoggerWithLogrus(logger *logrus.Entry) iris.Handler {
 		})
 
 		if l.ErrorMessage != nil {
-			log.Errorln("failed request")
+			log.Warnln("failed request")
 		} else {
 			log.Infoln("success request")
 		}
@@ -111,7 +111,7 @@ func LoggerWithZap(logger *zap.Logger) iris.Handler {
 		)
 
 		if l.ErrorMessage != nil {
-			log.Error("failed request")
+			log.Warn("failed request")
 		} else {
 			log.Info("success request")
 		}
