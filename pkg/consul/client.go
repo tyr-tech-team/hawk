@@ -3,7 +3,6 @@ package consul
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"time"
 
@@ -59,7 +58,6 @@ func (c *client) SetRegisterConfig(cfg config.ServiceRegister) {
 func (c *client) Register() error {
 	err := c.consul.Agent().ServiceRegister(c.sRegistryConfig)
 	if err != nil {
-		fmt.Println(err)
 		return status.ConnectFailed.WithDetail(err.Error()).Err()
 	}
 
@@ -74,7 +72,6 @@ func (c *client) healthCheck() {
 		for {
 			select {
 			case <-c.ctx.Done():
-				fmt.Println("cancel healthcheck")
 				return
 			// 每五秒鐘更新一次狀態
 			default:
@@ -99,6 +96,7 @@ func (c *client) Deregister() error {
 	err := c.consul.Agent().ServiceDeregister(c.sRegistryConfig.ID)
 	if err != nil {
 		log.Fatalf("deregister failed ,%v  ", err)
+		return status.HealthCheckFailed.WithDetail(err.Error()).Err()
 	}
 	return nil
 }

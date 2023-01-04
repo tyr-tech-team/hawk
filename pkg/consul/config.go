@@ -1,7 +1,7 @@
 package consul
 
 import (
-	"strconv"
+	"os"
 	"time"
 
 	"github.com/hashicorp/consul/api"
@@ -18,15 +18,19 @@ type Config struct {
 
 // ToAgentServiceRegistration -
 func ToAgentServiceRegistration(s config.ServiceRegister) *api.AgentServiceRegistration {
-	// s.ID = fmt.Sprintf("%s-%v", s.Name, time.Now().UnixNano())
-	// s.ID = fmt.Sprintf("%s-%s:%s", s.Name, s.Address, strconv.Itoa(s.Port))
-	s.ID = s.Name + "-" + s.Address + ":" + strconv.Itoa(s.Port)
+	// # 增加 POD Hostname 來當作註冊名稱
+	if hostname := os.Getenv("HOSTNAME"); hostname != "" {
+		s.ID = hostname
+	} else {
+		s.ID = s.Name + "-" + s.Address
+	}
 	asr := &api.AgentServiceRegistration{
 		ID:      s.ID,
 		Name:    s.Name,
 		Address: s.Address,
 		Port:    s.Port,
 		Tags:    append(s.Tags, s.Name),
+		Meta:    map[string]string{"time": time.Now().Format(time.RFC3339)},
 		Check: &api.AgentServiceCheck{
 			CheckID: s.ID,
 			TTL:     (TTL + time.Second).String(),
@@ -36,6 +40,7 @@ func ToAgentServiceRegistration(s config.ServiceRegister) *api.AgentServiceRegis
 			SuccessBeforePassing: 1,
 			// 錯誤幾次就失敗
 			FailuresBeforeCritical: 3,
+			FailuresBeforeWarning:  3,
 			// 當失敗十秒後取消註冊
 			DeregisterCriticalServiceAfter: time.Duration(10 * time.Second).String(),
 		},
