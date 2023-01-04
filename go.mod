@@ -22,7 +22,6 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-hclog v1.3.1 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
@@ -79,7 +78,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/hashicorp/consul/api v1.15.2
 	github.com/json-iterator/go v1.1.12
-	github.com/kataras/iris/v12 v12.2.0-alpha7
+	github.com/kataras/iris/v12 v12.2.0-alpha8
 	github.com/nats-io/nats.go v1.15.0
 	github.com/nats-io/nuid v1.0.1
 	github.com/nats-io/stan.go v0.10.2
@@ -129,7 +128,7 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
 	github.com/yosssi/ace v0.0.5 // indirect
-	golang.org/x/time v0.0.0-20220210224613-90d013bbcef8 // indirect
+	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
