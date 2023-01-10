@@ -35,7 +35,7 @@ func ToAgentServiceRegistration(s config.ServiceRegister) *api.AgentServiceRegis
 			CheckID: s.ID,
 			TTL:     (TTL + time.Second).String(),
 			// 修改 Timeout 一分半
-			Timeout: time.Duration(90 * time.Second).String(),
+			Timeout: time.Duration(60 * time.Second).String(),
 			// 成功幾次才叫成功
 			SuccessBeforePassing: 1,
 			// 錯誤幾次就失敗
