@@ -20,7 +20,7 @@ type Config struct {
 func ToAgentServiceRegistration(s config.ServiceRegister) *api.AgentServiceRegistration {
 	// # 增加 POD Hostname 來當作註冊名稱
 	if hostname := os.Getenv("HOSTNAME"); hostname != "" {
-		s.ID = s.Name + hostname
+		s.ID = s.Name + "-" + hostname
 	} else {
 		s.ID = s.Name + "-" + s.Address
 	}
