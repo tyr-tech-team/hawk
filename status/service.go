@@ -9,7 +9,7 @@ func (s ServiceCode) String() string {
 	return fmt.Sprintf("%03d", s)
 }
 
-//
+// -
 const (
 	ServiceNONE          ServiceCode = iota // 0
 	ServiceNormal                           // 1
@@ -42,4 +42,5 @@ const (
 	ServicePromo                            // 28
 	ServiceReceipt                          // 29
 	ServiceWebKit                           // 30
+	ServiceMarket
 )

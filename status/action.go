@@ -35,30 +35,30 @@ const (
 	ActionExecute
 	//ActionSignIn 登入
 	ActionSignIn
-	// 登出
+	// ActionSignOut 登出
 	ActionSignOut
-	// 開啟
+	// ActionOpen 開啟
 	ActionOpen
-	// 上傳
+	// ActionUpload 上傳
 	ActionUpload
-	// 下載
+	// ActionDownload 載
 	ActionDownload
-	// 支付
+	// ActionPay 付
 	ActionPay
-	// 退款
+	//ActionRefund 退款
 	ActionRefund
-	// 健康檢查
+	//ActionHealthCheck 健康檢查
 	ActionHealthCheck
-	// 取消
+	//ActionCancel 取消
 	ActionCancel
-	// 使用
+	//ActionUse 使用
 	ActionUse
-	// 啟用
+	//ActionEnable 啟用
 	ActionEnable
-	// 禁用
+	//ActionDisable 禁用
 	ActionDisable
-	// 返回
+	//ActionReturn 返回
 	ActionReturn
-	// 已存在
+	//ActionExist 已存在
 	ActionExist
 )
