@@ -1,7 +1,9 @@
+// Package common provides common  
 package common
 
 import "strconv"
 
+// FormatMoney function  正規化金額輸出成財務格式
 func FormatMoney(m int64) string {
 
 	// s := strconv.Itoa(int(m))
