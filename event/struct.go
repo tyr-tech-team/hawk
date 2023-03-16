@@ -1,16 +1,24 @@
 package event
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
-// Event is the struct that represents an event.
-type Event struct {
+// Msg struct  
+type Msg struct {
 	Topic       string
 	ID          string
-	JSONPayload string
+	JSONPayload []byte
 	CreatedAt   time.Time
+	//
+	needAck bool
 }
 
-// Handler -
-type Handler interface {
-	EvnetRun() error
+// Decode -
+func (e Msg) Decode(value interface{}) error {
+	return json.Unmarshal(e.JSONPayload, value)
 }
+
+// Handler  
+type Handler func(msg *Msg)

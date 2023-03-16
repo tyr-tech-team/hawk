@@ -1,8 +1,10 @@
 // Package event provides event  
 package event
 
-// BrokerCast -
-type BrokerCast interface {
-	Publish(topic string, message interface{}) error
-	Subscribe(topic string, handler Handler) error
+import "context"
+
+// Command -
+type Command interface {
+	Publish(ctx context.Context, subject string, message interface{}) error
+	Subscribe(topic string, handler func(*Msg)) error
 }
