@@ -1,3 +1,4 @@
+// Package trace provides trace    []
 package trace
 
 import (
@@ -9,7 +10,6 @@ import (
 // ContextKey -
 type ContextKey string
 
-//
 const (
 	// TraceID -
 	TraceID ContextKey = "traceId"
@@ -37,7 +37,7 @@ func (c traceID) GenerateID() string {
 
 // GetTraceID -
 func GetTraceID(ctx context.Context) string {
-	data := ctx.Value(string(TraceID))
+	data := ctx.Value(TraceID)
 	if data != nil {
 		if id, ok := data.(string); ok {
 			return id
@@ -48,7 +48,7 @@ func GetTraceID(ctx context.Context) string {
 
 // SetTraceID -
 func SetTraceID(ctx context.Context, id string) context.Context {
-	return context.WithValue(ctx, string(TraceID), id)
+	return context.WithValue(ctx, TraceID, id)
 }
 
 // NewTraceID -
