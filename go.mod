@@ -17,6 +17,7 @@ require (
 	github.com/nats-io/stan.go v0.10.2
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.8.1
+	github.com/tyr-tech-team/arceus v0.0.0-20230411104315-f4eff6c0cd8d
 	go-micro.dev/v4 v4.8.0
 	go.mongodb.org/mongo-driver v1.10.2
 	go.uber.org/zap v1.23.0

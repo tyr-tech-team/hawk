@@ -53,6 +53,13 @@ type Nats struct {
 	Hosts string `json:"host" yaml:"host"`
 }
 
+// NatsJetstream -
+type NatsJetstream struct {
+	Hosts  string `json:"host" yaml:"host"`
+	Queue  string `json:"queue" yaml:"queue"`
+	Stream string `json:"stream" yaml:"stream"`
+}
+
 // Service - 服務名稱配置
 type Service map[string]string
 
@@ -71,6 +78,8 @@ type Info struct {
 	Port string `json:"port" yaml:"port"`
 	// Host -  監聽網路介面
 	Host string `json:"host" yaml:"host"`
+	// HostName
+	HostName string `json:"hostName" yaml:"hostName"`
 	// Mod - 啟動模式
 	Mode string `json:"mode" yaml:"mode"`
 	// Version -  版本號

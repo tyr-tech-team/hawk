@@ -45,7 +45,6 @@ func (r Response) JSON() []byte {
 	return data
 }
 
-//
 func newStatus(ctx context.Context, s status.Status) Status {
 	t := time.Now().In(time.Local)
 	tid := trace.GetTraceID(ctx)
